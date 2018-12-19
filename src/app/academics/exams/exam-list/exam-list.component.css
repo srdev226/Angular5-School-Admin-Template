@@ -1,0 +1,556 @@
+.exam-table {
+	background-color: #ffffff;
+}
+
+.exam-table tbody tr td {
+    padding: 15px 0;
+    font-weight: 300;
+    border-bottom: unset;
+}
+
+.exam-table tbody tr th {
+	padding-left: calc(2% - 8px);
+}
+
+.exam-table tbody th {
+	font-family: Roboto;
+	font-size: 12px;
+	font-weight: bold;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #525e66;
+}
+
+.exam-header {
+	border-bottom: 2px solid #7ac943;
+}
+
+.exam-header th{
+	padding-bottom: 9px;
+	border-bottom: 2px solid #7ac943;
+}
+
+.exam-row {
+	margin-top: 15px;
+	padding: 10px 0;
+	background-color: #f2f2f2;	
+}
+
+.exam-row tbody tr td {
+	padding: 0px calc(2% - 8px);
+	font-family: Roboto;
+	font-size: 14px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #525e66;
+}
+
+.exam-row tbody tr td img{
+	margin:	-6px 0px 0px 15px;
+	height: 15px;
+	width: 20px;
+}
+
+.exams {
+	padding-left: 3% !important;
+	width: 20%;
+}
+
+.exams p {
+	margin: unset;
+}
+
+.exm-dates {
+    width: 20%;
+}
+
+.exm-sche {
+	width: 24%;
+}
+
+.sche-status {
+    width: 70px;
+    display: inline;
+}
+
+.mark-status {
+	width: 24%;
+}
+
+.btn-mark {
+    width: 50px;
+    height: 25px;
+    display: inline-block;
+    border-radius: 25px;
+    border-style: solid;
+    border-width: 0px;
+    border-radius: 12.5px;
+    box-shadow: 0 2px 4px 0 rgba(147, 147, 147, 0.5);
+    background-color: #e3e3e3;
+    padding: 1px 1px;
+}
+
+.btn-on {
+    background-color: #7ac943;
+}
+
+.btn-off {
+    background-color: #f33f3f;
+}
+
+.btn-mark div{
+    width: 23px;
+    height: 23px;
+    border: solid 0px #ffffff;
+    border-radius: 11px;
+    background-color: #ffffff;
+    font-family: Roboto;
+    font-size: 10px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    padding-top: 6px;
+}
+
+.btn-on div{
+    color: #7ac943;
+    margin-left: 25px;
+}
+
+.btn-off div{
+    color: #f33f3f;
+}
+
+.exam-row .view-edit-mark {
+    height: 25px;
+    margin-top: 3px;
+    padding: 5px 0px 4px 5px;
+}
+
+.exam-row .view-edit-sche,
+.exam-row .view-edit-mark {
+    font-size: 12px !important;
+    color: #268ff0 !important;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.option {
+    width: 14%;
+    padding-left: calc(9% - 25px) !important;
+}
+
+.opt-btn {
+	padding: 1px 3px 5px 3px;
+	cursor: pointer;
+}
+
+.opt-btn:hover .oval{
+	background-color: #7ac943;
+}
+
+.oval {
+  	height: 5px;
+  	width: 5px;
+  	background-color: #525e66;
+  	border-radius: 50%;
+  	display: inline-block;
+}
+
+.exam-row .collapse,
+.exam-row .dropdown-menu {
+    background-color: rgb(242, 242, 242);
+    border-color: rgb(122, 201, 67);
+    border-style: solid;
+    border-width: 1px;
+    width: 199px;
+    margin-left: -200px;
+    top: unset;
+    left: unset;
+    position: absolute;
+    border-radius: unset;
+}
+
+.aca-exams {
+	height: 100%;
+}
+
+.aca-exams .collapsing {
+/*	position: fixed;
+    background-color: rgb(242, 242, 242);
+    border-color: rgb(122, 201, 67);
+    border-style: solid;
+    border-width: 1px;
+    width: 199px;
+    margin-left: -200px;*/
+   	transition-duration: none;
+   	transition: none !important;
+   	transition-delay: none;
+   	display: none !important;
+}
+
+.aca-exams ul li{
+	height: 37px;
+    padding: 10px 20px;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+}
+
+.aca-exams ul li:hover {
+    font-weight: 500;
+    color: #525e66;
+    background-color: #e3e3e3;
+}
+
+.add-exm-box {
+    width: 100%;
+    height: 100px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    background-color: #ffffff;
+    margin-top: 15px;
+    display: -webkit-box;
+}
+
+.add-exam {
+    margin-left: calc(50% - 20px); 
+	width: 40px;
+  	height: 40px;
+  	border-radius: 20px;
+  	border-style: solid;
+  	border-width: 1px;
+  	border-color: #aaaaaa;
+  	background-color: #ffffff;
+  	padding: 7px 7px;
+	margin-top: 17px;
+    left: calc(100% - 200px);
+}
+
+.add-exam:hover {
+	background-color: #f2f2f2;
+}
+
+
+.add-a-exam {
+    margin-left: calc(50% - 40px);
+    width: 81px;
+    height: 21px;
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #525e66;
+    margin-top: 17px;
+}
+
+.triangle {
+    position: fixed;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 12px 9px 0px 9px;
+    border-color: #7ac943 transparent transparent transparent;
+    margin-top: 6px;
+    margin-left: 5px;
+}
+
+.exam-select {
+	font-family: Roboto;
+	font-size: 18px;
+	font-weight: 500;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #525e66;
+}
+
+.search-box {
+	width: 271px;
+	height: 30px;
+	border-radius: 100px;
+	border-style: solid;
+  	border-width: 1px;
+  	border-color: #dedede;
+	background-color: #ffffff;
+	padding: 4px 15px;
+	float: right;
+}
+
+.search-box:focus {
+	border-color: #999999;
+}
+
+.search-box input{
+	border: none;
+	outline: none;
+    width: 220px;
+    opacity: 0.7;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: italic;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #111111;
+}
+
+.search-box img {
+	margin-top: 2px;
+}
+
+.search-box input.middle:focus {
+    outline-width: 0;
+}
+
+.sel-exm {
+	display: inline;
+	width: 196px;
+}
+
+.exm-header {
+	padding-bottom: 20px;
+}
+
+.exm-header .dropdown-menu{
+    border-radius: unset;
+    top: unset;
+    left: unset;
+}
+
+@media (max-width: 1024px) {
+	.aca-exams {
+		margin-left: -28px;
+    	margin-right: -28px;
+	}
+}
+
+#exam-type {
+	position: fixed;
+    margin-top: 25px;
+    width: 178px;
+    margin-left: 10px;
+    background-color: rgb(242, 242, 242);
+    border-color: rgb(122, 201, 67);
+    border-style: solid;
+    border-width: 1px;
+}
+
+#academic-year {
+	position: fixed;
+    margin-top: 2px;
+    width: 188px;
+    background-color: rgb(242, 242, 242);
+    border-color: rgb(122, 201, 67);
+    border-style: solid;
+    border-width: 1px;
+}
+
+select.formTextControl.select-filter{
+	border: none !important;
+    padding: 8px;
+    height: auto !important;
+    max-height: 100px !important;
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+}
+
+select.formTextControl {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	-o-appearance: none;
+  /* no standardized syntax available, no ie-friendly solution available */
+}
+
+select + i.fa {
+	float: right;
+	margin-top: -30px;
+	margin-right: 5px;
+	/* this is so when you click on the chevron, your click actually goes on the dropdown menu */
+	pointer-events: none;
+	/* everything after this is just to cover up the original arrow */
+	/* (for browsers that don't support the syntax used above) */
+	background-color: #fff;
+	padding-right: 5px;
+}
+
+.table-contents {
+/*	height: calc(100% - 74px);
+	overflow-y: auto; 
+	position: sticky;*/
+}
+
+.input-group {
+	height: 35px;
+    padding: 7px 11px;
+    opacity: 0.7;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+
+    border-radius: 4px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ababab;
+}
+
+.small-button {
+	height: 20px;
+    width: 20px;
+    min-width: unset;
+    background-color: #7ac943;
+    border-radius: unset;
+    font-size: 20px;
+    padding: 0;
+    opacity: 1 !important;
+}
+
+.small-button:hover {
+	background-color: #69b832;
+}
+
+.formTextControl {
+    width: 100%;
+    padding: 0 10px;
+    margin: unset;
+    font-size: 16px;
+    font-weight: normal;
+    opacity: 1;
+}
+
+.input-group-addon {
+	padding: unset;
+    background: none;
+    border: none;
+}
+
+.input-focus {
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    opacity: 1;
+    border-color: #bcbcbc;
+}
+
+.add-subject {
+	width: 27px;
+	height: 27px;
+	margin-top: 3px;
+	margin-left: 15px;
+}
+
+.reduce-width {
+	width: calc(50% - 150px) !important;
+}
+
+.input-group ::webkit-input-placeholder {
+	opacity: 1 !important;
+}
+
+.class-box span {
+    float: right;
+    margin-top: -2px;
+}
+
+.class-box {
+    background-color: rgba(122, 201, 67, 0.5);
+    border: 1px solid rgba(122, 201, 67, 0.5);
+    opacity: 0.8;
+    margin-top: 10px;
+    margin-left: 11px;
+    width: 109px;
+    height: 30px;
+    padding: 4px 9px;
+    display: inline-block;
+}
+
+.class-box:hover {
+    opacity: 1;
+    border-color: rgba(122, 201, 67, 1);
+    background-color: rgba(122, 201, 67, 0.8);
+}
+
+.class-name {
+    display: inline-block;
+    width: 70px;
+}
+
+.classes-row {
+    margin-left: calc(-5px + 2%);
+    display: inline-table;
+    width: calc(98% - 69px);
+}
+
+.selected-sub {
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: normal;
+    color: #525e66;
+}
+
+.sub-box {
+    padding: 10px 25px 20px 35px;
+    border: solid 1px #bcbcbc;
+    border-radius: 4px;
+}
+
+.small-dialog .modal-dialog{
+    width: 570px !important;
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.56;
+    letter-spacing: normal;
+    color: #525e65;
+    left: calc(50% - 285px);
+    top: calc(50% - 180px);
+    position: fixed;
+    margin: unset;
+}
+
+.small-dialog .modal-header {
+    padding-left: 40px;    
+}
+
+.small-dialog .modal-body {
+    padding: 20px 51px;
+}
+
+.small-dialog .modal-footer {
+    height: 100px;
+    padding: 25px 39px 0 0;
+}
+
+.small-dialog .modal-footer .btn {
+    width: 165px;
+}

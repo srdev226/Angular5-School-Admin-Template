@@ -1,0 +1,52 @@
+<div>
+
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding" *ngIf="person_info.education">
+		<i class="fa fa-graduation-cap icon-details vertical-middle" aria-hidden="true"></i>
+		<div class="vertical-middle details-div-middle">
+			<h5 class="labelValue nomargin">{{getEducation(person_info.education.level)}} </h5>
+		</div>
+	</div>
+
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding" *ngIf="person_info.profession">
+		<i class="fa fa-briefcase icon-details vertical-middle" aria-hidden="true"></i>
+		<div class="vertical-middle details-div-middle">
+			<h5 class="labelValue nomargin">{{getProfesssion(person_info.profession.profession_name)}} </h5>
+		</div>
+	</div>
+
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding" *ngIf="person_info.profession">
+		<i class="fa fa-inr icon-details vertical-middle" aria-hidden="true"></i>
+		<div class="vertical-middle details-div-middle">
+			<h5 class="labelValue nomargin">{{person_info.profession.annual_income}} </h5>
+		</div>
+	</div>
+
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding" *ngIf="person_info.addresses[0]">
+		<i class="fa fa-map-marker icon-details vertical-middle" aria-hidden="true"></i>
+		<div class="vertical-middle details-div-middle">
+			<h5 class="labelValue">{{person_info.addresses[0].address_line1}} , {{person_info.addresses[0].address_line2}}</h5>
+			<h5 class="labelValue">{{person_info.addresses[0].pincode}} , {{person_info.addresses[0].state}}</h5>
+		</div>
+	</div>
+
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding" *ngIf="person_info.email_addresses[0]">
+		<i class="fa fa-envelope icon-details vertical-middle" aria-hidden="true"></i>
+		<div class="vertical-middle details-div-middle">
+			<h5 class="labelValue">{{person_info.email_addresses[0].email_id}}</h5>
+		</div>
+	</div>
+
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding" *ngIf="person_info.phone_numbers[0]">
+		<i class="fa fa-phone icon-details vertical-middle" aria-hidden="true"></i>
+		<div class="vertical-middle details-div-middle">
+			<h5 class="labelValue">{{person_info.phone_numbers[0].phone_number}} </h5>
+		</div>
+	</div>
+
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding" *ngIf="person_info.phone_numbers[1]">
+		<i class="fa fa-phone icon-details vertical-middle" aria-hidden="true"></i>
+		<div class="vertical-middle details-div-middle">
+			<h5 class="labelValue">{{person_info.phone_numbers[1].phone_number}} </h5>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,17 @@
+.addNew{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.addNew i{
+    color: #3ED783 ;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.rowMain{
+    position: relative;
+    height: calc(100% - 90px);
+    overflow-y: auto;
+}

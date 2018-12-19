@@ -1,0 +1,80 @@
+<simple-notifications [options]="notification_options"></simple-notifications>
+<app-student-filter (onFilterChange)="onStudentFilterChange($event)" [input_student_filter]="student_filter"
+  [readOnly]="false">
+</app-student-filter>
+
+<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 padded-15" *ngFor="let student of (studentInfoList | studentsPipe : student_filter )">
+  <div class="studentListListDiv relative shadow" [ngClass]="{'disabled':student.disabled,'selected': student.selected}"
+      (click)="selectUnSelectStudent(student)">
+    <i class="fa fa-check selected-icon" aria-hidden="true"></i>
+    <i class="fa fa-times disabled-icon" aria-hidden="true"></i>
+    <div class="pointer">
+      <img [src]="getStudentProfilePicURL(student.student.profile_image_key,student.student.gender)"
+        class="studentListLogo displayInlineBlock shadow" />
+    </div>
+    <div class="detailsContainer displayInlineBlock col-lg-9 col-md-9 col-sm-9 col-xs-9">
+      <label class="studentListDetail bold">{{student.student.full_name}}</label>
+      <div class="margin-l">
+      <label class="studentListDetail bold">{{student.student.current_class}} {{student.student.division}}</label>
+    </div>
+      <!--<div class="detailsSmallDiv">
+        <label class="studentListDetailSmall">{{student.student.gender}}</label>
+      </div>
+      <div class="detailsSmallDiv">
+        <label class="studentListDetailSmall">Admission Number : {{student.student.admission_number}}</label>
+      </div>-->
+    </div>
+  </div>
+</div>
+
+<div *ngIf="absenteeList && absenteeList.length>0">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 absent-box">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 top-m">
+      <h5><b>Absentee List</b></h5>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 top-m">
+      <h5>{{absenteeList.length}} students to be marked absent</h5>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 paddedTop">
+      <div class="input-group paddedBottom formTextGroup darkText">
+        <!-- <span class="textLabelMain">Date(DD/MM/YYYY)</span> -->
+        <span class="input-group-addon" id="basic-addon1">
+          <i class="icon-key" title="Date of absence"></i>
+        </span>
+        <input [(ngModel)]="attendence_date" type="text" name="attendence_dt" required #attendence_dt="ngModel"
+          [ngClass]="{'error': attendence_dt.invalid && !attendence_dt.pristine}" placeholder="Date(DD/MM/YYYY)"
+          pattern="^(((0[1-9]|[12]\d|3[01])/(0[13578]|1[02])/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)/(0[13456789]|1[012])/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])/02/((19|[2-9]\d)\d{2}))|(29/02/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$"
+          class="formTextControl" />
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 paddedTop text-center">
+      <button type="button" (click)="markAttendence()" class="formButton">Mark as absent</button>
+    </div>
+  </div>
+
+  <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 padded-15" *ngFor="let student of absenteeList">
+    <div class="studentListListDiv relative shadow" [ngClass]="{'disabled':student.disabled,'selected': student.selected}"
+        (click)="selectUnSelectStudent(student)">
+      <i class="fa fa-check selected-icon" aria-hidden="true"></i>
+      <i class="fa fa-times disabled-icon" aria-hidden="true"></i>
+      <div class="pointer">
+        <img [src]="getStudentProfilePicURL(student.student.profile_image_key,student.student.gender)"
+          class="studentListLogo displayInlineBlock shadow" />
+      </div>
+      <div class="detailsContainer displayInlineBlock col-lg-9 col-md-9 col-sm-9 col-xs-9">
+        <label class="studentListDetail bold">{{student.student.full_name}}</label>
+        <div class="margin-l">
+        <label class="studentListDetail bold pull-right">{{student.student.current_class}} {{student.student.division}}</label>
+      </div>
+        <div class="detailsSmallDiv">
+          <!--<label class="studentListDetailSmall">{{student.student.gender}}</label>-->
+        </div>
+        <div class="detailsSmallDiv">
+          <!-- <label class="studentListDetailSmall">Age : {{student.person.dob | age}}</label> -->
+          <label class="studentListDetailSmall">Adm# {{student.student.admission_number}}</label>
+          <!--<label class="studentListDetailSmall">Year Of Admission : {{student.student.admission_year}}</label>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

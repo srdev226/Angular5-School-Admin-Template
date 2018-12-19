@@ -1,0 +1,48 @@
+<div class="row">
+  <div class="row rowMain height100 padded-20">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <textarea class="sms-box" [(ngModel)]="smsText" maxlength="{{SMS_MAX_LENGTH}}" placeholder="SMS Text"></textarea>
+        <br>
+        <h5>
+          <i>This message will be sent to {{notificationCount}} of {{contactCount}} contacts. {{notificationSetupUnavailableCount}}
+           do not have notification numbers setup.
+            <span *ngIf="getUnSelectedContactCount() > 0"> {{getUnSelectedContactCount()}} contacts unselected</span>
+          </i>
+        </h5>
+        <a class="pointer" (click)="showList = true" *ngIf="!showList">Click here for details:</a>
+        <span class="pull-right">{{SMS_MAX_LENGTH - (smsText ? smsText.length : 0)}}</span>
+        <a class="pointer" (click)="showList = false" *ngIf="showList">Hide details:</a>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 overflow-element" *ngIf="showList">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding text-center">
+          <h6>Click to select/unselect a contact.</h6>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 padded-15" *ngFor="let contact of contactList">
+          <div class="contactListListDiv relative shadow" [ngClass]="{'disabled':contact.disabled,'selected': isSelected(contact)}"
+              (click)="selectUnSelectContact(contact)">
+            <i class="fa fa-check selected-icon" aria-hidden="true"></i>
+            <i class="fa fa-times disabled-icon" aria-hidden="true"></i>
+            <div class="pointer">
+              <img *ngIf="!contact.profile_image_url" src="{{contact.gender == 'Male' && 'assets/images/male.png' || 'assets/images/female.png'}}"
+                class="contactListLogo displayInlineBlock shadow"
+              />
+              <img *ngIf="contact.profile_image_url" [src]="contact.profile_image_url" class="contactListLogo displayInlineBlock shadow"
+              />
+            </div>
+            <div class="detailsContainer displayInlineBlock">
+              <label class="contactListDetail bold">{{contact.full_name}}</label>
+              <div class="detailsSmallDiv">
+                <label class="contactListDetailSmall">{{contact.id_code}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding text-center">
+        <button type="button" class="formButton greyButton" (click)="back()">Cancel</button>
+        <button type="button" class="formButton" (click)="sendSMS()">Send SMS</button>
+      </div>
+    </div>
+  </div>
+</div>

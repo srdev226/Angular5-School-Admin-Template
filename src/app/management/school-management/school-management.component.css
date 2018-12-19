@@ -1,0 +1,28 @@
+.padded30{
+    padding: 10px 30px;
+}
+.schoolPicDiv{
+    background-color:#caeef5;
+    height: 150px;
+    width: 280px;
+    margin-top: 10px;
+    border-radius: 4px;
+    position: relative;
+    border: 1px solid #67d9ef;
+    margin-bottom: 20px;
+}
+
+.profileImage{
+   position:absolute;
+       top: 6%;
+    left: 25%;
+}
+
+.iconUpload{
+    position: absolute;
+    top:5px;
+    right: 5px;
+    font-size: 30px;
+    color: #fff;
+    cursor: pointer;
+}

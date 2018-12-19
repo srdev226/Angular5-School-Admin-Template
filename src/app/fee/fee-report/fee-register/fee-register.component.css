@@ -1,0 +1,30 @@
+table {
+     font-family: arial, sans-serif;
+     border-collapse: collapse;
+     width: 100%;
+     font-size: 70%;
+     background-color: #c7eff9;
+}
+td, th{
+    border: 1px solid #424242;
+    text-align: center;
+}
+.value{
+   border-top: 2px solid black;
+}
+
+.overdue-cell{
+  background-color: #ffb3b3;
+}
+
+.new-cell{
+  background-color: #f4f7f7;
+}
+
+.due-cell{
+  background-color: #ffff99;
+}
+
+.paid-cell{
+  background-color: #ccff99;
+}

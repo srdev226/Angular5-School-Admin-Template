@@ -1,0 +1,218 @@
+.rectangle {
+    padding: 17px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+.add-session-container {
+    padding: 17px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.add-session-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.save-plan-btn {
+    width: 120px;
+    height: 40px;
+    border-radius: 4px;
+    background-color: #7ac943;
+    border: 0;
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+}
+
+.back-container {
+    display: flex;
+    align-items: center;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.session-plan-title {
+    height: 21px;
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+}
+
+.subject-plan-header {
+    width: 100%;
+    height: 61px;
+    background-color: #e6e6e6;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    display: flex;
+    align-items: center;
+    padding-left: 45px;
+    padding-right: 45px;
+}
+
+.subject-plan-title {
+    width: 404px;
+    height: 24px;
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+    margin: 0;
+    padding-left: 20px;
+}
+
+.dropdown-left {
+    width: 18px;
+    height: 20px;
+}
+
+.back-btn {
+    width: 45px;
+    height: 19px;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #268ff0;
+    padding-left: 10px;
+}
+
+.subject-plan-control {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.subject-plan-container {
+    margin: 75px 50px;
+}
+
+.subject-plan-control div {
+    margin-left: 20px;
+}
+
+.Add-another-session {
+    width: 148px;
+    height: 21px;
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #525e66;
+}
+
+.add-session-icon {
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+}
+
+.add-session-container .select-control .select {
+    width: 413px;
+}
+
+.session-title,
+.add-session-container .select-control .select-control-title {
+    width: 220px;
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: right;
+    color: #525e66;
+}
+
+.edit-session-time {
+    height: 16px;
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: right;
+    color: #525e66;
+}
+
+textarea {
+    border-color: #c9c9c9;
+}
+
+.add-session-container > div {
+    margin: 10px;
+}
+
+.marginRight {
+    margin-right: 25px;
+}
+
+.flex-between-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.clear-all-btn {
+    width: 110px;
+    height: 21px;
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: right;
+    color: #268ff0;
+}
+
+@media only screen and (max-width: 768px) {
+    .add-session-container .select-control .select {
+        width: 250px !important;
+    }
+
+    .add-session-container .select-control .select-control-title {
+        text-align: left;
+    }
+}

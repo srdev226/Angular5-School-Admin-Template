@@ -1,0 +1,501 @@
+<simple-notifications [options]="options"></simple-notifications>
+<div class="container">
+  <div class="row height100 paddedRow">
+    <div class="boxedDiv shadow">
+      <div class="row">
+        <div class="header col-lg-9 col-md-9 col-sm-6 col-xs-12 warning nopadding">
+          <h4> Employee Profile</h4>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+          <div *gcAccessControl="'EMPLOYEE_EDIT'" class="rightEditButton">
+            <button type="button" class="formButton" *ngIf="employeeInfo.employee.employee_key && !isEditing" (click)="edit()">
+              Edit Profile
+            </button>
+          </div>
+          <div>
+            <button type="button" class="formButton greyButton pull-right" (click)="goToEmployeeList()">Back</button>
+          </div>
+        </div>
+      </div>
+      <div class="row maxHeight85 padded-div">
+        <form (ngSubmit)="addOrUpdateEmployee()" #employeeForm="ngForm" class="marginTop20">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <div class="iconDiv" *ngIf="isEditing">
+              <app-image [profile_image_url]="profile_image_url" (onUploaded)="onImageUpload($event)"></app-image>
+            </div>
+            <div class="profilePicDiv shadow" *ngIf="!isEditing">
+              <img name="profile_image" [src]="profile_image_url" *ngIf="profile_image_url" class="profileImage" />
+            </div>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" *ngIf="isEditing">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div class="input-group required formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Name</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Name"></i>
+                </span>
+                <input [(ngModel)]="employeeInfo.person.full_name" type="text" name="Name" required #name="ngModel" class="formTextControl" />
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div class="input-group required formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Employee Code</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="EmployeeCode"></i>
+                </span>
+                <input [(ngModel)]="employeeInfo.employee.emp_code" type="text" name="emp_code" required #emp_code="ngModel"
+                  [ngClass]="{'error': emp_code.invalid && !emp_code.pristine}" class="formTextControl" />
+              </div>
+              <div [ngClass]="{'hidden': emp_code.valid || emp_code.pristine}" class="alert smallMsg">
+                Employee Code is not valid
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="schoolDataService.getSchool().employee_configuration">
+              <div class="input-group required formTextGroup darkText paddedGroup">
+                <span class="textLabelMain">Type</span>
+                <select name="type_code"  #type_code="ngModel" [(ngModel)]="employeeInfo.employee.type_code" class="formTextControl">
+                  <option value="-1" selected>Select Staff Type</option>
+                  <option *ngFor="let type of schoolDataService.getSchool().employee_configuration.staff_type" [value]="type.code">{{ type.name }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="schoolDataService.getSchool().employee_configuration">
+              <div class="input-group required formTextGroup darkText paddedGroup">
+                <span class="textLabelMain">Designation</span>
+                <select name="designation_code"  #designation_code="ngModel" [(ngModel)]="employeeInfo.employee.designation_code" class="formTextControl">
+                  <option value="-1" selected>Select Designation</option>
+                  <option *ngFor="let designation of schoolDataService.getSchool().employee_configuration.designations" [value]="designation.code">{{ designation.name }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="schoolDataService.getSchool().departments">
+              <div class="input-group formTextGroup darkText paddedGroup">
+                <span class="textLabelMain">Department</span>
+                <select [(ngModel)]="employeeInfo.employee.dep_code" name="dep_code" #dep_code="ngModel" class="formTextControl">
+                  <option value="-1" selected>Select Department</option>
+                  <option *ngFor="let dept of schoolDataService.getSchool().departments" [value]="dept.code">{{ dept.name }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div class="input-group formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Qualification</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Qualification"></i>
+                </span>
+              <input [(ngModel)]="employeeInfo.employee.qualification" type="text" name="qualification" #qualification="ngModel"
+                [ngClass]="{'error': qualification.invalid && !qualification.pristine}" class="formTextControl" />
+            </div>
+            <div [ngClass]="{'hidden': qualification.valid || qualification.pristine}" class="alert smallMsg">
+              Qualification is not valid
+            </div>
+            </div>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" *ngIf="!isEditing">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div class="input-group noBorder formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Name</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Name"></i>
+                </span>
+                <h5 class="labelValue">{{employeeInfo.person.full_name}}</h5>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div class="input-group noBorder formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Employee Code</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="EmployeeCode"></i>
+                </span>
+                <h5 class="labelValue">{{employeeInfo.employee.emp_code}}</h5>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div class="input-group noBorder formTextGroup noBorder paddedGroup">
+                <span class="textLabelMain">Type</span>
+                <h5 class="labelValue">{{getStaffType(employeeInfo.employee.type_code)}}</h5>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div class="input-group noBorder formTextGroup noBorder paddedGroup">
+                <span class="textLabelMain">Designation</span>
+                <h5 class="labelValue">{{getDesignationName(employeeInfo.employee.designation_code)}}</h5>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div class="input-group noBorder formTextGroup noBorder paddedGroup">
+                <span class="textLabelMain">Department</span>
+                <h5 class="labelValue">{{getDepartmentName(employeeInfo.employee.dep_code)}}</h5>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div class="input-group noBorder formTextGroup noBorder paddedGroup">
+                <span class="textLabelMain">Qualification</span>
+                <h5 class="labelValue">{{employeeInfo.employee.qualification}}</h5>
+              </div>
+            </div>
+          </div>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="isEditing">
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup darkText noBorder">
+                <span class="textLabelMain">Gender</span>
+                <br>
+                <label class="control control--radio displayInlineBlock">Male
+                  <input type="radio" name="radio" [(ngModel)]="employeeInfo.person.gender" value="Male" />
+                  <div class="control__indicator"></div>
+                </label>
+                <label class="control control--radio displayInlineBlock">Female
+                  <input type="radio" name="radio" [(ngModel)]="employeeInfo.person.gender" value="Female" />
+                  <div class="control__indicator"></div>
+                </label>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group required formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Date of Birth(DD/MM/YYYY)</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Date of Birth"></i>
+                </span>
+                <input [(ngModel)]="employeeInfo.person.dob" required type="text" name="dob" #dob="ngModel" [ngClass]="{'error': dob.invalid && !dob.pristine}"
+                  pattern="^(((0[1-9]|[12]\d|3[01])/(0[13578]|1[02])/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)/(0[13456789]|1[012])/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])/02/((19|[2-9]\d)\d{2}))|(29/02/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$"
+                  class="formTextControl" />
+              </div>
+              <div [ngClass]="{'hidden': dob.valid || dob.pristine}" class="alert smallMsg">
+                Date of Birth is not valid
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Blood Group</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Blood Group"></i>
+                </span>
+                <select name="blood_group" [(ngModel)]="employeeInfo.person.blood_group" class="formTextControl">
+                  <option value="-1" selected>Select Blood Group</option>
+                  <option *ngFor="let blood_group of productDataService.masterProduct.demographic_configuration.blood_groups" [value]="blood_group.code">{{ blood_group.name }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Marital Status</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Marital Status"></i>
+                </span>
+                <select name="marital_status" [(ngModel)]="employeeInfo.person.marital_status" class="formTextControl">
+                  <option value="-1" selected>Select Marital Status</option>
+                  <option *ngFor="let status of productDataService.masterProduct.demographic_configuration.marital_status" [value]="status.code">{{ status.name }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="isEditing">
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Religion</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Religion"></i>
+                </span>
+                <select [(ngModel)]="employeeInfo.person.religion" name="religion" #religion="ngModel" class="formTextControl">
+                  <option value="-1" selected>Select Religion</option>
+                  <option *ngFor="let religion of productDataService.masterProduct.demographic_configuration.religions" [value]="religion.code">{{ religion.name }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Caste</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Caste"></i>
+                </span>
+                <select [(ngModel)]="employeeInfo.person.caste" name="caste" #caste="ngModel" class="formTextControl">
+                  <option value="-1" selected>Select Caste</option>
+                  <option *ngFor="let caste of productDataService.masterProduct.demographic_configuration.castes" [value]="caste.code">{{ caste.name }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="isEditing">
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Email</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Email"></i>
+                </span>
+                <input *ngIf="employeeInfo.person.email_addresses" [(ngModel)]="employeeInfo.person.email_addresses[0].email_id" type="text" name="email_id" #email_id="ngModel" class="formTextControl"/>
+                  <!-- pattern='\S+@\S+\.\S+|[789]\d{9}' [ngClass]="{'error': email_id.invalid && !email_id.pristine}" />
+                <div [ngClass]="{'hidden': email_id.valid || email_id.pristine}" class="alert smallMsg">
+                  Email is not valid
+                </div> -->
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group required formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Mobile Number</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Mobile Number"></i>
+                </span>
+                <input [(ngModel)]="employeeInfo.person.phone_numbers[0].phone_number" type="text" name="phone_number" required #phone_number="ngModel" class="formTextControl"
+                  maxlength="10" pattern='[0-9]{10}' [ngClass]="{'error': phone_number.invalid && !phone_number.pristine}"/>
+                <div [ngClass]="{'hidden': phone_number.valid || phone_number.pristine}" class="alert smallMsg">
+                  Mobile Number is not valid
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Immediate Contact Name</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Immediate Contact Name"></i>
+                </span>
+                <input type="text" name="imm_full_name" [(ngModel)]="employeeInfo.person.immediate_contact.full_name" class="formTextControl" />
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Immediate Contact Number</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Immediate Contact Number"></i>
+                </span>
+                <input type="text" name="imm_phone_number" [(ngModel)]="employeeInfo.person.immediate_contact.phone_numbers[0].phone_number" class="formTextControl" />
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Address 1</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Address 1"></i>
+                </span>
+                <input [(ngModel)]="employeeInfo.person.addresses[0].address_line1" type="text" name="address_line1" #address_line1="ngModel" class="formTextControl" />
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Address 2</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Address 2"></i>
+                </span>
+                <input [(ngModel)]="employeeInfo.person.addresses[0].address_line2" type="text" name="address_line2" #address_line2="ngModel" class="formTextControl" />
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Pincode</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Pincode"></i>
+                </span>
+                <input [(ngModel)]="employeeInfo.person.addresses[0].pincode" type="text" name="pincode" #pincode="ngModel"
+                  class="formTextControl" maxlength="6" pattern='[0-9]{6}' [ngClass]="{'error': pincode.invalid && !pincode.pristine}"
+                />
+                <div [ngClass]="{'hidden': pincode.valid || pincode.pristine}" class="alert smallMsg">
+                  Pincode is not valid
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">State</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="State"></i>
+                </span>
+                <input [(ngModel)]="employeeInfo.person.addresses[0].state" type="text" name="state" #state="ngModel" class="formTextControl" />
+              </div>
+            </div>
+
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="isEditing && employeeInfo.employee.type_code ==='TCH'">
+            <div class="input-group formTextGroup paddedGroup noBorder">
+              <span class="textLabelMain">Classes</span>
+              <span class="input-group-addon" id="basic-addon1">
+                <i class="icon-key" title="Select Classes"></i>
+              </span>
+              <div *ngFor="let class of getClasses()" class="class-div" (click)="addOrRemoveClass(class.class_info_key)"
+                    [ngClass]="{'active': isClassSelected(class.class_info_key)}">
+                {{class.name}}
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="isEditing && employeeInfo.employee.type_code ==='TCH'">
+            <div class="input-group formTextGroup paddedGroup noBorder">
+              <span class="textLabelMain">Subjects</span>
+              <span class="input-group-addon" id="basic-addon1">
+                <i class="icon-key" title="Select Subjects"></i>
+              </span>
+              <div *ngFor="let subject of this.schoolDataService.getSchool().academic_configuration.subjects" class="class-div" (click)="addOrRemoveSubject(subject.code)"
+                    [ngClass]="{'active': isSubjectSelected(subject.code)}">
+                {{subject.name}}
+              </div>
+            </div>
+          </div>
+
+          <!-- View Profile -->
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="!isEditing && employeeInfo && employeeInfo.person">
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="input-group noBorder formTextGroup darkText noBorder">
+                <span class="textLabelMain">Gender</span>
+                <br>
+                <h5 class="labelValue">{{employeeInfo.person.gender}}</h5>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group noBorder formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Date of Birth(DD/MM/YYYY)</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Date of Birth"></i>
+                </span>
+                <h5 class="labelValue">{{employeeInfo.person.dob}}</h5>
+              </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="input-group noBorder formTextGroup paddedGroup darkText">
+                  <span class="textLabelMain">Blood Group</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="Blood Group"></i>
+                  </span>
+                  <h5 class="labelValue">{{employeeInfo.person.blood_group}}</h5>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="input-group noBorder formTextGroup paddedGroup darkText">
+                  <span class="textLabelMain">Marital Status</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="Marital Status"></i>
+                  </span>
+                  <h5 class="labelValue">{{getMaritalStatus(employeeInfo.person.marital_status)}}</h5>
+                </div>
+              </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group noBorder formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Religion</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Religion"></i>
+                </span>
+                <h5 class="labelValue">{{getReligionName(employeeInfo.person.religion)}}</h5>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group noBorder formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Caste</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Caste"></i>
+                </span>
+                <h5 class="labelValue">{{getCasteName(employeeInfo.person.caste)}}</h5>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group formTextGroup paddedGroup noBorder">
+                <span class="textLabelMain">Email</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Email"></i>
+                </span>
+                <h5 class="labelValue">{{employeeInfo.person.email_addresses[0]?.email_id}}</h5>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group formTextGroup paddedGroup noBorder">
+                <span class="textLabelMain">Mobile Number</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Mobile Number"></i>
+                </span>
+                <h5 class="labelValue">{{employeeInfo.person.phone_numbers[0]?.phone_number}}</h5>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group formTextGroup paddedGroup noBorder">
+                <span class="textLabelMain">Immediate Contact Name</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Immediate Contact Name"></i>
+                </span>
+                <h5 class="labelValue">{{employeeInfo.person.immediate_contact?.full_name}}</h5>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group formTextGroup paddedGroup noBorder">
+                <span class="textLabelMain">Immediate Contact Number</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Immediate Contact Number"></i>
+                </span>
+                <h5 class="labelValue">{{employeeInfo.person.immediate_contact?.phone_numbers[0]?.phone_number}}</h5>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group formTextGroup paddedGroup noBorder">
+                <span class="textLabelMain">Address 1</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Address 1"></i>
+                </span>
+                <h5 class="labelValue">{{employeeInfo.person.addresses[0]?.address_line1}}</h5>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group formTextGroup paddedGroup noBorder">
+                <span class="textLabelMain">Address 2</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Address 2"></i>
+                </span>
+                <h5 class="labelValue">{{employeeInfo.person.addresses[0]?.address_line2}}</h5>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group formTextGroup paddedGroup noBorder">
+                <span class="textLabelMain">Pincode</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Pincode"></i>
+                </span>
+                <h5 class="labelValue">{{employeeInfo.person.addresses[0]?.pincode}}</h5>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group formTextGroup paddedGroup noBorder">
+                <span class="textLabelMain">State</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="State"></i>
+                </span>
+                <h5 class="labelValue">{{employeeInfo.person.addresses[0]?.state}}</h5>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="!isEditing && employeeInfo.employee.type_code ==='TCH' && employeeInfo.employee.teacher">
+            <div class="input-group formTextGroup paddedGroup noBorder">
+              <span class="textLabelMain">Classes</span>
+              <span class="input-group-addon" id="basic-addon1">
+                <i class="icon-key" title="Select Classes"></i>
+              </span>
+              <div class="input-group paddedGroup darkText">
+                <div *ngFor="let class of employeeInfo.employee.teacher.classes" class="class-div">
+                 {{getClassName(class.class_key)}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="!isEditing && employeeInfo.employee.type_code ==='TCH' && employeeInfo.employee.teacher">
+            <div class="input-group formTextGroup paddedGroup noBorder">
+              <span class="textLabelMain">Subjects</span>
+              <span class="input-group-addon" id="basic-addon1">
+                <i class="icon-key" title="Select Subjects"></i>
+              </span>
+              <div class="input-group paddedGroup darkText">
+                <div *ngFor="let subject of employeeInfo.employee.teacher.subjects" class="class-div">
+                 {{getSubjectName(subject.code)}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row pull-right">
+            <button type="submit" class="formButton pull-right" *ngIf="!employeeInfo.employee.employee_key" [disabled]="!employeeForm.valid">Add Employee</button>
+            <button type="submit" class="formButton pull-right" *ngIf="employeeInfo.employee.employee_key && isEditing">Update Employee</button>
+          </div>
+
+          <div *ngIf="!isSuccess" class="alert">
+            {{error_message}}
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

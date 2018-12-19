@@ -1,0 +1,234 @@
+.exam-table {
+
+}
+
+.exam-table tbody tr td {
+    padding: 15px 0;
+    font-weight: 300;
+    border-bottom: unset;
+}
+
+.exam-table tbody tr th {
+	padding-left: calc(2% - 8px);
+    display: inline-block;
+}
+
+.exam-table tbody th {
+	font-size: 12px;
+	font-weight: bold;
+	color: #525e66;
+}
+
+.aca-marking .title {
+    position: fixed;
+    z-index: 100;
+    height: 40px;
+    border: 0px solid;
+    top: 21px;
+    left: calc(25% - 140px);
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 500;
+    color: #525e66;
+    left: 15%;
+}
+
+.exam-header {
+	border-bottom: 2px solid #7ac943;
+}
+
+.exam-header th{
+	padding-bottom: 6px;
+}
+
+.exam-row {
+    margin-top: 2px;
+    padding: 13px 0;
+    background-color: #f2f2f2;
+}
+
+.exam-row tbody tr td {
+	padding: 0px calc(2% - 8px);
+	font-family: Roboto;
+	font-size: 14px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #525e66;
+    display: inline-block;
+}
+
+.exam-row tbody tr td img{
+	margin:	-6px 0px 0px 15px;
+	height: 15px;
+	width: 20px;
+}
+
+.roll-no {
+	padding-left: 3% !important;
+	width: calc(24% - 44px);
+}
+
+.std-name {
+    width: calc(24% - 44px);
+}
+
+.test-mark {
+	width: calc(13% + 22px);
+}
+
+.test-mark input {
+    width: 40px;
+    text-align: center;
+    padding: 4px;
+    border: solid 1px #dedede;
+}
+
+th .edit-max-mark {
+    background: url(assets/images/edit@2x.png) no-repeat calc(100% - 13px) center;
+    background-size: 21px;
+    height: 23px;
+    padding: 4px;
+    width: 135px;
+    display: block;
+    font-weight: 300;
+    opacity: 0.7;
+    color: #111111;
+}
+
+th .enable:hover {
+    background: url(assets/images/edit-bold@2x.png) no-repeat calc(100% - 13px) center;
+    opacity: 1 !important;
+    background-size: 21px;
+    background-color: #e3e3e3;
+    color: #525e66 !important;
+}
+
+th.std-name,
+th.roll-no {
+    margin-bottom: -17px;
+}    
+.exam-row .collapse,
+.exam-row .dropdown-menu {
+    background-color: rgb(242, 242, 242);
+    border-color: rgb(122, 201, 67);
+    border-style: solid;
+    border-width: 1px;
+    width: 199px;
+    margin-left: -200px;
+    top: unset;
+    left: unset;
+    position: absolute;
+    border-radius: unset;
+}
+
+.aca-marking {
+    height: calc(100% - 1px);
+    color: #525e66;
+    padding: 0 calc(25% - 140px);
+    overflow-y: auto;
+}
+
+@media (max-width: 1200px) {
+    .aca-marking {
+        padding: 0 calc(20% - 100px);
+    }
+}
+
+.aca-marking .collapsing {
+   	transition-duration: none;
+   	transition: none !important;
+   	transition-delay: none;
+   	display: none !important;
+}
+
+.aca-marking ul li{
+    height: 29px;
+    padding: 6px 20px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #525e66;
+}
+
+.aca-marking ul li:hover {
+    font-weight: 500;
+    color: #525e66;
+    background-color: #e3e3e3;
+}
+
+.exam-select {
+	font-size: 18px;
+	font-weight: 500;
+	color: #525e66;
+}
+
+.marking-header {
+	padding-bottom: 15px;
+}
+
+.marking-header .dropdown-menu{
+    border-radius: unset;
+    top: unset;
+    left: unset;
+}
+
+.save-marks {
+    position: fixed;
+    z-index: 100;
+    width: 123px;
+    height: 40px;
+    border-radius: 4px;
+    border: 0px solid;
+    background-color: #7ac943;
+    padding: 10px;
+    top: 11px;
+    left: calc(75% + 22px);
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    color: #ffffff;
+    opacity: 0.8;
+}
+
+.save-marks:hover {
+    opacity: 1;
+}
+
+.view-allsub {
+    width: 469px;
+    height: 21px;
+    font-size: 16px;
+    font-weight: normal;
+    color: #525e66;
+}
+
+th.class-name span.dropdown-toggle {
+    background: url(assets/images/down-16@2x.png) no-repeat center;
+    background-size: 17px;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    position: absolute;
+    margin-left: 5px;
+}
+
+th.class-name span.dropdown-toggle:hover {
+    background: url(assets/images/down-active@2x.png) no-repeat center;
+    background-size: 17px;
+}
+
+th.class-name .dropdown-menu {
+    position: absolute;
+    margin-left: 3%;
+    border: solid 1px #7ac943;
+    border-radius: unset;
+    margin-top: 0px !important;
+}
+
+.input-focus {
+    font-size: 16px !important;
+    font-weight: normal !important;
+    font-style: normal !important; 
+}

@@ -1,0 +1,170 @@
+<simple-notifications [options]="options"></simple-notifications>
+<div class="container-fluid content-margin">
+  <div class="row rowMain height100 paddedRow">
+    <div class="boxedDiv shadow" >
+
+      <div *gcAccessControl="'EMPLOYEE_SEARCH'" class="header">
+        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+          <h4>Employees</h4>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" *ngIf="!sendMsgFlag && !employeePrint">
+          <i *gcAccessControl="'EMPLOYEE_ADD'" class="icon-plus pull-right" title="Add an Employee" (click)="gotoAddEmployee()" ></i>
+         <div *gcAccessControl="'EMPLOYEE_SMS'">
+          <i class="fa fa-envelope-o pull-right" title="Send SMS" aria-hidden="true" (click)="sendMessage()"
+          *ngIf="(employee_info_list | searchEmployee : emp_name.value : emp_code.value : staff_type.value : select_all.value).length > 0"></i>
+         </div>
+         <i class="fa fa-print pull-right" title="Take print" aria-hidden="true" (click)="takePrint()"
+           *ngIf="(employee_info_list | searchEmployee : emp_name.value : emp_code.value : staff_type.value : select_all.value).length > 0"></i>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" [hidden]="sendMsgFlag" [hidden]="employeePrint">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 search-box">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 search-container">
+              <i class="fa fa-filter" aria-hidden="true"></i>
+              <div>
+                <div class="filter-item col-lg-1 col-md-1 col-sm-12 col-xs-12 checkbox-align">
+                  <label class="control control--checkbox displayInlineBlock">
+                    <input title="Select All" type="checkbox" [(ngModel)]="select_or_unselect" #select_all="ngModel" (keyup)="0"/>
+                    <div class="control__indicator borderRadius6"></div>
+                  </label>
+                  <h5>All</h5>
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 nopadding">
+                  <div class="input-group formTextGroup paddedGroup darkText text-center">
+                    <input type="text" placeholder="Name" class="formTextControl" [(ngModel)]="employee_name" #emp_name="ngModel" (keyup)="0">
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 nopadding">
+                  <div class="input-group formTextGroup paddedGroup darkText text-center">
+                    <input type="text" placeholder="Employee Code" class="formTextControl" [(ngModel)]="employee_code" #emp_code="ngModel" (keyup)="0">
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 nopadding" [hidden]="!schoolDataService.getSchool().employee_configuration">
+                  <div class="input-group formTextGroup paddedGroup darkText text-center">
+                    <select [(ngModel)]="employee_type" #staff_type = "ngModel">
+                        <option value="All" selected> --Staff Type-- </option>
+                        <option *ngFor ="let type of schoolDataService.getSchool().employee_configuration?.staff_type" [value]="type.code">{{type.name}}</option>
+                      </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="sendMsgFlag">
+          <app-communication [contactList]="getContactList()" (onSent)="onMessageSent($event)"></app-communication>
+        </div>
+
+        <div class="row padding10 maxHeight85" *ngIf="!sendMsgFlag && !employeePrint">
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12"
+              *ngFor="let emp_info of (employee_info_list | searchEmployee : emp_name.value : emp_code.value : staff_type.value : select_all.value)">
+            <div *gcAccessControl="'EMPLOYEE_PROFILE_VIEW'" class="employeeListListDiv relative shadow">
+              <div class ="pointer">
+                 <img [src]="getEmployeeProfilePicURL(emp_info.employee.profile_image_key,emp_info.employee.gender)" class="employeeListLogo displayInlineBlock shadow" (click)="gotoEditEmployee(emp_info.employee.employee_key)"/>
+              </div>
+              <div class="detailsContainer displayInlineBlock" (click)="gotoEditEmployee(emp_info.employee.employee_key)">
+                <label class="employeeListDetail bold">{{emp_info.employee.full_name}}</label>
+                <label class="employeeListDetail bold pull-right">{{emp_info.employee.emp_code}}</label>
+                <div class="detailsSmallDiv">
+                  <label class="employeeListDetailSmall">{{getStaffType(emp_info.employee.type_code)}}</label>
+                </div>
+                <div class="detailsSmallDiv">
+                  <label class="employeeListDetailSmall">{{getDepartmentName(emp_info.employee.dep_code)}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="employeePrint">
+          <div class ="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  padding">
+              <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 row">
+                <div class="filter-item">
+                  <label class="control control--checkbox displayInlineBlock">
+                    <input type="checkbox" (change)="isType($event)"/>
+                    <div class="control__indicator borderRadius6"></div>
+                  </label>
+                  <h5>Type</h5>
+                </div>
+                <div class="filter-item">
+                  <label class="control control--checkbox displayInlineBlock">
+                    <input type="checkbox" (change)="isDept($event)"/>
+                    <div class="control__indicator borderRadius6"></div>
+                  </label>
+                  <h5>Department</h5>
+                </div>
+                <div class="filter-item">
+                  <label class="control control--checkbox displayInlineBlock">
+                    <input type="checkbox" (change)="isDesig($event)"/>
+                    <div class="control__indicator borderRadius6"></div>
+                  </label>
+                  <h5>Designation</h5>
+                </div>
+                <div class="filter-item">
+                  <label class="control control--checkbox displayInlineBlock">
+                    <input type="checkbox" (change)="isQulification($event)"/>
+                    <div class="control__indicator borderRadius6"></div>
+                  </label>
+                  <h5>Qualification</h5>
+                </div>
+                <div class="filter-item">
+                  <label class="control control--checkbox displayInlineBlock">
+                    <input type="checkbox" (change)="isDob($event)"/>
+                    <div class="control__indicator borderRadius6"></div>
+                  </label>
+                  <h5>DOB</h5>
+                </div>
+                <div class="filter-item">
+                  <label class="control control--checkbox displayInlineBlock">
+                    <input type="checkbox" (change)="isMob($event)"/>
+                    <div class="control__indicator borderRadius6"></div>
+                  </label>
+                  <h5>Mobile No</h5>
+                </div>
+
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                <button type="button" class="formButton greyButton pull-right" (click)="back()">Back</button><br>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                <button type="button" class="formButton pull-right" (click)="print()">Print</button><br>
+              </div>
+            </div>
+          </div>
+          <div id="print_div" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 height-85-scroll">
+            <div style="text-align:center"><h3>{{school?.name}}</h3></div>
+            <h4><b>{{getStaffType(employee_type)}}</b></h4>
+            <table class="table">
+             <tr>
+              <th><b>No</b></th>
+              <th><b>Employee#</b></th>
+              <th><b>Employee Name</b></th>
+              <th *ngIf="istype"><b>Employee Type</b></th>
+              <th *ngIf="isdept"><b>Department</b></th>
+              <th *ngIf="isqulify"><b>Qualification</b></th>
+              <th *ngIf="isdesig"><b>Designation</b></th>
+              <th *ngIf="isdob"><b>Dob</b></th>
+              <th *ngIf="ismob"><b>Mobile No</b></th>
+             </tr>
+             <tr *ngFor="let emp_info of (employee_info | searchEmployee : emp_name.value : emp_code.value : staff_type.value : select_all.value );  let i=index">
+               <td>{{ i + 1}}</td>
+               <td>{{emp_info.employee.emp_code}}</td>
+               <td>{{emp_info.employee.full_name}}</td>
+               <td *ngIf="istype">{{getStaffType(emp_info.employee.type_code)}}</td>
+               <td *ngIf="isdept"><div *ngIf="emp_info.employee.dep_code">{{getDepartmentName(emp_info.employee.dep_code)}}</div></td>
+               <td *ngIf="isqulify"><div *ngIf="emp_info.employee.qualification">{{emp_info.employee.qualification}}</div></td>
+               <td *ngIf="isdesig"><div *ngIf="emp_info.employee.designation_code">{{getDesignationName(emp_info.employee.designation_code)}}</div></td>
+               <td *ngIf="isdob"><div *ngIf="emp_info.person.dob">{{emp_info.person.dob}}</div></td>
+               <td *ngIf="ismob"><div *ngIf="emp_info.employee.notification_mobile_numbers">{{emp_info.employee.notification_mobile_numbers[0].phone_number}}</div></td>
+            </tr>
+            </table>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12 padding">
+       <button type="button" class="formButton" (click)="export_table_to_csv('employee.csv')">Download</button><br>
+      </div>
+      </div>
+
+      </div>
+    </div>
+  </div>
+</div>

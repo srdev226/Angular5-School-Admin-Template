@@ -1,0 +1,233 @@
+<div class="aca-exams">
+  <div class="exm-header">
+    <div class="sel-exm">
+      <div class="pointer dropdown-toggle" data-toggle="dropdown">
+        <span class="exam-select">{{sel_aca_year_name}}</span>
+        <span class="triangle"></span>
+      </div>
+      <ul class="dropdown-menu" id="academic-year">
+        <li *ngFor="let academic_year of academic_years" (click)="selectYear(academic_year.code, academic_year.name)"> {{academic_year.name}} </li>
+      </ul>
+    </div>
+  </div>
+  <div>
+    <table class="exam-table exam-header">
+      <tr>
+        <th class="exams">Exams</th>
+        <th class="exm-dates">Exam Dates</th>
+        <th class="exm-sche">Exam Schedule</th>
+        <th class="mark-status">Marking Status</th>
+        <th class="option"></th>
+      </tr>
+    </table>
+  </div>
+
+  <div class="table-contents">
+    <div *ngFor="let exam of examConfig; let i = index" class="exam-table exam-row">
+      <table>
+        <tr>
+          <td class="exams">
+            <p>{{exam.name}}</p>
+          </td>
+          <td class="exm-dates">{{exam.from_date | date : 'MMM dd'}}  to  {{ exam.to_date | date : 'MMM dd'}}</td>
+          <td class="exm-sche">
+            <div class="sche-status">
+              {{getExamScheduleStatus(exam.schedule_publish)}}
+            </div>
+            <div class="view-edit-sche pointer underline-blue" (click)="openModal('view-schedule-overlay', exam.code)">
+              View Schedule
+            </div>
+          </td>
+          <td class="mark-status">
+            <div class="btn-mark pointer" [ngClass]="{'btn-on': exam.results_publish, 'btn-off': !exam.results_publish}" (click)="openModal('allow-mark-modal', i)">
+              <div *ngIf="exam.results_publish">
+                ON
+              </div>
+              <div *ngIf="!exam.results_publish">
+                OFF
+              </div>
+            </div>
+            <div *gcAccessControl="'ACADEMICS_EXAMS_EDIT'" class="view-edit-mark pointer underline-blue" (click)=gotoExamMarking(exam.code)>
+              View Marking
+            </div>
+          </td>
+          <td class="option">
+            <div class="dropdown-toggle opt-btn" data-toggle="dropdown">
+              <span class="oval"></span>
+              <span class="oval"></span>
+              <span class="oval"></span>
+            </div>
+
+            <ul class="dropdown-menu">
+              <li (click)="openModal('edit-exam-modal', i)">Edit Exam Settings</li>
+              <li>Delete Exams</li>
+            </ul>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="add-exm-box">
+    <div class="add-exam" (click)="openModal('add-exam-modal')">
+      <div class="btn-add-exam pointer">
+        <img alt="+" src="assets/images/add@2x.png" height="24px" width="24px">
+      </div>
+      <div class="add-a-exam">
+        Add Exams
+      </div>
+    </div>
+  </div>
+
+  <!-- Allow-Mark Modal -->
+  <div id="allow-mark-modal" class="modal fade regular-modal small-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <p class="modal-title" id="myModalLabel">ALLOW MARK ENTRY FOR QUATERLY EXAMS</p>
+        </div>
+
+        <div class="modal-body">
+          Turning on marking switch means you are allowing teachers to enter marks for this series.
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default back-grey" data-dismiss="modal">CANCEL</button>
+          <button type="button" class="btn btn-primary" (click)="confirm()">OK, CONFIRM</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Modal -->
+
+  <!-- Edit-Exam-Date Modal -->
+  <div id="edit-exam-modal" class="modal fade regular-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <p class="modal-title" id="myModalLabel">EDIT EXAM DATES</p>
+        </div>
+
+        <div class="modal-body">
+          <div class="modal-row">
+            <div class="label">Tentative Exam dates<span class="required"></span></div>
+            <div class="select half-width first">
+              <input name="dp1" [(ngModel)]="from_date" class="modal-input date-picker outline-none" ngbDatepicker placeholder="Enter start date" [minDate]="start_year" [maxDate]="end_year" #d3="ngbDatepicker">
+              <div class="btn-calender" (click)="d3.toggle()"></div>
+            </div>
+
+            <div class="select half-width">
+              <input name="dp2" [(ngModel)]="to_date" class="modal-input date-picker outline-none" ngbDatepicker placeholder="Enter end date" [minDate]="from_date" [maxDate]="end_year" #d4="ngbDatepicker">
+              <div class="btn-calender" (click)="d4.toggle()"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default back-grey" data-dismiss="modal">CANCEL</button>
+          <button type="button" class="btn btn-primary" (click)="saveExamDate()">SAVE</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Modal -->
+
+  <!-- Add-exam Modal -->
+  <div id="add-exam-modal" class="modal fade regular-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <p class="modal-title" id="myModalLabel">ADD EXAMS</p>
+        </div>
+
+        <div class="modal-body">
+<!--           <div class="modal-row">
+            <div class="label">Exam type<span class="required"></span></div>
+            <div class="select">
+              <div class="dropdown-toggle" data-toggle="dropdown" [ngClass]="{'input-focus': exam.code}">
+                {{getExamType()}}
+              </div>
+              <ul class="dropdown-menu">
+                <li *ngFor="let exam of examConfig.exam_series" (click)="onLiSelect('exam_type', exam.code, exam.name)">{{exam.name}}</li>
+                <li (click)="onLiSelect('exam_type', 'Other', null)">Other</li>
+              </ul>
+            </div>
+          </div> -->
+          <div class="modal-row">
+            <div class="label">Exam Name<span class="required"></span></div>
+            <div class="select">
+              <input [(ngModel)]="exam_name" class="modal-input outline-none" placeholder="Enter your exam or test name here">
+            </div>
+          </div>
+
+          <div class="modal-row">
+            <div class="label">Tentative Exam dates<span class="required"></span></div>
+            <div class="select half-width first">
+              <input name="dp1" [(ngModel)]="from_date" class="modal-input date-picker outline-none" ngbDatepicker placeholder="Enter start date" [minDate]="start_year" [maxDate]="end_year" #d1="ngbDatepicker">
+              <div class="btn-calender" (click)="d1.toggle()"></div>
+            </div>
+
+            <div class="select half-width">
+              <input name="dp2" [(ngModel)]="to_date" class="modal-input date-picker outline-none" ngbDatepicker placeholder="Enter end date" [minDate]="from_date" [maxDate]="end_year" #d2="ngbDatepicker">
+              <div class="btn-calender" (click)="d2.toggle()"></div>
+            </div>
+          </div>
+
+          <div class="modal-row">
+            <div class="label">Classes<span class="required"></span></div>
+            <div class="select">
+              <div class="dropdown-toggle" data-toggle="dropdown" [ngClass]="{'input-focus': text != 'Select Classes'}">
+                {{text}}
+              </div>
+              <ul class="dropdown-menu check-dropdown regular-checkbox">
+                <li><input type="checkbox" [checked]="selAll" (click)="selectAll()"/><span>Select All</span></li>
+                <li *ngFor="let class of available_exams; let i = index"><input type="checkbox" [checked]="checkbox[i].checked" (click)="getText(i)"/><span>{{"Class " + checkbox[i].name + " " + class.division}}</span></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="modal-row" *ngIf="selectedClasses.length > 0">
+            <div class="label"></div>
+            <div class="select sub-box">
+              <div class="selected-sub" *ngFor="let class of selectedClasses; let i = index">
+                <div class="class-name">{{"Class " + class.name}}</div>
+                <div class="classes-row">
+                  <div class="class-box" *ngFor="let div of class.divisions; let j = index">
+                    {{"Class " + class.name + div}}
+                    <span class="pointer" (click)="deleteClass(i, j, class.name, div)"><img src="assets/images/shape@2x.png" height="13px" width="13px"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
+          <button type="button" class="btn btn-primary" (click)="addExam()">SAVE</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Modal -->
+
+  <!-- View-Schedule Overlay -->
+  <div id="view-schedule-overlay" class="modal fade overlay" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title btn-back cur-default" id="myModalLabel" data-dismiss="modal" aria-label="Close" (click)="viewScheduleBack()">
+            <p class="underline-blue">Back</p>
+          </div>
+        </div>
+
+        <div class="modal-body">
+          <exam-schedule [examCode]="selected_exam_code" [academicYear]="selected_academic_year"></exam-schedule>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Overlay -->
+</div>

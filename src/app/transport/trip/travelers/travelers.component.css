@@ -1,0 +1,19 @@
+.fa-icon{
+  padding: 5px;
+  color: #3ED783;
+  font-size: 20px;
+  z-index: 20000 !important;
+}
+
+.height-85-scroll{
+  overflow-x: hidden !important;
+  height: 400px;
+}
+
+.padding{
+  padding: 10px;
+}
+
+.align{
+    text-align: center;
+}

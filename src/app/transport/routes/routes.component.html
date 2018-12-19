@@ -1,0 +1,261 @@
+<simple-notifications [options]="notification_options"></simple-notifications>
+
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 height-minus10-scroll">
+  <div *gcAccessControl="'ADD_ROUTES_TRANSPORT'" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <h6 class="pull-right pointer greentext vertical-middle" (click)="addNewRoute()">
+      <i class="icon-plus "></i>ADD ROUTE</h6>
+  </div>
+  <div class="routes-container">
+    <div class="route-div text-center" *ngFor="let route of routes;let i = index" [ngClass]="{'active': i == selected_route}"
+      (click)="selectRoute(i) ">
+      <h4 class="block fontweight400">{{route.name}}</h4>
+      <h6 class="block">Number of stops : {{route.stops.length}}</h6>
+      <h6 class="block">Starting From : {{ route.stops.length>0 ? route.stops[0].name : 'NA'}}</h6>
+      <!-- <h6 class="block">Starting At : {{route.trips.length>0 && route.trips[0].arrivals.length>0 ? route.trips[0].arrivals[0].arrival_time : 'NA'}}</h6> -->
+    </div>
+  </div>
+</div>
+<div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 height-minus10-scroll">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 route-details height100" *ngIf="route && pageState.type == pageStateType.STOPS">
+    <div class="route-overlay" *ngIf="gettingLocation">
+      <div>
+        <div class="loader" id="loader-1"></div>
+        <h4 class="whitetext">Retrieving the location...</h4>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 route-info-header" *ngIf="!isEdit">
+      <h4 class="fontweight400">{{route.name}}</h4>
+      <i class="fa fa-pencil" aria-hidden="true" (click)="editRoute()"></i>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 route-info-header editing" *ngIf="isEdit">
+      <!-- <h5 class="whitetext fontweight600 displayInlineBlock">EDIT MODE ENABLED</h5>
+      <h6>CLICK ON MAP TO PLACE A MARKER AND LISTVIEW TO EDIT.</h6> -->
+      <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 nopadding">
+        <div class="input-group required formTextGroup margin-left-0 paddedGroup darkText text-center">
+          <span class="textLabelMain">Route Name</span>
+          <span class="input-group-addon" id="basic-addon1">
+            <i class="icon-key" title="Name"></i>
+          </span>
+          <input [(ngModel)]="route.name" type="text" name="route_name" #route_name="ngModel" minlength="3" maxlength="50" class="formTextControl"
+            required>
+          <div *ngIf="route_name.errors && (route_name.dirty || route_name.touched)" class="alert abolsute-msg smallMsg ">
+            <div [hidden]="!route_name.hasError('required')">
+              Route Name is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 nopadding">
+        <!-- <button class="formButton pull-right">UPDATE</button> -->
+      </div>
+
+    </div>
+    <agm-map [scrollwheel]="false" [zoom]="zoom" [fitBounds]="latlngBounds" [styles]="options1" class="height100" (mapClick)="addNewMarker($event)"
+      [ngClass]="{'isEditing': isEdit }">
+      <agm-marker *ngFor="let stop of route.stops;let i = index" [latitude]="stop.lat ? stop.lat : 0" [longitude]="stop.lng ? stop.lng : 0"
+        [iconUrl]="'assets/images/marker1.png'">
+        <agm-info-window [isOpen]="stop.isOpen">
+          <div *ngIf="!isEdit">
+            <div class="info-window-title">{{stop.name}}</div>
+            <div class="fontweight600">Distance - {{stop.distance}} KM</div>
+            <div class="fontweight600">Fare - &#8377;{{stop.fare_amounts[0]?.amount}}</div>
+          </div>
+          <div *ngIf="isEdit">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+              <div class="input-group required formTextGroup margin-bottom-0 paddedGroup darkText text-center">
+                <span class="textLabelMain">Name</span>
+                <input [(ngModel)]="stop.name" type="text" [name]="'stopname'+i" minlength="3" maxlength="50" class="formTextControl margin-top-20 "
+                  required placeholder="Enter Stop Name">
+              </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+              <div class="input-group required formTextGroup margin-bottom-0 paddedGroup darkText text-center">
+                <span class="textLabelMain">Distance</span>
+                <input [(ngModel)]="stop.distance" type="number" [name]="'distance'+i" minlength="3" maxlength="50" class="formTextControl margin-top-20 "
+                  placeholder="Enter Distance" required>
+              </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+              <div class="input-group required formTextGroup margin-bottom-0 paddedGroup darkText text-center">
+                <span class="textLabelMain">Location</span>
+                <h5 class="margin-top-10 fontweight400 displayInlineBlock text-left">{{stop.attr}}</h5>
+              </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+              <div class="input-group required formTextGroup margin-bottom-0 paddedGroup darkText text-center">
+                <span class="textLabelMain">Latitude</span>
+                <h5 class="margin-top-10 fontweight400 displayInlineBlock text-left">{{stop.lat}}</h5>
+              </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+              <div class="input-group required formTextGroup margin-bottom-0 paddedGroup darkText text-center">
+                <span class="textLabelMain">Longitude</span>
+                <h5 class="margin-top-10 fontweight400 displayInlineBlock text-left">{{stop.lng}}</h5>
+              </div>
+            </div>
+            <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+              <button class="formButton small pull-right">UPDATE</button>
+            </div> -->
+          </div>
+        </agm-info-window>
+      </agm-marker>
+    </agm-map>
+  </div>
+
+  <div class="route-info-div" *ngIf="route && isEdit">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding" *ngIf="pageState.type == pageStateType.STOPS">
+      <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 nopadding">
+        <!-- <div class="input-group required formTextGroup margin-left-0 paddedGroup darkText text-center">
+          <span class="textLabelMain">Route Name</span>
+          <span class="input-group-addon" id="basic-addon1">
+            <i class="icon-key" title="Name"></i>
+          </span>
+          <input [(ngModel)]="route.name" type="text" name="route_name" #route_name="ngModel" minlength="3" maxlength="50" class="formTextControl"
+            required>
+          <div *ngIf="route_name.errors && (route_name.dirty || route_name.touched)" class="alert abolsute-msg smallMsg ">
+            <div [hidden]="!route_name.hasError('required')">
+              Route Name is required
+            </div>
+          </div>
+        </div> -->
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding" *ngIf="route.route_key">
+        <button class="formButton" (click)="initSetFare()">Set Fare</button>
+      </div>
+    </div>
+
+    <div *ngIf="pageState.type == pageStateType.STOPS">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding margin-bottom-10">
+        <h4 class="pull-left nomargin vertical-middle">Stops</h4>
+        <i class="icon-plus pull-right vertical-middle pointer greentext" (click)="addStops(2)"></i>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngFor="let stop of route.stops;let j =index">
+        <div class="route-stop-div">
+          <h2 class="stop-index">{{stop.index}}</h2>
+          <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+            <div class="input-group required formTextGroup margin-left-0 paddedGroup darkText text-center">
+              <span class="textLabelMain">Name</span>
+              <span class="input-group-addon" id="basic-addon1">
+                <i class="icon-key" title="Name"></i>
+              </span>
+              <input [(ngModel)]="stop.name" type="text" [name]="'stopname'+j" minlength="3" maxlength="50" class="formTextControl"
+                required>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 nopadding">
+            <div class="input-group required formTextGroup margin-left-0 paddedGroup darkText text-center">
+              <span class="textLabelMain">Distance</span>
+              <span class="input-group-addon" id="basic-addon1">
+                <i class="icon-key" title="Name"></i>
+              </span>
+              <input [(ngModel)]="stop.distance" type="number" [name]="'distance'+j" minlength="3" maxlength="50" class="formTextControl"
+                required>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12">
+            <div class="input-group required width100 formTextGroup margin-left-0 paddedGroup darkText text-center">
+              <span class="textLabelMain">Location</span>
+              <span class="input-group-addon" id="basic-addon1">
+                <i class="icon-location-pin" title="Location"></i>
+              </span>
+              <input placeholder="Type to select location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text"
+                class="formTextControl" #search [(ngModel)]="stop.attr" required>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12">
+            <div class="input-group required width100 formTextGroup margin-left-0 paddedGroup darkText text-center">
+              <span class="textLabelMain">Latitude</span>
+              <span class="input-group-addon" id="basic-addon1">
+                <i class="icon-location-pin" title="Latitude"></i>
+              </span>
+              <input placeholder="Latitude" autocorrect="off" autocapitalize="off" spellcheck="off" type="number"
+                class="formTextControl" [(ngModel)]="stop.lat" required>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12">
+            <div class="input-group required width100 formTextGroup margin-left-0 paddedGroup darkText text-center">
+              <span class="textLabelMain">Longitude</span>
+              <span class="input-group-addon" id="basic-addon1">
+                <i class="icon-location-pin" title="Longitude"></i>
+              </span>
+              <input placeholder="Longitude" autocorrect="off" autocapitalize="off" spellcheck="off" type="number"
+                class="formTextControl" [(ngModel)]="stop.lng" required>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+          <button type="button" (click)="isEdit=false" class="formButton greyButton ">Cancel</button>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+          <button type="submit" class="formButton pull-right" (click)="addOrUpdateRoute()">Save Route</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="pageState.type == pageStateType.FARE">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding margin-bottom-10">
+        <h4 class="pull-left nomargin vertical-middle">Set Fare</h4>
+        <select [(ngModel)]="selected_year" name="selected_year" (ngModelChange)="setFarePeriods()">
+          <option value="undefined" selected> --Academic Year-- </option>
+          <option *ngFor ="let academic_year of this.academic_years"[value]="academic_year.code">{{academic_year.name}}</option>
+        </select>
+        <i class="icon-plus pull-right vertical-middle pointer greentext" (click)="addStops(2)"></i>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngFor="let stop of route.stops;let j =index">
+        <div class="route-stop-div">
+          <h2 class="stop-index">{{stop.index}}</h2>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 margin-top-20">
+            {{stop.name}} ({{stop.distance}} KM)
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
+            <div class="input-group required formTextGroup margin-left-0 paddedGroup darkText text-center">
+              <span class="textLabelMain">Fare</span>
+              <span class="input-group-addon" id="basic-addon1">
+                <i class="fa fa-inr" title="Name"></i>
+              </span>
+              <input [(ngModel)]="stop.fare_amounts[0].amount" type="number" [name]="'amount'+j" minlength="3" maxlength="50" class="formTextControl"
+                required>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding margin-bottom-10">
+        <button type="submit" class="formButton pull-right" (click)="addOrUpdateRoute()">Save Fare</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="route-info-div height100" *ngIf="route && !isEdit">
+    <!-- -->
+    <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 route-details height100">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 route-info-header">
+        <h4>{{route.name}}</h4>
+        <i class="fa fa-pencil-square-o" (click)="editRoute()" aria-hidden="true"></i>
+      </div> -->
+    <!-- <agm-map [scrollwheel]="false" [zoom]="12" [fitBounds]="latlngBounds" [styles]="options" class="height100">
+        <agm-marker *ngFor="let stop of route.stops;let i = index" [latitude]="stop.lat" [longitude]="stop.lng" [iconUrl]="'assets/images/marker1.png'">
+          <agm-info-window>
+            <div class="info-window-title">{{stop.name}}</div>
+            <div class="fontweight600">Distance - {{stop.distance}} KM</div>
+            <div class="fontweight600">Fare - &#8377;{{stop.fare_amounts[0]?.amount}}</div>
+          </agm-info-window>
+        </agm-marker>
+      </agm-map> -->
+    <!-- </div> -->
+  <!-- <div class="route-info-div" *ngIf="route && !isEdit">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 route-info-header">
+      <h4>{{route.name}}</h4>
+      <button *gcAccessControl="'EDIT_ROUTES_TRANSPORT'" (click)="isEdit=true" class="formButton">Edit</button>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 route-details" *ngFor="let stop of route.stops">
+      <h3>{{stop.index}}</h3>
+      <h5>{{stop.name}}</h5>
+      <h5>{{stop.distance}} KM</h5>
+      <h5>&#8377;{{stop.fare_amounts[0]?.amount}}</h5>
+      <br>
+    </div> -->
+  </div>
+</div>

@@ -1,0 +1,61 @@
+.padded30{
+    padding: 10px 30px;
+}
+.schoolPicDiv{
+    background-color:#caeef5;
+    height: 150px;
+    width: 280px;
+    margin-top: 10px;
+    border-radius: 4px;
+    position: relative;
+    border: 1px solid #67d9ef;
+    margin-bottom: 20px;
+}
+
+.profileImage{
+   position:absolute;
+       top: 6%;
+    left: 25%;
+}
+
+.iconUpload{
+    position: absolute;
+    top:5px;
+    right: 5px;
+    font-size: 30px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.addClass{
+  border:1px solid #3ED783;
+  padding:10px;
+}
+
+.classItem{
+    padding: 2px 10px;
+    border: 1px solid #3ED783;
+    margin-right: 10px;
+    font-size: 12px;
+    border-radius: 4px;
+}
+
+.margin10px{
+    margin-bottom: 10px !important;
+}
+
+.height-85-scroll{
+    overflow-x: hidden !important;
+}
+
+.class-item-container{
+    display: inline-block;
+    float: left;
+    margin-right: 10px;
+}
+
+.formButton.small-button{
+    height: auto;
+    min-width: auto;
+    padding: 2px 8px;
+}

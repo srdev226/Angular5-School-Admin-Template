@@ -1,0 +1,12 @@
+
+<div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 livePaneContainer">
+ 	<div (click)="setApplicationStatus($event)" class="livePane shadowBox" [ngClass]="summaryData.class">
+ 		<div class="livePaneText" >
+ 			<label class="weight400">{{summaryData.status}}</label>
+ 			<label count-to="15" value="0" duration="2" prepend="" class="">{{summaryData.count}}</label>
+ 		</div>
+ 		<div class="livePaneIcon">
+ 			<i class="fa backgroundIcon" [ngClass]="summaryData.icon ? summaryData.icon : 'fa-bolt'"></i>
+ 		</div>
+  </div>
+</div>

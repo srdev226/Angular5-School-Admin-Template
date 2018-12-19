@@ -1,0 +1,35 @@
+<div class="row rowMain height85Minus padding15">
+  <div class="row padding20 height100" *ngIf="!showSearchchResults">
+      <app-fee-bill-list [student]='selectedStudent' (onDone)='showSearch($event)' ></app-fee-bill-list>
+  </div>
+
+  <div class="row padding20 height100 overflow-y" *ngIf="showSearchchResults">
+    <div class="col-lg-11 col-md-11 col-sm-11 col-xs-12" *ngIf="students">
+      <div class="input-group formTextGroup darkText text-center" >
+        <span class="input-group-addon" id="basic-addon1"><i class="icon-magnifier" title="Search"></i></span>
+        <input type="text" name="search" [ngModel]="searchText" #search="ngModel" class="formTextControl" placeholder="Search for a Student Name or an Admission Number"
+          (ngModelChange)="searchStudent($event)" />
+      </div>
+    </div>
+    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12" *ngIf="students">
+      <button class="formButton pull-right" (click)="refreshStudentsList()">Refresh</button>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngFor="let student of searchStudents">
+      <div class="studentListListDivSearch shadow" (click)="showStudentBills(student.admission_number)">
+        <div class="detailsContainerSearch relative displayInlineBlock">
+          <label class="absolute-top-right green-box bold">{{student.current_class}}{{student.division}}</label>
+          <div class="displayInlineBlock">
+            <img [src]="getStudentProfilePicURL(student.profile_image_key,student.gender)" class="displayPicImage"/>
+          </div>
+          <div class="detailsContainer displayInlineBlock">
+            <label class="studentListDetail bold">{{student.full_name}}</label>
+            <div class="detailsSmallDiv">
+              <label class="studentListDetailSmall">Admission Number : {{student.admission_number}}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

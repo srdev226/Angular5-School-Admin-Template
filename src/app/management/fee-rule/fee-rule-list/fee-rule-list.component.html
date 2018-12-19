@@ -1,0 +1,52 @@
+
+
+<div *gcAccessControl="'MGMNT_FEE_RULE'" class="row rowMain height40Minus padding15">
+  <div class="text-center padded-20-0 filter-container">
+    <select [(ngModel)]="student_type" name="student_type" (change)="setStudentType()" class="formTextControl select-filter">
+      <option value="undefined" selected>Select Student Type</option>
+      <option *ngFor="let student_type of student_types" [value]="student_type.code">{{student_type.name}}</option>
+    </select>
+    <select [(ngModel)]="selected_year" name="selected_year" (change)="setYearType()" class="formTextControl select-filter">
+      <option value="undefined" selected>Select Academic Year</option>
+      <option *ngFor="let academic_year of this.academic_years" [value]="academic_year.code">{{academic_year.code}}</option>
+    </select>
+  </div>
+  <div class="row padding20 maxHeight80">
+   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngFor="let feerule of filteredFeeRules">
+      <div class="studentListListDiv shadow">
+        <div class="studentListEdit displayInlineBlock">
+          <i *gcAccessControl="'MGMNT_FEE_RULE_EDIT'" class="icon-pencil" [routerLink]="['/manage/fee-rule/edit/',feerule.fee_rule_key]"></i>
+        </div>
+        <div class="studentListInfo displayInlineBlock">
+          <i class="icon-info"></i>
+        </div>
+        <div class="detailsContainer displayInlineBlock">
+          <div class="hiddenPanel displayInlineBlock">
+            <div *ngFor="let audit_log of feerule.audit_logs" class="classItem displayInlineBlock">
+              {{audit_log.date}} - {{audit_log.message}}
+            </div>
+          </div>
+          <label class="studentListDetail bold">{{feerule.name}}</label>
+          <div class="detailsSmallDiv">
+            <label class="studentListDetailSmall">{{feerule.payment_frequency}}</label>
+          </div>
+          <div class="detailsSmallDiv">
+            <label class="studentListDetailSmall">Effective From : {{feerule.effective_from_date}}</label>
+            <label class="studentListDetailSmall">Effective To : {{feerule.effective_until_date}}</label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- <div class="row padding10 text-center">
+      <ul class="pagination">
+        <li class="active" (click)="loadMore()"><a>Load More</a></li>
+      </ul>
+    </div> -->
+  </div>
+  <div class="row padding10 text-center">
+    <div class="addNew">
+      <i  *gcAccessControl="'MGMNT_FEE_RULE_ADD'" class="icon-plus" (click)="gotoAddFeeRule()"></i>
+    </div>
+  </div>
+</div>

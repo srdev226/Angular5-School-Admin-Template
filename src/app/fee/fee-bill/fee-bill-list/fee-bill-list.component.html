@@ -1,0 +1,258 @@
+<simple-notifications [options]="notification_options"></simple-notifications>
+
+<div *gcAccessControl="'FEE_BILLS'" class="col-lg-3 col-md-3 col-sm-6 col-xs-12 text-center">
+  <div class="displayInlineBlock">
+    <img [src]="getStudentProfilePicURL(student.profile_image_key,student.gender)" class="profileImage width70" />
+  </div>
+  <div class="detailsContainer displayInlineBlock">
+    <h4 class="block weight400">{{student.full_name}}</h4>
+    <h6 class="weight400">Adm# </h6>
+    <h5>{{student.admission_number}}</h5>
+    <!-- <h6 class="block weight400">Admission Year</h6>
+    <h5 class="block">{{student.admission_year}}</h5> -->
+    <!-- <h6 class="block weight400">Class</h6> -->
+    <h5 class="block">{{student.current_class}} - {{student.division}}</h5>
+  </div>
+  <div>
+    <a class="block" (click)="showReceipts()">Receipts</a>
+    <a class="block" (click)="showFeeBills()">Fee Bills</a>
+  </div>
+</div>
+
+<div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 height100" *ngIf="pageState.type == pageStateType.RECEIPT_LIST">
+  <div class="row">
+    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+      <h4>Receipts</h4>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+      <i class="fa fa-times pull-right info-trip-icon" aria-hidden="true" (click)="showFeeBills()"></i>
+    </div>
+  </div>
+  <div class="maxHeight90">
+    <app-fee-receipt-list [student_key]="student.student_key" (on_receipt_selected)="onReceiptSelected($event)">
+    </app-fee-receipt-list>
+  </div>
+</div>
+
+<div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 height100" *ngIf="pageState.type == pageStateType.FEE_BILL_LIST">
+
+  <div class="text-center filter-item-div">
+    <div>
+      <div class="filter-item">
+        <label class="control control--checkbox displayInlineBlock">
+          <input type="checkbox" (change)="updateFeeBillSelection('OVERDUE',$event)" />
+          <div class="control__indicator borderRadius6"></div>
+        </label>
+        <h5>OVERDUE</h5>
+      </div>
+      <div class="filter-item">
+        <label class="control control--checkbox displayInlineBlock">
+          <input type="checkbox" (change)="updateFeeBillSelection('DUE',$event)" />
+          <div class="control__indicator borderRadius6"></div>
+        </label>
+        <h5>DUE</h5>
+      </div>
+      <div class="filter-item">
+        <label class="control control--checkbox displayInlineBlock">
+          <input type="checkbox" (change)="updateFeeBillSelection('NEW',$event)" />
+          <div class="control__indicator borderRadius6"></div>
+        </label>
+        <h5>NEW</h5>
+      </div>
+    </div>
+  </div>
+  <div class="maxHeight90">
+    <!-- Overdue Bills -->
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngFor="let feebill of (uiFeeBills | billsFilter: 'OVERDUE')">
+      <div class="studentListListDiv shadow">
+        <div class="billStatusDiv" [ngClass]="feebill.status.toLowerCase()">
+          {{feebill.status}}
+        </div>
+        <label class="control control--checkbox verticalAlignTop displayInlineBlock">
+          <input type="checkbox" [checked]="feebill.selected" (change)="feebill.selected = !feebill.selected; refreshSelectedBills();"
+          />
+          <div class="control__indicator borderRadius6"></div>
+        </label>
+        <div class="detailsContainer displayInlineBlock">
+          <div>
+            <label class="studentListDetail bold"> {{feebill.total_amount | currency:[currencyCode]}}</label>
+            <div class="detailsSmallDiv displayInlineBlock pull-right">
+              <label class="studentListDetailSmall light">Pay By</label><label class="studentListDetailSmall">{{ (feebill.pay_by_date | amParse:'DD/MM/YYYY' | amDateFormat:'Do MMM YYYY')}} </label>
+            </div>
+          </div>
+          <label class="studentListDetail bold small block">
+            <i class="icon-tag"></i>{{feebill.fee_rule_name}}</label>
+          <label class="studentListDetail bold small">Class: {{feebill.current_class}}</label>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Due Bills -->
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngFor="let feebill of (uiFeeBills | billsFilter: 'DUE')">
+      <div class="studentListListDiv shadow">
+        <div class="billStatusDiv" [ngClass]="feebill.status.toLowerCase()">
+          {{feebill.status}}
+        </div>
+        <label class="control control--checkbox verticalAlignTop displayInlineBlock">
+          <input type="checkbox" [checked]="feebill.selected" (change)="feebill.selected = !feebill.selected; refreshSelectedBills();"
+          />
+          <div class="control__indicator borderRadius6"></div>
+        </label>
+        <div class="detailsContainer displayInlineBlock">
+          <label class="studentListDetail bold"> {{feebill.total_amount | currency:[currencyCode]}}</label>
+          <div class="detailsSmallDiv displayInlineBlock pull-right">
+            <label class="studentListDetailSmall light">Pay By </label><label class="studentListDetailSmall">{{ (feebill.pay_by_date | amParse:'DD/MM/YYYY' | amDateFormat:'Do MMM YYYY')}} </label>
+          </div>
+          <label class="studentListDetail bold small block">
+            <i class="icon-tag"></i>{{feebill.fee_rule_name}}</label>
+          <label class="studentListDetail bold small">Class: {{feebill.current_class}}</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEW Bills -->
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngFor="let feebill of (uiFeeBills | billsFilter: 'NEW')">
+      <div class="studentListListDiv shadow">
+        <div class="billStatusDiv" [ngClass]="feebill.status.toLowerCase()">
+          {{feebill.status}}
+        </div>
+        <label class="control control--checkbox verticalAlignTop displayInlineBlock">
+          <input type="checkbox" [checked]="feebill.selected" (change)="feebill.selected = !feebill.selected; refreshSelectedBills();"
+          />
+          <div class="control__indicator borderRadius6"></div>
+        </label>
+        <div class="detailsContainer displayInlineBlock">
+          <div>
+            <label class="studentListDetail bold"> {{feebill.total_amount | currency:[currencyCode]}}</label>
+            <div class="detailsSmallDiv displayInlineBlock pull-right">
+              <label class="studentListDetailSmall light">Pay By </label><label class="studentListDetailSmall">{{ (feebill.pay_by_date | amParse:'DD/MM/YYYY' | amDateFormat:'Do MMM YYYY')}} </label>
+            </div>
+          </div>
+          <label class="studentListDetail bold small block">
+            <i class="icon-tag"></i>{{feebill.fee_rule_name}}</label>
+          <label class="studentListDetail bold small">Class: {{feebill.current_class}}</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paid Bills -->
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngFor="let feebill of (uiFeeBills | billsFilter: 'PAID')">
+      <div class="studentListListDiv shadow">
+        <div class="billStatusDiv" [ngClass]="feebill.status.toLowerCase()">
+          {{feebill.status}}
+        </div>
+        <div class="detailsContainer displayInlineBlock margin-left-50">
+          <label class="studentListDetail bold"> {{feebill.total_amount | currency:[currencyCode]}}</label>
+          <div class="detailsSmallDiv displayInlineBlock pull-right">
+            <label class="studentListDetailSmall">{{"Pay By " + (feebill.pay_by_date | amParse:'DD/MM/YYYY' | amDateFormat:'Do MMM YYYY')}} </label>
+          </div>
+          <label class="studentListDetail bold small block">
+            <i class="icon-tag"></i>{{feebill.fee_rule_name}}</label>
+          <label class="studentListDetail bold small">Class: {{feebill.current_class}}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 maxHeight80" *ngIf="pageState.type == pageStateType.FEE_BILL_CONFIRM">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngFor="let feebill of (studentFilteredFeeBills)">
+    <div class="fee-bill-list-div shadow">
+      <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <h4 class="greytext block fontweight600">{{feebill.fee_rule_name}}</h4>
+        <h5 class="fontweight400 block">{{feebill.fee_bill_key | slice:0:5}}</h5>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 text-center">
+        <h5 class="fontweight400 block">{{"Pay By " + (feebill.pay_by_date | amParse:'DD/MM/YYYY' | amDateFormat:'Do MMM YYYY')}}</h5>
+        <div class="bill-status-big" [ngClass]="feebill.status.toLowerCase()">
+          {{feebill.status}}
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-right">
+        <div *ngFor="let fee_item of feebill.fee_items">
+          <h6 class="fee-bill-details-text">{{fee_item.name}} - {{fee_item.amount | currency:[currencyCode]}}</h6>
+        </div>
+        <div *ngIf="feebill.fine_amount && feebill.fine_amount > 0">
+          <h6 class="fee-bill-details-text"> Fine - {{feebill.fine_amount | currency:[currencyCode]}}</h6>
+        </div>
+        <div class="divider-fee-bill">
+          <hr class="divider-fee-hr">
+        </div>
+        <div>
+          <h4 class="fee-bill-total-text greentext block">{{feebill.total_amount | currency:[currencyCode]}}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 maxHeight80" *ngIf=" pageState.type === pageStateType.RECEIPT">
+  <app-fee-receipt [receipt_key]="receipt_key" ></app-fee-receipt>
+</div>
+
+<div class="row padding10 text-center">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding-top-15" *ngIf="pageState.type === pageStateType.FEE_BILL_CONFIRM">
+    Discount :&nbsp;&nbsp;&nbsp;
+    <div class="input-group formTextGroup darkText text-center no-margin-bottom displayInlineBlock width15 margin-left-10">
+      <input type="number" name="discount_amount" [(ngModel)]="discount.amount" #discount_amount="ngModel" class="formTextControl"
+        placeholder="Discount Value" />
+    </div>
+    <div class="input-group formTextGroup darkText text-center no-margin-bottom displayInlineBlock width15 margin-left-10">
+      <input type="text" name="discount_note" [(ngModel)]="discount.note" #discount_note="ngModel" class="formTextControl"
+        placeholder="Note" />
+    </div>
+  </div>
+  <div class="addNewLeft" *ngIf="pageState.type == pageStateType.FEE_BILL_CONFIRM">
+    <ul class="pagination">
+      <li class="active" (click)="gobackToBills()">
+        <a>Go Back to Bills</a>
+      </li>
+    </ul>
+  </div>
+  <div class="addNewLeft center" *ngIf="studentFilteredFeeBills.length>0">
+    <h4 class="weight400">Total Amount : {{(getTotalAmount() - discount.amount) | currency:[currencyCode]}}</h4>
+  </div>
+  <div class="addNewLeft" *ngIf="pageState.type !== pageStateType.FEE_BILL_CONFIRM">
+    <ul class="pagination">
+      <li class="active" (click)="showSearch()">
+        <a>Go Back to Search</a>
+      </li>
+    </ul>
+  </div>
+  <div class="addNew">
+    <ul class="pagination">
+      <li class="active" *ngIf="pageState.type == pageStateType.FEE_BILL_LIST">
+        <a *gcAccessControl="'FEE_BILLS_PAY_BILL'" [ngClass]="{'disabled' : studentFilteredFeeBills.length <= 0}"
+            (click)="showConfirmationScreen()">
+          Pay Bill(s)
+        </a>
+      </li>
+      <li class="active" *ngIf="pageState.type == pageStateType.FEE_BILL_CONFIRM">
+        <a [ngClass]="{'disabled' : studentFilteredFeeBills.length <= 0}" (click)="payBills()">Confirm</a>
+      </li>
+      <li class="active" *ngIf="!is_cancel_receipt && pageState.type == pageStateType.RECEIPT">
+        <a class="warning" [hidden]="receipt_status === 'CANCELLED'" *gcAccessControl="'FEE_CANCEL_RECEIPT'" (click)="is_cancel_receipt=true">Cancel Receipt</a>
+        <a (click)="print()">Print Receipt</a>
+      </li>
+    </ul>
+    <div class="alert alert-danger" *ngIf="is_cancel_receipt && pageState.type == pageStateType.RECEIPT">
+      <div class="row">
+        <h5>Cancelling receipt may change the daily collection report on receipt date. Please confirm if you wish to proceed.</h5>
+      </div>
+      <div class="row">
+        <div class="input-group formTextGroup darkText text-center no-margin-bottom displayInlineBlock margin-left-10">
+        <input [(ngModel)]="cancel_reason" required maxlength="60" placeholder="Reason for cancellation (* minimum 5 characters)" type="text" name="reason" #reason="ngModel"
+        [ngClass]="{'error': reason.invalid && !reason.pristine}" pattern=".{5,}" class="formTextControl" />
+        </div>
+        <!-- <div [ngClass]="{'hidden': reason.valid || reason.pristine}" class="alert smallMsg">
+          Reason for cancellation is not valid
+        </div> -->
+      </div>
+      <div class="row">
+        <button class="formButton" (click)="is_cancel_receipt=false">Cancel</button>
+        <button class="formButton warning" [disabled]="!reason.valid" (click)="cancelReceipt()">Proceed</button>
+      </div>
+    </div>
+  </div>
+</div>

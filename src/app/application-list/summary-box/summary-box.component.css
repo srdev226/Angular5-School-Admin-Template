@@ -1,0 +1,102 @@
+.livePaneContainer {
+    padding-top: 10px;
+}
+.livePane {
+    opacity: 0;
+    background-color: #fff !important;
+    height: 120px;
+    -webkit-transform: translateY(200px);
+    transform: translateY(200px);
+    -webkit-animation: moveUp 0.65s ease forwards;
+    animation: moveUp 0.65s ease forwards;
+}
+@-webkit-keyframes moveUp {
+    0% {} 100% {
+        -webkit-transform: translateY(0);
+        opacity: 1;
+    }
+}
+@keyframes moveUp {
+    0% {} 100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+.livePaneText {
+    float: right;
+    padding-top: 25px;
+    padding-right: 20px;
+}
+.livePaneText label {
+    color: #aaa;
+    display: block;
+    text-align: right;
+}
+.livePaneText label:nth-child(1) {
+    font-size: 16px;
+}
+.livePaneText label:nth-child(2) {
+    font-size: 34px;
+}
+
+.livePaneIcon i.backgroundIcon {
+    position: absolute;
+    bottom: 0;
+    font-size: 102px;
+    color: #aaa;
+}
+
+
+.livePane.blue i{
+    color: #94c0cc;
+}
+.livePane.blue label {
+    color: #12667c;
+}
+
+
+.livePane.red i{
+    color: #ed7777;
+}
+.livePane.red label {
+    color: #871919;
+}
+
+
+.livePane.lblue i {
+    color: #32c5d2;
+}
+
+
+.livePane.orange i{
+    color: #fad48b;
+}
+.livePane.orange label {
+    color: #c18819;
+}
+
+
+.livePane.violet i{
+    color: #F1D4F1;
+    /*background-color: #DDA0DD;  #8E44AD;*/
+}
+.livePane.violet label{
+    color:#DDA0DD;
+}
+
+.livePane.green i{
+    color: #bcdf8a;
+}
+.livePane.green label {
+    color: #547c1a;
+}
+
+
+.livePaneIcon i {
+    opacity: 0.2;
+}
+
+.weight400 {
+    font-weight: 400 !important;
+}

@@ -1,0 +1,99 @@
+<div id="wrapper">
+  <header>
+  <nav class="navbar navbar-default navbar-static-top header-shadow navbar-header fixed-top nav-header z-index-0" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="index.html">
+          <img alt="Greenchalk" src="assets/images/logo_chalk_2.png" height="30" style="width:calc(50% + 50px);">
+        </a>
+      </div>
+      <div class="menu-title" *ngIf="isLoggedIn()">
+        {{curMenuTitle}}
+      </div>
+    </div>
+  </nav>
+  </header>
+  <!--The content below is only a placeholder and can be replaced.-->
+  <div class="container-fluid" >
+    <div [ngClass]="{'row': isLoggedIn()}">
+      <div class="row col-sm-0 col-md-0 col-lg-2 profile" *ngIf="isLoggedIn()">
+        <div class="row profile-sidebar" [ngClass]="{'open-menu': isPulled()}">
+          <div class="sidebar-user">
+            <span class="nameIcon">
+              <label> {{userAccountDataService.getPersonDetails().full_name | slice:0:1}}</label>
+            </span>
+            <a class="dropdown-toggle pointer user-name" id="dropdown01" data-toggle="dropdown">
+              <p class="full-name">
+                {{userAccountDataService.getPersonDetails().full_name}}
+                <span class="arrow" style="position:absolute"></span><br>
+              </p>
+              <p class="account">Admin Account</p>
+              <br>
+            </a>
+            <p class="view-dash" (click)='goToDash()'>
+              View Dashboard
+            </p>
+            <ul class="dropdown-menu">
+              <li role="presentation" *ngIf="schoolDataService.getSchool()">
+                <a>{{schoolDataService.getSchool().name}}</a>
+              </li>
+              <li role="separator" class="divider"></li>
+              <li role="presentation" *ngIf="userAccountDataService.getUserAccount().school_key">
+                <a (click)="logout()"><span class="icon-power"></span> Logout</a>
+              </li>
+            </ul>
+          </div>
+          <!-- END USER SIDEBAR -->
+
+          <!-- SIDEBAR MENU -->
+          <div class="profile-usermenu">
+            <ul class="nav" id="sidebar-menu">
+              <li *ngFor="let menu of mainMenu">
+                <div *gcAccessControl="menu.access" data-toggle="collapse" [attr.data-target]="'#' + menu.access" aria-expanded="true" data-parent="#sidebar-menu">
+                  <a [routerLink]="[menu.url]" [routerLinkActive]="['active']" [ngClass]="{'menu-select': isMenuSelected(menu.access), 'smenu-select': isSmenuSelected(menu.access)}" (click)="onMenuSelect(menu.access, menu.name)">
+                    {{menu.name}}
+                    <span *ngIf="menu.children.length > 0" class="arrow"></span>
+                  </a>
+                </div>
+
+                <ul *ngIf="menu.children.length" class="nav submenu collapse in" id="{{menu.access}}" aria-expanded="true">
+                  <li *ngFor="let smenu of menu.children" role="presentation">
+                    <div *gcAccessControl="smenu.access" data-toggle="collapse" [attr.data-target]="'#' + smenu.access" data-parent="#sidebar-menu">
+                      <a [routerLink]="[smenu.url]" [routerLinkActive]="['active']"
+                         [ngClass]="{'menu-select': isMenuSelected(smenu.access), 'smenu-select': isSmenuSelected(smenu.access)}" (click)="onMenuSelect(smenu.access, smenu.name)">
+                        {{smenu.name}}
+                        <span *ngIf="smenu.children.length > 0" class="arrow"></span>
+                      </a>
+                    </div>
+
+                    <ul *ngIf="smenu.children.length" class="nav collapse submenu" id="{{smenu.access}}">
+                      <li *ngFor="let ssmenu of smenu.children" role="presentation">
+                        <a *gcAccessControl="ssmenu.access" [routerLink]="[ssmenu.url]" [routerLinkActive]="['active']" [ngClass]="{'menu-select': isMenuSelected(ssmenu.access)}" (click)="onMenuSelect(ssmenu.access, ssmenu.name)">
+                          {{ssmenu.name}}
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <!-- END MENU -->
+        </div>
+      </div>
+      <div class="row main-body" [ngClass]="{'col-sm-12 col-md-12 col-lg-10': isLoggedIn()}">
+        <button *ngIf="isLoggedIn()" type="button" class="profile-sidebar-toggle" (click)="pullMenu()">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <div (click)="pushMenu()">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="parent-overlay">
+</div>

@@ -1,0 +1,35 @@
+.css-serial {
+ counter-reset: serial-number;
+}
+
+.css-serial td:first-child:before {
+ counter-increment: serial-number;
+ content: counter(serial-number);
+}
+
+.displayInlineBlock{
+    display: inline-block !important;
+}
+
+.height-85-scroll{
+    overflow-x: hidden !important;
+    height: 450px;
+}
+
+.control{
+    margin-right: 0px !important;
+}
+
+.filter-item{
+    display: inline-block;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.borderRadius6{
+    border-radius: 6px !important;
+}
+
+.padding{
+  padding: 10px;
+}

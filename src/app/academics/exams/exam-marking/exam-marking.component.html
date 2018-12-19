@@ -1,0 +1,85 @@
+<div class="aca-marking">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" *ngIf="!is_details_loaded">
+    <div class="loader" id="loader-1"></div>
+  </div>
+  <div style="height: 100%" *ngIf="is_details_loaded">
+    <div class="add-subject pointer" (click)="addNewSubject()">
+      <img alt="+" src="assets/images/add.png" height="16px" width="16px" style="margin-top: -2px"><span class="add-a-subject">Add Subject</span>
+    </div>
+
+    <div class="marking-header">
+      <div *ngIf="selAll" class="view-allsub">
+        You are viewing all your subjects that are open for marking
+      </div>
+      <div *ngIf="!selAll" class="filter-sub">
+        <div *ngFor="let exam_info of exam_infos; let i = index;" style="display: inline-block;">
+          <div class="class-box" *ngIf="exam_info.checked">
+            {{"Class " + exam_info.exam_info[0][0].class + " " + exam_info.exam_info[0][0].division}}
+            <span class="pointer" (click)="removeFilter(i)"><img src="assets/images/shape@2x.png" height="13px" width="13px"></span>
+          </div>
+        </div>
+        <div class="clear-filter pointer" (click)=clearFilters()>
+          CLEAR FILTERS
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <table class="exam-table exam-header">
+        <tr>
+          <th class="class-name">
+            Class
+            <span class="dropdown-toggle" data-toggle="dropdown"></span>
+            <ul class="dropdown-menu check-dropdown regular-checkbox">
+              <li><input type="checkbox" [checked]="selAll" (click)="selectAll()"/><span>Select All</span></li>
+              <li *ngFor="let exam_info of exam_infos; let i = index"><input type="checkbox" [checked]="exam_info.checked" (click)="onCheckboxSelect(i)"/><span>{{"Class " + exam_info.exam_info[0][0].class + " " + exam_info.exam_info[0][0].division}}</span></li>
+            </ul>
+          </th>
+          <th class="sub-name">Subject Name</th> 
+          <th class="sub-code">Subject Code</th>
+          <th class="mark-stud"></th>
+        </tr>
+      </table>
+    </div>
+    <div class="table-contents">
+      <div *ngFor="let exam_info of exam_infos; let i = index">
+        <div *ngIf="exam_info.checked">
+          <div *ngFor="let class of exam_info.exam_info; let j = index">
+            <div *ngFor="let subject of class; let k = index">
+              <div class="exam-table exam-row" [ngClass]="{'sub-header': subject.has_cons_sub, 'sub-row': !subject.has_cons_sub, 'margin-top15': !k}">
+                <table>
+                  <tr>
+                    <td class="class-name">{{"Class " + subject.class + " " + subject.division}}</td>
+                    <td class="sub-name">{{subject.subject_name}}</td>
+                    <td class="sub-code">{{subject.subject_code}}</td>
+                    <td class="mark-stud">
+                      <span *ngIf="!subject.has_cons_sub" class="pointer underline-blue" (click)="markStudents(subject.class, subject.subject_code, subject.division)">Mark Students</span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mark-Students Overlay -->
+  <div id="mark-students-overlay" class="modal fade overlay" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title btn-back cur-default" id="myModalLabel" data-dismiss="modal" aria-label="Close">
+            <p class="underline-blue">Back</p>
+          </div>
+        </div>
+
+        <div class="modal-body">
+          <mark-students [classKey]="selected_class_key" [division]="selected_division" [subjectCode]="selected_sub_code" [studentList]="student_list" [changed]="changed"></mark-students>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Overlay -->
+</div>

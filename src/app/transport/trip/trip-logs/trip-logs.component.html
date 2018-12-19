@@ -1,0 +1,65 @@
+<!-- <div *ngIf="(trip_log && trip_log.trip_log_key); else no_log">
+  Latest :- {{trip_log.scheduled_date_time}}:{{trip_log.trip_log_key}}
+  <!-- <ul>
+    <li *ngFor="let log of trip_log.logs">{{log.date_time}}:({{log.lat}},{{log.lng}})</li>
+  </ul>
+</div>
+<ng-template #no_log>No logs present for this trip</ng-template>
+<div *ngIf="trip_logs">
+  All logs
+  <ul>
+    <li *ngFor="let trip_log of trip_logs">{{trip_log.scheduled_date_time}}:{{trip_log.trip_log_key}}</li>
+  </ul>
+</div> -->
+
+<!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 live-trip-item"  (click)="showLiveTripTracking()">
+  <h5 class="fontweight600 nomargin">LIVE TRIP TRACKING - LAST STOP XYZ AT 12:00 AM</h5>
+  <h6 class="nomargin">
+    <small >CLICK FOR INFO</small>
+  </h6>
+</div> -->
+
+<div *ngIf="trip_logs && trip_logs.length > 0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 live-trip-item" (click)="showTrackList=!showTrackList" >
+  <h5 class="fontweight600 nomargin"> {{trip_logs.length}} trips tracked</h5>
+  <h6 class="nomargin">
+    <small>{{showTrackList?"Hide":"Show"}} Tracking INFO</small>
+  </h6>
+</div>
+
+<div *ngIf="showTrackList">
+  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngFor="let trip_log of trip_logs">
+    <div class="prev-trip-item" (click)="showTripDetailsOnMap(trip_log.trip_log_key)">
+      <h5 class="fontweight600 nomargin">TRIP ON  : {{trip_log.scheduled_date_time | amParse:'DD/MM/YYYY HH:mm tt' | amDateFormat: 'Do MMM YYYY HH:mm'}}</h5>
+    </div>
+  </div>
+</div>
+
+
+
+<simple-notifications center="center" [options]="notification_options"></simple-notifications>
+<div class="live-map-overlay" *ngIf="showMap">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 height100">
+    <div class="live-map-header">
+      <h4 *ngIf="showLiveTrip">LIVE ROUTE NAME 1</h4>
+      <i class="fa fa-times pull-right" (click)="hideLiveTripTracking()"></i>
+    </div>
+    <ngui-map (mapReady$)="onMapReady($event)" [styles]="options1" mapTypeId="roadmap" fullscreenControl="false" mapTypeControl="false">
+      <!-- <directions-renderer panel="#my-panel" (directions_changed)="directionsChanged()"
+        [directions-request]="direction">
+      </directions-renderer> -->
+      <marker *ngFor="let pos of path" [position]="pos" (initialized$)="onMarkerInit($event)" [icon]="{
+        url: '../assets/images/direction_marker.png',
+        anchor: [8,8],
+        size: [15,15],
+        scaledSize: [15,15]
+      }"></marker>
+      <marker [position]="path[0]" (initialized$)="onMarkerInit($event)" [icon]="{
+        url: '../assets/images/live_icon.png',
+        anchor: [17,17],
+        size: [35,35],
+        scaledSize: [35,35]
+      }" *ngIf="showLiveTrip"></marker>
+      <polyline [path]="path" [geodesic]="true" [strokeColor]="'#006cf0'" [strokeOpacity]="1" [strokeWeight]="2"></polyline>
+    </ngui-map>
+  </div>
+</div>

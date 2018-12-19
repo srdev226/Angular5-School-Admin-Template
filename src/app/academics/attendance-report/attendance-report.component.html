@@ -1,0 +1,48 @@
+<div class="row maxheight85">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" *ngIf="!is_details_loaded">
+    <div class="loader" id="loader-1"></div>
+  </div>
+<!--  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center filter-container" *ngIf="is_details_loaded">
+    <select [(ngModel)]="attendance_date" name="day" class="formTextControl select-filter" (ngModelChange)="filterStudents()">
+      <option value="undefined" selected>Select Day</option>
+      <option *ngFor="let day of daysList" [value]="day">
+        {{day | customDate:'YYYY-MM-DD' : 'MMM DD, YYYY'}}
+      </option>
+    </select>
+  </div>-->
+  <div  *ngIf="is_details_loaded" class="col-lg-6 col-md-6 col-sm-6 col-xs-12 align">
+     <div class="input-group required formTextGroup paddedGroup darkText ">
+       <span class="textLabelMain"> Select Date</span>
+       <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="start_date"></i></span>
+       <input [(ngModel)]="select_date" type="text" name="startdate" required #startdate="ngModel" (ngModelChange)="setStudentInfoList()" [ngClass]="{'error': startdate.invalid && !startdate.pristine}"
+         pattern="^(((0[1-9]|[12]\d|3[01])-(0[13578]|1[02])-((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)-(0[13456789]|1[012])-((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])/02/((19|[2-9]\d)\d{2}))|(29/02/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$"
+        class="formTextControl"/>
+     </div>
+     <div [ngClass]="{'hidden': startdate.valid || startdate.pristine}" class="alert smallMsg">
+       date format (dd-mm-yyyy)
+    </div>
+   </div>
+  <div *ngIf="is_details_loaded" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 background alert-danger">
+    <div> Found {{absentee_list.length}} students are absent</div>
+  </div>
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngFor="let detail of list">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+      <h4>{{detail.class_code}} {{detail.division}}</h4>
+      ({{detail.student_list ? detail.student_list.length : 0}} students)
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" *ngFor="let student of detail.student_list">
+      <div class="studentListListDiv relative shadow">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+          <img src="{{student?.profile_image_url}}" class="studentListLogo displayInlineBlock shadow" />
+        </div>
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+          <label class="studentListDetail bold">{{student.student.full_name}}</label>
+          <label class="studentListDetail bold pull-right">{{student.student.current_class}} {{student.student.division}}</label>
+          <div class="detailsSmallDiv">
+            <label class="studentListDetailSmall">#{{student.student.admission_number}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

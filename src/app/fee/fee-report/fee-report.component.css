@@ -1,0 +1,33 @@
+.report-chart-container{
+    height: 80%;
+}
+.displayInlineBlock{
+    display: inline-block !important;
+}
+
+.control{
+    margin-right: 0px !important;
+}
+.borderRadius6{
+    border-radius: 6px !important;
+}
+
+.maxheight85{
+    height: 85%;
+    overflow-y:auto;
+}
+.display{
+   display:none;
+}
+.total-cell h4{
+  font-size: 14px;
+}
+.padding{
+  padding-top: 5px;
+}
+.value{
+   border-top: 2px solid #aaa;
+}
+.align{
+  text-align: right;
+}

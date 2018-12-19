@@ -1,0 +1,54 @@
+<div class="backgroundDiv">
+
+</div>
+
+<div id="login-div">
+    <div *ngIf="login_response" class="loginMsgError" [ngClass]="{'red':login_response.description.toUpperCase() != 'SUCCESS','green':login_response.description.toUpperCase() == 'SUCCESS'}">{{ login_response.description }}</div>
+    <h4 id="loginHeader"> Log in to Greenchalk</h4>
+
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="loginForm">
+        <div [hidden]="institution_id" class="input-group formTextGroup width60 text-center">
+            <span class="input-group-addon" id="basic-addon1">
+                <i class="icon-key" title="School ID"></i>
+            </span>
+            <input [(ngModel)]="login_user.institutionKey" type="text" name="institutionKey" required placeholder="school-id" #institutionKey="ngModel"
+                class="formTextControl lightText width60" />
+        </div>
+        <div class="input-group formTextGroup width60 text-center">
+            <span class="input-group-addon" id="basic-addon1">
+                <i class="icon-user" title="Username"></i>
+            </span>
+            <input [(ngModel)]="login_user.username" name="username" type="text" required placeholder="Email or mobile number" #username="ngModel"
+                class="formTextControl lightText width60" />
+        </div>
+        <div class="input-group formTextGroup width60 text-center">
+            <span class="input-group-addon" id="basic-addon1">
+                <i class="icon-lock" title="Password"></i>
+            </span>
+            <input [(ngModel)]="login_user.password" name="password" type="password" required placeholder="Password" #password="ngModel"
+                class="formTextControl lightText width60" (keypress)="eventHandler($event)" />
+        </div>
+        <div class="text-center forgotPwdDiv">
+            <!--
+            <input type="checkbox" class="checkboxDisplay"/>Remember me<a href="#" class="linkColor">Forgot password ?</a>
+        //-->
+        </div>
+        <div class="buttonDiv">
+            <button type="submit" class="formButton fullWidth" [disabled]="!loginForm.form.valid">Log In</button>
+        </div>
+        <div>
+            <div [hidden]="username.valid || username.pristine" class="alert textCenter">
+                Username is required
+            </div>
+            <div [hidden]="password.valid || password.pristine" class="alert textCenter">
+                Password is required
+            </div>
+            <div [hidden]="institutionKey.valid || institutionKey.pristine" class="alert">
+                School-id is required
+            </div>
+            <div [hidden]="!capsLock" class="alert">
+                Caps Lock is ON.
+            </div>
+        </div>
+    </form>
+</div>

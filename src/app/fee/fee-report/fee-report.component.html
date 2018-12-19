@@ -1,0 +1,534 @@
+<div class="row maxheight85">
+  <ng-template #loading_section>
+    <div class="loader" id="loader-1"></div>
+  </ng-template>
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center padded-20-0 filter-container"
+    *ngIf="all_daily_collection_report; else loading_section">
+
+    <select [(ngModel)]="fee_report_filter.fee_report_type" name="report_type" (ngModelChange)="initReport()" class="formTextControl select-filter">
+      <option value="undefined" selected>-- Select Report Type --</option>
+      <option *ngFor="let report_type of fee_report_filter.fee_report_types" [value]="report_type.code">
+        {{report_type.name}}
+      </option>
+    </select>
+    <select [(ngModel)]="fee_report_filter.from_date" name="day" class="formTextControl select-filter"
+      *ngIf="(fee_report_filter.fee_report_type === 'DAILY_COLLECTION' || fee_report_filter.fee_report_type === 'DAILY_RECEIPTS') && daysList"
+      (ngModelChange)="onDayChange()">
+      <option value="undefined" selected>-- Select Day --</option>
+      <option *ngFor="let day of daysList" [value]="day.code">
+        {{day.name | customDate:'YYYY-MM-DD' : 'DD MMM'}}
+      </option>
+    </select>
+    <select [(ngModel)]="fee_report_filter.to_date" name="to_day" class="formTextControl select-filter"
+      *ngIf="(fee_report_filter.fee_report_type === 'DAILY_COLLECTION' || fee_report_filter.fee_report_type === 'DAILY_RECEIPTS') && daysList"
+      (ngModelChange)="onToDayChange()">
+      <option value="undefined" selected>-- Select Day --</option>
+      <option *ngFor="let day of to_daysList" [value]="day.code">
+        {{day.name | customDate:'YYYY-MM-DD' : 'DD MMM'}}
+      </option>
+    </select>
+    <select [(ngModel)]="fee_report_filter.institution_key" name="institution_key" (change)="setFilterFeeRules($event.target.value)"
+      class="formTextControl select-filter" *ngIf="fee_report_filter.fee_report_type === 'YEARLY_REPORTS'">
+      <option value="undefined" selected>-- Select Institution --</option>
+      <option *ngFor="let institution of institutions" [value]="institution.institution_key">
+        {{institution.name}}
+      </option>
+    </select>
+    <select [(ngModel)]="fee_report_filter.fee_rule_key" name="fee_rule_key" (change)="setFeeRuleType()" class="formTextControl select-filter"
+      *ngIf="fee_report_filter.fee_report_type === 'MONTHLY_PAYMENT_STATUS'">
+      <option value="undefined" selected>-- Select Fee Rule --</option>
+      <option *ngFor="let fee_rule of filterFeeRules" [value]="fee_rule.fee_rule_key">{{fee_rule.name}}</option>
+    </select>
+    <select [(ngModel)]="selected_class_info_key" name="selected_class" (change)="setDueBillsByClass()"
+      class="formTextControl select-filter" *ngIf="(fee_report_filter.fee_report_type === 'DUE_BILLS' || fee_report_filter.fee_report_type === 'MONTHLY_PAYMENT_STATUS')">
+      <option value="undefined" selected>-- Select Class --</option>
+      <option *ngFor="let class of classes" [value]="class.class_info_key">
+        {{class.name}}
+      </option>
+    </select>
+    <select [(ngModel)]="selected_division" name="selected_division" (change)="setDueBillsByDivision()"
+      class="formTextControl select-filter" *ngIf="(fee_report_filter.fee_report_type === 'DUE_BILLS' || fee_report_filter.fee_report_type === 'MONTHLY_PAYMENT_STATUS')">
+      <option value="All" selected>-- Select Division --</option>
+      <option *ngFor="let division of selected_class.divisions" [value]="division.code">
+        {{division.name}}
+      </option>
+    </select>
+    <!-- <button class="formButton" type="button" (click)='showReport()'>Show Report</button> -->
+  </div>
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 report-chart-container" *ngIf="fee_report_filter.fee_report_type === 'YEARLY_REPORTS'">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" *ngIf="(!fee_report_filter.fee_rule_key && !fee_report_filter.institution_key) && !is_loader">
+      <h4>Please update filters to see the report.</h4>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" *ngIf="nodata && !is_loader">
+      <h4>No data found. Please select different filters.</h4>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="is_loader">
+      <div class="loader" id="loader-1"></div>
+    </div>
+    <div class="height100 padded-20-0" *ngIf="!nodata && !is_loader && multi && multi.length>0 && (!!fee_report_filter.fee_rule_key || !!fee_report_filter.institution_key)">
+      <ngx-charts-bar-vertical-stacked [view]="view" [scheme]="colorScheme" [results]="multi" [gradient]="gradient" [xAxis]="showXAxis"
+        [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel" (select)="onSelect($event)">
+      </ngx-charts-bar-vertical-stacked>
+    </div>
+  </div>
+
+  <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="fee_report_filter.fee_report_type === 'DAILY_RECEIPTS' && receipts && receipts.length > 0">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding daily-collection-header">
+      <div class="col-lg6 col-md-6 col-sm-6 col-xs-12">
+        <h4>Receipts</h4>
+      </div>
+      <div class="col-lg6 col-md-6 col-sm-6 col-xs-12 text-right">
+        <h4>{{ fee_report_filter.from_date | date}}</h4>
+        <h4 *ngIf="fee_report_filter.to_date && fee_report_filter.to_date!=fee_report_filter.from_date"> to {{ fee_report_filter.to_date | date}}</h4>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+        <h5 class="fontweight600">No</h5>
+      </div>
+      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+        <h5 class="fontweight600">Receipt#</h5>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+        <h5 class="fontweight600">Name</h5>
+      </div>
+      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+        <h5 class="fontweight600">Class</h5>
+      </div>
+      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+        <h5 class="fontweight600">Total</h5>
+      </div>
+      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+        <h5 class="fontweight600">Discounts</h5>
+      </div>
+      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+        <h5 class="fontweight600">Discounts Note</h5>
+      </div>
+      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+        <h5 class="fontweight600">Net</h5>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 maxheight85" *ngFor="let receipt of receipts; let i=index">
+
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+          <h5>{{ i + 1}}</h5>
+        </div>
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+          <h5>{{ receipt.serial_number}}</h5>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+          <h5>{{ receipt.student.full_name }} ({{receipt.student.admission_number}})</h5>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+          <h5>{{receipt.student.current_class}}-{{receipt.student.division}}</h5>
+        </div>
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 align">
+          <h5>{{ receipt.net_paid_amount + receipt.discount | currency:[currencyCode]}}</h5>
+        </div>
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 align">
+          <h5>{{ receipt.discount | currency:[currencyCode]}}</h5>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+          <h5>{{receipt.discounts && receipt.discounts[0].note ? receipt.discounts[0].note : "-"}}</h5>
+        </div>
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 align">
+          <h5>{{ receipt.net_paid_amount | currency:[currencyCode]}}</h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 daily-collection-footer" *ngIf="receipts && receipts.length > 0">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <h4 class="fontweight600">Total Collection  </h4>
+      </div>
+      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 align total-cell">
+        <h4>{{ total_receipts_net_amount + total_receipts_discount_amount | currency:[currencyCode]}}</h4>
+      </div>
+      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 align total-cell">
+          <h4>{{ total_receipts_discount_amount | currency:[currencyCode] }}</h4>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 align">
+          <h4 class="fontweight600">{{ total_receipts_net_amount | currency:[currencyCode] }}</h4>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <button class="formButton pull-right" type="button" (click)='print()'>Print</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Cancelled Receipts -->
+
+  <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="fee_report_filter.fee_report_type === 'DAILY_RECEIPTS' && cancelled_receipts && cancelled_receipts.length > 0">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding daily-collection-header">
+      <div class="col-lg6 col-md-6 col-sm-6 col-xs-12">
+        <h4>Cancelled Receipts</h4>
+      </div>
+      <div class="col-lg6 col-md-6 col-sm-6 col-xs-12 text-right">
+        <h4>{{ fee_report_filter.from_date | date}}</h4>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+        <h5 class="fontweight600">No</h5>
+      </div>
+      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+        <h5 class="fontweight600">Receipt#</h5>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+        <h5 class="fontweight600">Name</h5>
+      </div>
+      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+        <h5 class="fontweight600">Class</h5>
+      </div>
+      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+        <h5 class="fontweight600">Total</h5>
+      </div>
+      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+        <h5 class="fontweight600">Discounts</h5>
+      </div>
+      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+        <h5 class="fontweight600">Discounts Note</h5>
+      </div>
+      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+        <h5 class="fontweight600">Net</h5>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 maxheight85" *ngFor="let receipt of cancelled_receipts; let i=index">
+
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+          <h5>{{ i + 1}}</h5>
+        </div>
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+          <h5>{{ receipt.serial_number}}</h5>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+          <h5>{{receipt.student.admission_number}}-{{ receipt.student.full_name }}</h5>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+          <h5>{{receipt.student.current_class}}-{{receipt.student.division}}</h5>
+        </div>
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 align">
+          <h5>{{ receipt.net_paid_amount + receipt.discount | currency:[currencyCode]}}</h5>
+        </div>
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 align">
+          <h5>{{ receipt.discount | currency:[currencyCode]}}</h5>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+          <h5>{{receipt.discounts && receipt.discounts[0].note ? receipt.discounts[0].note : "-"}}</h5>
+        </div>
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 align">
+          <h5>{{ receipt.net_paid_amount | currency:[currencyCode]}}</h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 daily-collection-footer" *ngIf="cancelled_receipts && cancelled_receipts.length > 0">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <h4 class="fontweight600">Total Collection  </h4>
+      </div>
+      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 align total-cell">
+        <h4> {{ total_cancelled_receipts_net_amount + total_cancelled_receipts_discount_amount | currency:[currencyCode]}}</h4>
+      </div>
+      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 align total-cell">
+          <h4>{{ total_cancelled_receipts_discount_amount | currency:[currencyCode]}}</h4>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 align">
+          <h4 class="fontweight600">{{ total_cancelled_receipts_net_amount | currency:[currencyCode] }}</h4>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <button class="formButton pull-right" type="button" (click)='printCancelledReceipts()'>Print</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="receipt_print" style="display:none">
+    <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="fee_report_filter.fee_report_type === 'DAILY_RECEIPTS'">
+      <div style="text-align:center"><h3>{{school?.name}}</h3></div>
+      <h4>FEES COLLECTION REPORT ({{ fee_report_filter.from_date | date}})</h4>
+      <table>
+        <tr>
+          <th>No</th>
+          <th>Receipt#</th>
+          <th>Name</th>
+          <th>Class</th>
+          <th>Total</th>
+          <th>Discounts</th>
+          <th>Discounts Note</th>
+          <th>Net Paid</th>
+        </tr>
+        <tr *ngFor="let receipt of receipts; let i=index">
+          <td>{{ i + 1}}</td>
+          <td>{{ receipt.serial_number}}</td>
+          <td>{{receipt.student.admission_number}}-{{ receipt.student.full_name }}</td>
+          <td>{{receipt.student.current_class}}-{{receipt.student.division}}</td>
+          <td class="align">{{ receipt.net_paid_amount + receipt.discount | currency:[currencyCode]}}</td>
+          <td class="align">{{ receipt.discount | currency:[currencyCode]}}</td>
+          <td>{{receipt.discounts && receipt.discounts[0].note ? receipt.discounts[0].note : "-"}}
+          <td class="align">{{ receipt.net_paid_amount | currency:[currencyCode]}}</td>
+
+        </tr>
+        <tr *ngIf="receipts && receipts.length > 0">
+          <td></td>
+          <td></td>
+          <td style="text-align:center"><b>Total Collection</b></td>
+          <td></td>
+          <td class="align"><b>{{ total_receipts_net_amount + total_receipts_discount_amount | currency:[currencyCode]}}</b></td>
+          <td class="align"><b>{{ total_receipts_discount_amount | currency:[currencyCode] }}</b></td>
+          <td></td>
+          <td class="align"><b>{{ total_receipts_net_amount | currency:[currencyCode] }}</b></td>
+        </tr>
+      </table>
+    </div>
+</div>
+<div id="cancelled_receipt_print" style="display:none">
+  <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="fee_report_filter.fee_report_type === 'DAILY_RECEIPTS'">
+    <div style="text-align:center"><h3>{{school?.name}}</h3></div>
+    <h4>FEES COLLECTION REPORT ({{ fee_report_filter.from_date | date}})</h4>
+    <table>
+      <tr>
+        <th>No</th>
+        <th>Receipt#</th>
+        <th>Name</th>
+        <th>Class</th>
+        <th>Total</th>
+        <th>Discounts</th>
+        <th>Discounts Note</th>
+        <th>Net Paid</th>
+      </tr>
+      <tr *ngFor="let receipt of cancelled_receipts; let i=index">
+        <td>{{ i + 1}}</td>
+        <td>{{ receipt.serial_number}}</td>
+        <td>{{receipt.student.admission_number}}-{{ receipt.student.full_name }}</td>
+        <td>{{receipt.student.current_class}}-{{receipt.student.division}}</td>
+        <td class="align">{{ receipt.net_paid_amount + receipt.discount | currency:[currencyCode]}}</td>
+        <td class="align">{{ receipt.discount | currency:[currencyCode]}}</td>
+        <td>{{ receipt.discounts && receipt.discounts[0].note ? receipt.discounts[0].note : "-"}}
+        <td class="align">{{ receipt.net_paid_amount | currency:[currencyCode]}}</td>
+
+      </tr>
+      <tr *ngIf="cancelled_receipts && cancelled_receipts.length > 0">
+        <td></td>
+        <td></td>
+        <td style="text-align:center"><b>Total Collection</b></td>
+        <td></td>
+        <td class="align"><b>{{ total_cancelled_receipts_net_amount + total_cancelled_receipts_discount_amount | currency:[currencyCode]}}</b></td>
+        <td class="align"><b>{{ total_cancelled_receipts_discount_amount | currency:[currencyCode] }}</b></td>
+        <td></td>
+        <td class="align"><b>{{ total_cancelled_receipts_net_amount | currency:[currencyCode] }}</b></td>
+      </tr>
+    </table>
+  </div>
+</div>
+<!--fee register -->
+
+<div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="fee_report_filter.fee_report_type === 'MONTHLY_PAYMENT_STATUS'">
+  <div id ="fee_register_print" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding daily-collection-header" *ngIf="fee_register_report && fee_register_report.length > 0; else loading">
+     <div class="display" style="text-align:center"><h3>{{school?.name}}</h3></div>
+      <h4 style="text-align:center">FEE REGISTER REPORT(CLASS:{{selected_class.name}} {{selected_division === 'All' || selected_division === 'undefined' ? '' : selected_division}})</h4>
+      <span class="display font">{{getFeeRuleName()}}</span>
+      <span class="pull-right font">{{fee_register_report[0].last_updated_date | date}}</span>
+      <app-fee-register [fee_registers]="fee_registers"></app-fee-register>
+  </div>
+  <ng-template #loading>Report loading. Please wait .....</ng-template>
+  <button  *ngIf ="fee_registers.length > 0" class="formButton" type="button" (click)='print()'>Print</button>
+</div>
+<!--collection summary -->
+<div *gcAccessControl="'COLLECTION_SUMMARY_REPORT'">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="fee_report_filter.fee_report_type === 'COLLECTION SUMMARY'">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding" *ngIf="fee_register_report && fee_register_report.length > 0; else loading">
+      <h4>COLLECTION SUMMARY</h4>
+      <h4 class="pull-right">{{fee_register_report[0].last_updated_date | date}}</h4>
+      <app-collection-report [fee_register_report]="fee_register_report" [filterFeeRules]="filterFeeRules"></app-collection-report>
+  </div>
+  <ng-template #loading>Report loading. Please wait .....</ng-template>
+</div>
+</div>
+
+<div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="fee_report_filter.fee_report_type === 'DAILY_COLLECTION' && daily_collection_report">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding daily-collection-header">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <h4>Daily Collection Report</h4>
+      </div>
+
+      <div class="col-lg6 col-md-6 col-sm-6 col-xs-12 text-right">
+        <h4>{{ fee_report_filter.from_date | date}}</h4>
+        <h4 *ngIf="fee_report_filter.to_date && fee_report_filter.to_date!=fee_report_filter.from_date"> to {{ fee_report_filter.to_date | date}}</h4>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngFor="let item of daily_collection_report.collection_items">
+      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+        <h5>{{ item.name }}</h5>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-right">
+        <h5 class="fontweight600">{{item.total_amount | currency:[currencyCode]}}</h5>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="daily_collection_report.total_fine_amount">
+      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+        <h5>FINE</h5>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-right">
+        <h5 class="fontweight600">{{daily_collection_report.total_fine_amount | currency:[currencyCode]}}</h5>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 daily-collection-footer">
+      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+        <h5 class="fontweight600">Subtotal </h5>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-right">
+        <h5 class="fontweight600">
+          {{getDailyCollecctionSubTotal() | currency:[currencyCode]}}
+        </h5>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 daily-collection-footer">
+      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+        <h5 class="fontweight600">Discount</h5>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-right">
+        <h5 class="fontweight600">
+          {{this.daily_collection_report.total_discount_amount | currency:[currencyCode]}}
+        </h5>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 daily-collection-footer">
+      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+        <h4 class="fontweight600">Total Collection  </h4>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-right">
+        <h4 class="fontweight600">
+          {{getDailyCollecctionSubTotal() - this.daily_collection_report.total_discount_amount | currency:[currencyCode]}}
+        </h4>
+      </div>
+    </div>
+    <button class="formButton" type="button" (click)='print()'>Print</button>
+  </div>
+
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="fee_report_filter.fee_report_type === 'DUE_BILLS' && selected_class.name" >
+    <!-- Print Due Bills Report -->
+    <div class="filter-item align">
+      <label class="control control--checkbox displayInlineBlock">
+        <input type="checkbox" (change)="isNodue($event)" />
+        <div class="control__indicator borderRadius6"></div>
+      </label>
+      <h5>Show no due report</h5>
+    </div>
+    <div *ngIf="!is_paid">
+      <div id="due_bills_print">
+        <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="fee_report_filter.fee_report_type === 'DUE_BILLS'">
+          <div style="text-align:center"><h3>{{school?.name}}</h3></div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding daily-collection-header">
+              <h4 style="text-align:center">DUE BILLS REPORT(CLASS:{{selected_class.name}} {{selected_division === 'All' ? '' : selected_division}})</h4>
+              <h4 class="pull-right">{{due_bills_report[0].last_updated_date | date}}</h4>
+          </div>
+          <table class="table1">
+            <tr>
+              <th>No</th>
+              <th>Adm#</th>
+              <th width="20%">Name</th>
+              <th>Pending Due Bills</th>
+              <th>Totals</th>
+            </tr>
+            <tr *ngFor="let student_bill of getOverdueStudentBills(due_bills_report) let i=index ">
+              <td>{{i+1}}</td>
+              <td >{{student_bill.admission_number}}</td>
+              <td width ="20%" >{{student_bill.student_name}}</td>
+              <td>
+                <table class="table2">
+                  <tr *ngFor="let bill of student_bill.overdue_bills">
+                    <td width ="20%">{{bill.fee_rule_name}}</td>
+                    <td width ="50%">{{getDueMonths(student_bill,bill.fee_rule_key)}}</td>
+                    <td width ="10%">{{getTotalBillAmount(student_bill,bill.fee_rule_key) | currency:[currencyCode]}}</td>
+                  </tr>
+                </table>
+              </td>
+              <td>
+                {{getTotalDue(student_bill) | currency:[currencyCode]}}
+              </td>
+            </tr>
+            <tr class="value">
+              <td></td>
+              <td></td>
+              <td>Totals</td>
+              <td><div class="padding" *ngFor="let bill of fee_type">
+                <b>{{bill.fee_rule_name}}</b> : <b>{{getTotalFeeTypeDue(bill.fee_rule_key) | currency:[currencyCode]}}</b>
+              </div>
+              </td>
+              <td><b>{{getSumTotalofDueBills() | currency:[currencyCode]}}</b></td>
+            </tr>
+          </table>
+      </div>
+    </div>
+      <button class="formButton" type="button" (click)='printDue()'>Print</button>
+    </div>
+    <div *ngIf="is_paid">
+      <div id="no_due_print">
+        <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="fee_report_filter.fee_report_type === 'DUE_BILLS'">
+          <div style="text-align:center"><h3>{{school?.name}}</h3></div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding daily-collection-header">
+              <h4 style="text-align:center">NO DUE REPORT(CLASS:{{selected_class.name}} {{selected_division === 'All' ? '' : selected_division}})</h4>
+              <h4 class="pull-right">{{due_bills_report[0].last_updated_date | date}}</h4>
+          </div>
+          <table class="table1">
+            <tr>
+              <th>No</th>
+              <th>Adm #</th>
+              <th width="20%">Name</th>
+              <th>Status</th>
+            </tr>
+            <tr *ngFor="let student_bill of getNoDueStudents(due_bills_report) let i=index ">
+              <td>{{i+1}}</td>
+              <td >{{student_bill.admission_number}}</td>
+              <td width ="20%" >{{student_bill.student_name}}</td>
+              <td>No Due</td>
+            </tr>
+          </table>
+      </div>
+    </div>
+      <button class="formButton" type="button" (click)='print()'>Print</button>
+    </div>
+    <!--  <button type="button" class="formButton pull-right" (click)="export_table_to_csv('Duereport.csv')">Download</button><br>-->
+  </div>
+
+
+<div id="daily_collection_div" style="display:none">
+<div *ngIf="fee_report_filter.fee_report_type === 'DAILY_COLLECTION' && daily_collection_report">
+  <div style="text-align:center"><h3>{{school?.name}}</h3></div>
+  <h4>FEES COLLECTION REPORT ({{ fee_report_filter.from_date | date}}
+    <span *ngIf="!(fee_report_filter.to_date && fee_report_filter.to_date!=fee_report_filter.from_date)"> ) </span>
+  <span *ngIf="fee_report_filter.to_date && fee_report_filter.to_date!=fee_report_filter.from_date"> to {{ fee_report_filter.to_date | date}})</span>
+  </h4>
+    <table>
+      <tr>
+        <td><b>Fees Type</b></td>
+        <td><b>Amount</b></td>
+      </tr>
+      <tr *ngFor="let collection_item of daily_collection_report.collection_items">
+        <td>{{ collection_item.name}}</td>
+        <td>₹ {{collection_item.total_amount}}</td>
+      </tr>
+      <tr *ngIf="daily_collection_report.total_fine_amount">
+        <td>FINE</td>
+        <td>₹ {{daily_collection_report.total_fine_amount}}</td>
+      </tr>
+      <tr class="value">
+        <td>SUB TOTAL</td>
+        <td>₹ {{getDailyCollecctionSubTotal()}}</td>
+      </tr>
+      <tr>
+        <td>DISCOUNT</td>
+        <td>₹ {{daily_collection_report.total_discount_amount}}</td>
+      </tr>
+      <tr>
+        <td><b>TOTAL COLLECTION</b></td>
+        <td>₹ <b>{{getDailyCollecctionSubTotal() - this.daily_collection_report.total_discount_amount}}</b></td>
+      </tr>
+     </table>
+    </div>
+  </div>
+</div>

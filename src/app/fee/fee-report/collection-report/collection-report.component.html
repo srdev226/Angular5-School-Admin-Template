@@ -1,0 +1,61 @@
+<div *ngIf="fee_register_report.length>0">
+  <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div  class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+     <div class="overdue-cell text-align">
+         <h3>OVERDUE</h3><br>
+         <h4>{{getOverdueBills() | currency:[currencyCode]}}</h4>
+       </div>
+     </div>
+     <div  class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+      <div class="due-cell text-align">
+          <h3>DUE</h3><br>
+          <h4>{{getDueBills() | currency:[currencyCode]}}</h4>
+        </div>
+      </div>
+      <div  class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+       <div class="paid-cell text-align">
+           <h3>PAID</h3><br>
+           <h4>{{getPaidBills()| currency:[currencyCode]}}</h4>
+         </div>
+       </div>
+      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+       <div class="new-cell text-align">
+           <h3>NEW</h3><br>
+           <h4>{{getNewBills() | currency:[currencyCode]}}</h4>
+         </div>
+       </div>
+       <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+        <div class="pending text-align">
+            <h3>TOTAL PENDING</h3><br>
+            <h4>{{getTotalPendingBills() | currency:[currencyCode]}}</h4>
+          </div>
+        </div>
+  </div>
+  <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div *ngFor="let fee_info of getFeeTypeArray()" class="col-lg-3 col-md-3 col-sm-3 col-xs-12 feepadding">
+     <div class="shadow fee_type">
+        <div class="align">{{fee_info.fee_type_name}}</div><br>
+        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 fee_type">
+          <h5>OVERDUE:</h5><br>
+          <h5>DUE:</h5><br>
+          <h5>PAID:</h5><br>
+          <h5>NEW:</h5><br>
+       </div>
+       <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 fee_type align-right">
+          <h5>{{fee_info.overdue | currency:[currencyCode]}}</h5><br>
+          <h5>{{fee_info.due | currency:[currencyCode]}}</h5><br>
+          <h5>{{fee_info.paid | currency:[currencyCode]}}</h5><br>
+          <h5>{{fee_info.new | currency:[currencyCode]}}</h5><br>
+       </div>
+       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 unpaid">
+       <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+         TotalUnpaid:
+       </div>
+       <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 align-right">
+         {{fee_info.total_unpaid | currency:[currencyCode]}}
+       </div>
+       </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+.userListListDiv{
+    height: 90px;
+        overflow: hidden;
+    padding: 15px 30px;
+    margin-bottom: 30px;
+    background-color: #fff;
+    border-radius: 4px;
+}
+.addNew i{
+    color: #3ED783 ;
+    cursor: pointer;
+    font-size: 24px;
+}
+.userListEdit{
+    cursor: pointer;
+position: absolute;
+top: 5px;
+right: 25px;
+}
+
+.userListEdit i{
+    color: #3ED783 ;
+    cursor: pointer;
+}
+
+.userListDetail{
+    margin-bottom: 0 !important;
+    margin-right: 20px;
+    font-size: 16px;
+    font-weight: 300;
+    color: #aaa;
+}
+
+.userListDetailSmall{
+    margin-right: 20px;
+    margin-bottom: 0 !important;
+}
+
+.userListDetail.bold{
+    font-weight: 400 !important;
+}
+
+.userListDetailSmall{
+     font-size: 12px;
+    font-weight: 400 !important;
+    color: #707070;
+}
+
+.userListDetailInput{
+margin-left: 10px;
+}
+.detailsContainer{
+           width: calc(100% - 70px);
+    margin-left: 20px;
+}

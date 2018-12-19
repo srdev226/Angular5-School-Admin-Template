@@ -1,0 +1,174 @@
+
+.filters-msg-empty{
+
+
+}
+.studentListLogo{
+    margin-top: 5px;
+    padding: 5px;
+        height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    border:1px solid  #eee;
+    text-align: center;
+        float: left;
+}
+
+.studentListListDiv{
+    height: 90px;
+        overflow: hidden;
+    padding: 15px 30px;
+    margin-bottom: 30px;
+    background-color: #fff;
+    border-radius: 4px;
+}
+
+.pointer{
+    cursor: pointer;
+}
+
+.filter-item{
+    display: inline-block;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.control{
+    margin-right: 0px !important;
+}
+
+.borderRadius6{
+    border-radius: 6px !important;
+}
+
+.search-box{
+  margin: 1px;
+}
+.search-box input{
+    font-style: italic;
+    border:1px solid #aaa;
+    border-radius: 2px;
+    width: 27%;
+}
+.studentListDetail{
+    margin-bottom: 0 !important;
+    margin-right: 20px;
+    font-size: 16px;
+    font-weight: 300;
+    color: #aaa;
+}
+
+.maxHeight75{
+    max-height: 75%;
+    overflow-y: auto;
+}
+
+.studentListDetailSmall{
+    margin-right: 20px;
+    margin-bottom: 0 !important;
+}
+
+.studentListDetail.bold{
+    font-weight: 400 !important;
+}
+
+.studentListDetailSmall{
+     font-size: 12px;
+    font-weight: 400 !important;
+    color: #707070;
+}
+
+.studentListDetailInput{
+margin-left: 10px;
+}
+
+.detailsContainer{
+           width: calc(100% - 70px);
+    margin-left: 20px;
+}
+
+.noMarginBottom{
+    margin-bottom: 0 !important;
+}
+
+.studentListEdit{
+    cursor: pointer;
+position: absolute;
+top: 5px;
+right: 25px;
+}
+
+.studentListEdit i{
+    color: #3ED783 ;
+    cursor: pointer;
+}
+
+.addNew{
+    position: absolute;
+    bottom: 55px;
+    right: 65px;
+}
+
+.addNew i{
+    color: #3ED783 ;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.rowMain{
+        position: relative;
+}
+
+.maxHeight85{
+    max-height: 85%;
+    overflow-y: auto;
+}
+
+.height-85-scroll{
+    overflow-x: hidden !important;
+    height: 500px;
+}
+
+.shadowSmall{
+box-shadow: 0 0 1px rgba(57,70,78,.15), 0 20px 25px -8px rgba(57,70,78,.25);
+}
+
+.message{
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: rgba(255,0,0,0.5);
+    /* background-color: white; */
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+    border: 2px solid rgba(255,0,0,0.9);
+}
+
+.maxHeight95{
+    max-height: 95%;
+    overflow-y: auto;
+}
+
+.maxHeight80{
+    max-height: 85%;
+    overflow-y: auto;
+}
+
+.header{
+    height: 90%;
+}
+
+.header i{
+    color: #3ED783;
+    font-size: 24px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.button-transport{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    height: 25px !important;
+}

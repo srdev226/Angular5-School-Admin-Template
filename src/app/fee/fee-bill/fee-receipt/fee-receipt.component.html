@@ -1,0 +1,104 @@
+ <div  id="receipt_div" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 relative " *ngIf="this.fee_bills[0]">
+ <div class="{{fee_receipt.status === 'CANCELLED' ? 'box cancelled font' : 'box paid font'}}">
+  <div class="row">
+    <div class="col-xs-12 header">
+      <h3>
+        <strong>{{school?.name}}</strong>
+        <div style="font-size:14px">{{school?.address}}</div>
+        <div style="font-size:14px">Ph no:{{school?.school_information.phone}}</div>
+      </h3>
+    </div>
+    <div  class="col-xs-12">
+      <h5 class="inline">
+        <span *ngIf="student" >
+           Name: {{student?.full_name}} /
+          {{student?.current_class}} {{student?.division}}<br>
+          Adm No: {{student?.admission_number}} / {{getAcademicYear(student.current_class_key)}}
+        </span>
+      </h5>
+      <h5 class="inline-right">
+        <span>
+          Receipt# :{{fee_receipt.serial_number}}<br>
+          Date: {{fee_receipt.receipt_date | date}}
+        </span>
+      </h5>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table font">
+        <thead>
+          <tr>
+            <td><strong>Bill Type</strong></td>
+            <td><strong>Fee Type</strong></td>
+            <td class="right"><strong>Totals</strong></td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="table-div " *ngFor="let feebill of this.fee_bills">
+            <td>{{feebill.fee_rule_name}}({{(feebill.pay_by_date | amParse:'DD/MM/YYYY' | amDateFormat:' MMM')}})</td>
+            <td *ngIf="feebill.fee_bill_type !== 'TRANSPORT'">
+              <div *ngFor="let fee_item of feebill.fee_items">
+                {{fee_item.name}}
+              </div>
+              <div *ngIf="feebill.fine_amount && feebill.fine_amount > 0">
+                Fine
+              </div>
+            </td>
+            <td class="right"style="padding-top:10px" *ngIf="feebill.fee_bill_type !== 'TRANSPORT'">
+              <div *ngFor="let fee_item of feebill.fee_items">
+                {{fee_item.amount | currency:[currencyCode]}}
+              </div>
+              <div *ngIf="feebill.fine_amount && feebill.fine_amount > 0">
+                {{feebill.fine_amount | currency:[currencyCode]}}
+              </div>
+              <hr>
+              Bill Total: {{feebill.total_amount | currency:[currencyCode]}}
+            </td>
+            <td *ngIf="feebill.fee_bill_type === 'TRANSPORT'">
+              <div>
+                Transport Fee
+              </div>
+              <div *ngIf="feebill.fine_amount && feebill.fine_amount > 0">
+                Fine
+              </div>
+            </td>
+            <td class="right"style="padding-top:10px" *ngIf="feebill.fee_bill_type === 'TRANSPORT'">
+              <div >
+                {{feebill.bill_amount | currency:[currencyCode]}}
+              </div>
+              <div *ngIf="feebill.fine_amount && feebill.fine_amount > 0">
+                {{feebill.fine_amount | currency:[currencyCode]}}
+              </div>
+              <hr>
+              Bill Total: {{feebill.total_amount | currency:[currencyCode]}}
+            </td>
+          </tr>
+
+          <tr class="border" *ngIf="fee_receipt.discounts && fee_receipt.discounts.length > 0">
+            <td class="no-line"></td>
+            <td class="no-line right">Subtotal</td>
+            <td class="no-line right">{{getTotalBillAmount() | currency:[currencyCode]}}</td>
+          </tr>
+          <tr *ngIf="fee_receipt.discounts && fee_receipt.discounts.length > 0">
+            <td class="no-line"></td>
+            <td class="no-line right">Discount</td>
+            <td class="no-line right">{{fee_receipt.discounts[0].amount | currency:[currencyCode]}}</td>
+          </tr>
+          <tr>
+            <td class="no-line"></td>
+            <td class="net-total">Total</td>
+            <td class="net-total">
+              {{getNetTotalAmount() | currency:[currencyCode]}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+     <div class="signature">Authorized Signature </div>
+     <hr>
+     <div class="centre">**Cash is not Refundable**</div>
+   </div>
+  </div>
+</div>

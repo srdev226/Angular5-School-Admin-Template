@@ -1,0 +1,268 @@
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center padded-20-0 filter-container">
+  <select [(ngModel)]="selected_class_type" name="class_type"class="formTextControl select-filter"(change)="setClassType()">
+    <option value="undefined" selected>Select Class Type</option>
+    <option *ngFor="let classtype of classes_types"[value]="classtype.code"> {{classtype.name}} </option>
+  </select>
+  <select [(ngModel)]="selected_academic_year" name="acc_year"class="formTextControl select-filter"(change)="selectYear()">
+     <option value="undefined" selected>-Select Academic year-</option>
+     <option *ngFor="let academic_year of academic_years" [value]="academic_year.code"> {{academic_year.name}} </option>
+  </select>
+</div>
+
+<div *gcAccessControl="'ACADEMICS_CLASSES_ADD'"  class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+  <div *ngIf="selected_class_type">
+    <h6 class="pull-right pointer greentext vertical-middle" (click)="addNewClassInfo()">
+    <i class="icon-plus"></i> ADD CLASS</h6>
+  </div>
+</div>
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 height-85-scroll">
+  <div class="classes-container">
+   <div class="classes-div text-center" *ngFor="let class_info of class_infos;let i = index" [ngClass]="{'active': i == selected_class_index}"
+     (click)="selectClass(i) ">
+     <h4  class="block fontweight400">{{class_info.name}}</h4>
+   </div>
+  </div>
+</div>
+<div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 height-85-scroll">
+   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 search-box" *ngIf="class_info && !isEditing" >
+     <div class="class-info-div">
+       <button type="button" class="formButton pull-right" (click)="isEditing=true">{{class_info.class_info_key ? "Edit Class" : "Add Class" }}</button>
+       <div *ngIf="class_info.class_info_key">
+         <h4 *ngIf="class_info.name">{{class_info.name}}</h4><br>
+         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+             <span *ngIf="class_info.academic_year"> Academic Year:</span><br>
+             <h5> {{class_info.academic_year}}</h5>
+           </div>
+           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+             <span *ngIf="class_info.type"> type:</span><br>
+             <h5> {{class_info.type}}</h5>
+           </div>
+           <div *ngIf="class_info.type === 'regular'">
+           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+             <span *ngIf="class_info.class_code"> class:</span><br>
+             <h5> {{class_info.class_code}}</h5>
+           </div>
+           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+             <h5>Division : </h5>
+             <div *ngFor="let division of getDivisionsOfSelectedClass()" class="class-div">
+              {{division}}
+             </div>
+           </div>
+           <div *ngIf="class_info.subjects" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+             <h5>Subjects : </h5>
+             <div *ngFor="let subject of class_info.subjects" class="class-div">
+              {{subject.name}}
+             </div>
+           </div>
+          </div>
+         <div *ngIf="selected_class_type === 'cocurricular'">
+           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+             <span *ngIf="class_info.start_date"> Start Date:</span><br>
+             <h5> {{class_info.start_date}}</h5>
+           </div>
+           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+             <span *ngIf="class_info.end_date"> End Date:</span>
+             <h5> {{class_info.end_date}}</h5>
+           </div>
+         <div *ngIf="class_info.academic_year" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+           <span *ngIf="class_info.eligible_classes">Eligible classes </span>
+           <h5 *ngFor="let eligible_class of class_info.eligible_classes"class="classesItem" >{{eligible_class}}</h5>
+         </div>
+       </div>
+       </div>
+     </div>
+   </div>
+ </div>
+
+   <div *ngIf="isEditing"class="class-info-div">
+     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+       <div class="input-group required formTextGroup margin-left-0 paddedGroup darkText text-center">
+         <span class="textLabelMain">Class Name</span>
+         <span class="input-group-addon" id="basic-addon1">
+           <i class="icon-key" title="Name"></i>
+         </span>
+         <input [(ngModel)]="class_info.name" type="text" name="class_name" #class_name="ngModel" minlength="3" maxlength="50"
+         class="formTextControl" required>
+         <div *ngIf="class_name.errors && (class_name.dirty || class_name.touched)" class="alert abolsute-msg smallMsg ">
+           <div [hidden]="!class_name.hasError('required')">
+             Class Name is required
+           </div>
+         </div>
+       </div>
+     </div>
+     <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 nopadding">
+       <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 nopadding">
+         <div class="input-group required formTextGroup margin-left-0 paddedGroup darkText text-center">
+           <span class="textLabelMain">Academic Year</span>
+         <select [(ngModel)]="class_info.academic_year">
+           <option value="undefined" selected> -- select year -- </option>
+           <option *ngFor="let academic_year of academic_years" [value]="academic_year.code">{{academic_year.name }}</option>
+         </select>
+       </div>
+       </div>
+       <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 nopadding">
+         <div class="input-group required formTextGroup margin-left-0 paddedGroup darkText text-center">
+           <span class="textLabelMain">select Type</span>
+         <select [(ngModel)]="class_info.type">
+           <option value="undefined" selected> -- select type -- </option>
+           <option value="undefined" selected>Select Class Type</option>
+           <option *ngFor="let classtype of classes_types"[value]="classtype.code"> {{classtype.name}} </option>
+         </select>
+       </div>
+       </div>
+       <div *ngIf="class_info.type === 'regular'">
+       <div class="input-group required formTextGroup margin-left-0 paddedGroup darkText text-center">
+         <span class="textLabelMain">Class</span>
+         <span class="input-group-addon" id="basic-addon1">
+           <i class="icon-key" title="Name"></i>
+         </span>
+         <input [(ngModel)]="class_info.class_code" type="text" name="class_code" #class_code="ngModel" minlength="3" maxlength="50"
+         class="formTextControl" required>
+         <div *ngIf="class_code.errors && (class_code.dirty || class_code.touched)" class="alert abolsute-msg smallMsg ">
+           <div [hidden]="!class_code.hasError('required')">
+             Class is required
+           </div>
+         </div>
+       </div>
+       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+         <div class="input-group required  margin-left-0">
+            <span class="textLabelMain">Division </span>
+            <div *ngFor="let division of getDivisionsOfSelectedClass()" class="class-div">
+             {{division}}
+            </div>
+          </div>
+        </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+              <div class="input-group formTextGroup margin-left-0 paddedGroup darkText text-center">
+              <span class="input-group-addon" id="basic-addon1">
+                <button (click)="addDivision()" title="Add Division" class="formButton small-button"> + </button>
+                <button (click)="deleteDivision()" title="Delete Division" class="formButton small-button"> - </button>
+              </span>
+            <input type="text" readonly placeholder="Divisions" [(ngModel)]="divisions" name="divisions" class="formTextControl" />
+          </div>
+        </div>
+            <!-- <button (click)="isAddClass=false">Cancel</button> -->
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding" [ngClass]="{'hidden': divisions.valid || divisions.pristine}"
+            class="alert smallMsg" *ngIf="isExists">
+            Division already exists.
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+            <div class="input-group  margin-left-0">
+               <span class="textLabelMain">Subjects </span>
+             </div>
+              <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup margin-left-0 paddedGroup darkText text-center">
+                  <span class="textLabelMain">Subject</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="Subject"></i>
+                  </span>
+                  <select [(ngModel)]="selected_subject">
+                    <option value="undefined" selected>Select Subject</option>
+                    <option *ngFor="let subject of getSubjectList()" [value]="subject.code">
+                      {{subject.name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup margin-left-0 paddedGroup darkText text-center">
+                  <span class="textLabelMain">Type</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="Type"></i>
+                  </span>
+                  <select [(ngModel)]="selected_subject_type" (change)="getSelectedSubjects()">
+                    <option value="undefined" selected>Select Type</option>
+                    <option *ngFor="let subject_type of school.academic_configuration.subject_types" [value]="subject_type.code">
+                      {{subject_type.name}}
+                    </option>
+                  </select>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+              <button *ngIf="getSubjectList().length>0" (click)="addSubject()" title="Add Subject" class="formButton small-button"> + </button>
+            </div>
+          </div>
+          <div>
+            <div *ngFor="let subject of selected_subjects" class="subjects-div" (click)="addOrRemoveConstituentSubject(subject.code)"
+              [ngClass]="{'active': subject.selected}">
+             {{subject.name}}
+            </div>
+          </div>
+          <div *ngIf="class_info.subjects && class_info.subjects.length>0">
+            <div class="class-subject-div">
+            <div class="row nopadding" *ngFor="let subject of class_info.subjects">
+            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+              {{subject.name}} ({{subject.type | slice:0:1}})
+            </div>
+            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+              {{getConstituentSubjects(subject.constituent_subjects)}}
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+              <button (click)="removeSubject(subject.code)" title="Delete Subject" class="formButton small-button"> - </button>
+            </div>
+          </div>
+          </div>
+        </div>
+       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin10px">
+       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+         <button type="button" (click)="cancelClass()" class="formButton greyButton" *ngIf="isEditing">Cancel</button>
+       </div>
+       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+         <button type="button" (click)="addOrUpdateRegularClass()" class="formButton pull-right" *ngIf="isEditing">{{class_info.class_info_key ? "Update "  : "Save"}}</button>
+       </div>
+       </div>
+     </div>
+     <div *ngIf="class_info.type === 'cocurricular'">
+       <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 nopadding">
+         <div class="input-group required formTextGroup margin-left-0 paddedGroup darkText text-center">
+           <span class="textLabelMain">Start Date (dd/mm/yyyy)</span>
+           <span class="input-group-addon" id="basic-addon1">
+             <i class="icon-key" title="startdate"></i>
+           </span>
+           <input [(ngModel)]="class_info.start_date" type="text" name="start_date" #start_date="ngModel" minlength="10" maxlength="10"
+           class="formTextControl" required>
+           <div *ngIf="start_date.errors && (start_date.dirty || start_date.touched)" class="alert abolsute-msg smallMsg ">
+             <div [hidden]="!start_date.hasError('required')">
+               Start Date is required
+             </div>
+           </div>
+         </div>
+       </div>
+       <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 nopadding">
+         <div class="input-group required formTextGroup margin-left-0 paddedGroup darkText text-center">
+           <span class="textLabelMain">End Date (dd/mm/yyyy)</span>
+           <span class="input-group-addon" id="basic-addon1">
+             <i class="icon-key" title="enddate"></i>
+           </span>
+           <input [(ngModel)]="class_info.end_date" type="text" name="end_date" #end_date="ngModel" minlength="10" maxlength="10"
+           class="formTextControl" required>
+           <div *ngIf="end_date.errors && (end_date.dirty || end_date.touched)" class="alert abolsute-msg smallMsg ">
+             <div [hidden]="!end_date.hasError('required')">
+               End Date is required
+             </div>
+           </div>
+         </div>
+       </div>
+     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+       <div *ngIf="class_info.academic_year"class="margin-top-10">
+         <h5> Eligible Classes </h5>
+         <div class="classesItem" *ngFor="let cls of getClassesList()" [ngClass]="{'active':isClassSelected(cls.name)}" (click)="addOrRemoveClass(cls.name)">
+           {{cls.class_code}}
+         </div>
+       </div>
+     </div>
+       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 class-info">
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+           <button type="button" (click)="cancelClass()" class="formButton greyButton ">Cancel</button>
+         </div>
+         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+           <button type="submit" class="formButton pull-right" (click)="addOrUpdateClassInfo()">{{class_info.class_info_key ? "Update Class" : "Save Class"}}</button>
+         </div>
+       </div>
+     </div>
+     <div *ngIf="!this.class_info.type"class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+       <button type="button" (click)="cancelClass()" class="formButton greyButton ">Cancel</button>
+     </div>
+  </div>
+</div>

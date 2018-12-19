@@ -1,0 +1,27 @@
+
+<h3>TODO</h3>
+<ul>
+  <li>list rules</li>
+  <li>
+   <div class="header">
+        <h4 *ngIf="feeRule.fee_rule_key">Update Fee Rule</h4>
+        <h4 *ngIf="!feeRule.fee_rule_key">Create Fee Rule</h4>
+      </div>
+  <div *ngIf="!isSuccess" >
+ 	<form (ngSubmit)="addOrUpdateFeeRule()" #feeRuleForm="ngForm">
+         <div class="row">
+             <div>
+               <button type="submit" class="formButton" *ngIf="!feeRule.fee_rule_key">Add FeeRule</button>
+                <button type="submit" class="formButton" *ngIf="feeRule.fee_rule_key">Update</button>
+             </div>
+           </div>
+     </form>
+   </div></li>
+  <li>edit fee rule</li>
+  <li>add audit logs for changes</li>
+  <li>apply rules to classes or students</li>
+</ul>
+<a href="https://github.com/arunmr1980/greenchalk-admin/issues/59">#59</a>
+<div class="row rowMain height40Minus padding15">
+  <router-outlet></router-outlet>
+</div>

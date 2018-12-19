@@ -1,0 +1,172 @@
+.config-contents {
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #525e66;
+}
+.config-body {
+  padding: 1% 5%;
+}
+
+.config-body .config-for-class {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  padding: 2% 2% 0% 2%;
+  background-color: #ffffff;
+}
+
+.config-body .config-for-class .config-row {
+  margin-bottom: 3%;
+  display: inline-table;
+  width: 100%;
+}
+
+.config-body .config-for-class .config-row .class-box {
+  
+}
+
+.config-row .dropdown-toggle {
+  height: 35px;
+  width: 100%;
+  border: 1px solid #c3c3c3;
+  border-radius: 4px;
+  opacity: 0.7;
+  font-style: italic;
+  padding: 8px 11px;
+  background: url(assets/images/down-16@2x.png) no-repeat calc(100% - 11px) center;
+  background-size: 20px;
+}
+
+.config-row .class-box .dropdown-toggle {
+  width: 92% !important;
+}
+
+.config-row .dropdown-menu {
+  position: absolute;
+  margin-top: 0px;
+  border-radius: unset;
+  border-color: #7ac943;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 500;
+  color: #525e66;
+  top: unset;
+  left: unset;
+  overflow-y: auto;
+  max-height: 197px;
+  width: 100%;
+}
+
+.config-row .class-box .dropdown-menu {
+  width: 92% !important;
+}
+
+.config-row .row-label {
+  height: 35px;
+  line-height: 2.4;
+}
+
+.btn-done {
+  position: fixed;
+  z-index: 100;
+  width: 110px;
+  height: 40px;
+  border-radius: 4px;
+  border: 0px solid;
+  background-color: #7ac943;
+  padding: 10px;
+  top: 11px;
+  left: calc(100% - 150px);
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  color: #ffffff;
+  opacity: 0.8;
+}
+
+.btn-done:hover {
+  opacity: 1;
+}
+
+.btn-back {
+  position: fixed;
+  top: 22px;
+  left: 60px;
+}
+
+.modal-footer .btn {
+  width: 225px !important;
+}
+
+.small-dialog .modal-body {
+  text-align: center;
+}
+
+.config-body .row-label,
+.config-body .row-input {
+  padding: unset !important;
+}
+
+.config-contents ul li{
+  height: 37px;
+  padding: 10px 20px;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 400;
+  color: #525e66;
+}
+
+.config-contents ul li:hover {
+    font-weight: 500;
+    color: #525e66;
+    background-color: #e3e3e3;
+}
+
+.rules-title div {
+  height: 29px;
+  line-height: 2.5;
+}
+
+.rules-title .pcnt-range {
+  padding-left: 6px !important;
+}
+.rules-title .letter-grade {
+  padding-left: 4px !important;
+}
+.rules-row div {
+  height: 35px;
+}
+
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+  padding: 0px 2px !important;
+}
+
+.static-box.pcnt {
+  padding: 7px 10% !important;
+  text-align: left !important;
+  line-height: 1.4;
+}
+
+.static-box.pcnt:before {
+  content: "%";
+  width: 23%;
+  height: 100%;
+  text-align: right;
+  float: right;
+}
+
+.config-row .btn-default,
+.config-row .btn-primary {
+  width: 218px;
+  margin-left: 5px;
+  float: right;
+}
+
+.underline-blue {
+  height: 35px;
+  color: #02a9e6;
+  line-height: 2.5;
+}

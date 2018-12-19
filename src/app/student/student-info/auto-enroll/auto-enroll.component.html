@@ -1,0 +1,3 @@
+<simple-notifications [options]="notification_options"></simple-notifications>
+<button *ngIf="!isEnrolled()" type="button" class="pull-right" (click)="enableOnlineAccess()" >Enable Online Access</button>
+<div *ngIf="isEnrolled()">Online access enabled</div>

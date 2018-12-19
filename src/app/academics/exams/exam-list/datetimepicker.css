@@ -1,0 +1,98 @@
+/deep/ ngb-datepicker {
+    position: absolute !important;
+    background-color: #f9f9f9 !important;
+    max-height: unset !important;
+}
+/deep/ .ngb-dp-header select {
+    height: inherit;
+    width: 49%;
+    display: inline-block;
+    min-width: unset;
+    font-family: Roboto;
+    font-size: 14px !important;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+    border-radius: 4px;
+    border: 1px solid #ababab;
+    padding: 0.4rem 0.5rem !important;
+}
+
+/deep/ .ngb-dp-header select:hover {
+    background-color: #f2f2f2;
+}
+
+/deep/ .ngb-dp-arrow {
+    height: 3rem !important;
+    flex-grow: 0.1 !important;
+}
+
+/deep/ .ngb-dp-month {
+    font-family: Roboto !important;
+    font-size: 14px !important;
+    color: #525e66;
+}
+
+/deep/ .ngb-dp-month .ngb-dp-week {
+    margin-top: 5px !important;
+}
+
+/deep/ .ngb-dp-day,
+/deep/ .ngb-dp-weekday,
+/deep/ .ngb-dp-week-number {
+    width: 3.5rem !important;
+    height: 3rem !important;
+}
+
+/deep/ .ngb-dp-weekday {
+    color: #5bc0de !important;
+    padding-top: 6px;
+}
+
+/deep/ .ngb-dp-day {
+    cursor: pointer;
+}
+
+/deep/ .ngb-dp-day .bg-primary {
+    padding-top: 5px;
+    text-align: center;
+    width: 3.5rem !important;
+    height: 3rem !important;
+    line-height: 2rem;
+    border-radius: 0.25rem;
+    background: transparent;
+    background-color: #337ab7 !important;
+}
+
+/deep/ .ngb-dp-day .btn-light {
+    padding-top: 5px;
+    width: 3.5rem !important;
+    height: 3rem !important;
+}
+
+.date-picker {
+	width: calc(100% - 40px);
+    border-bottom-right-radius: unset;
+    border-top-right-radius: unset;
+}
+
+.btn-calender {
+    background: url(assets/images/btn-calender.png) no-repeat 8px center;
+    background-size: 24px;
+    border: 1px solid #ababab;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+    padding: 5px;
+    width: 40px;
+    height: 35px;
+    display: inline-block;
+    position: absolute;
+    border-left: unset;
+}
+
+.btn-calender:hover {
+    background-color: #f6f6f6;
+}

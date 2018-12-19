@@ -1,0 +1,122 @@
+<!-- <div class="row" *ngIf="!student">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+    <div class="input-group required formTextGroup margin-left-0 paddedGroup darkText text-center">
+      <span class="textLabelMain">Search</span>
+      <span class="input-group-addon" id="basic-addon1">
+        <i class="icon-key" title="search"></i>
+      </span>
+      <input [(ngModel)]="search_string" type="text" name="search_str" #search_str="ngModel" minlength="3" maxlength="50" class="formTextControl"
+        required>
+    </div>
+  </div>
+</div> -->
+<simple-notifications [options]="options"></simple-notifications>
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 height-85-scroll" *ngIf="filtered_trips">
+  <div class="trips-container">
+    <div class="student-name-div" *ngIf="student">
+      <h6>Viewing Trips for</h6>
+      <h4 class="fontweight400">{{student.full_name}}</h4>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding text-center">
+      <div class="input-group required formTextGroup margin-left-0 paddedGroup darkText text-center">
+        <span class="textLabelMain">Search Stop Name</span>
+        <span class="input-group-addon" id="basic-addon1">
+          <i class="icon-key" title="search"></i>
+        </span>
+        <input [(ngModel)]="search_string" type="text" name="search_str" #search_str="ngModel" minlength="3" maxlength="50" class="formTextControl"
+          required (focus)="searchFocuesed()" (ngModelChange)="updateTrips()">
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 hidden nopadding" [ngClass]="{'hidden' : filtered_trips && filtered_trips.length>0 }">
+      No trips found.
+    </div>
+    <div class="trip-div col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" *ngFor="let trip of filtered_trips;let i = index"
+      [ngClass]="{'active': i == selected_trip_index,'hidden': (!isSearchFocused && selected_trip_index<0) || filtered_trips.length<=0}"
+      (click)="selectTrip(i) ">
+      <h5 class="block fontweight400">{{trip.name}}</h5>
+      <h6 class="block">Number of stops : {{trip.stops?.length}}</h6>
+      <h6 class="block">Starting From : {{ trip.stops?.length>0 ? trip.stops[0].code : 'NA'}} {{ trip.stops?.length>0 ? ('at ' + trip.stops[0].eta)
+        : ''}} </h6>
+    </div>
+  </div>
+</div>
+<div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 ">
+  <div class="filter-item  pull-right">
+    <label class="control control--checkbox displayInlineBlock">
+      <input type="checkbox" (change)="isactive($event)" />
+      <div class="control__indicator borderRadius6"></div>
+    </label>
+    <h5>Show all subscriptions</h5>
+  </div>
+</div>
+
+<div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 height-85-scroll" *ngIf="loaded">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" *ngIf="subscriptions && subscriptions.length<=0 && selected_trip_index<0">
+    <h4>No trips found for this student.</h4>
+  </div>
+  <div *ngFor="let subscription of subscriptions;let i = index" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div *ngIf="isTripSelected" (click)="selectSubscription(subscription)">
+      <div class="subscription-div shadow">
+        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 trip-name">
+          {{ getTrip(subscription)?.name }}
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 stop-details">
+          Reaches {{ getStop(subscription)?.name }} at {{ getStop(subscription)?.eta }}
+        </div>
+        <div *ngIf="(selected_subscription && (subscription.subscription_key === selected_subscription.subscription_key))">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="!subscription.subscription_key">
+            <label class="control control--checkbox displayInlineBlock">
+              <input type="checkbox" (change)="selectOrUnselectAllSubscriptionPeriods(subscription, $event)" />
+              <div class="control__indicator borderRadius6"></div>
+            </label>
+            Select All
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div *ngFor="let fare_period of getRoute(subscription).fare_periods" class="fee-period-div" [ngClass]="{'active': isFarePeriodSelected(subscription, fare_period)}"
+              (click)="addOrRemoveSubscriptionPeriod(subscription, fare_period)">
+              {{fare_period.start_date | customDate:'DD/MM/YYYY' : 'MMM YY'}}
+            </div>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top-10">
+            <!-- <button class="formButton greyButton margin-left-10 pull-right" (click)="unSelectSubscription()">Cancel</button> -->
+            <button class="formButton pull-right" (click)="addOrUpdateSubscription()">{{subscription.subscription_key ? "Update": "Add Subscription"}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="studentListListDivSearch shadow" (click)="showStudentBills(student.admission_number)">
+    <div class="detailsContainerSearch relative displayInlineBlock">
+      <label class="absolute-top-right green-box bold">{{student.current_class}}{{student.division}}</label>
+      <div class="displayInlineBlock">
+        <img [src]="getStudentProfilePicURL(student.profile_image_key,student.gender)" class="displayPicImage"/>
+      </div>
+      <div class="detailsContainer displayInlineBlock">
+        <label class="studentListDetail bold">{{student.full_name}}</label>
+        <div class="detailsSmallDiv">
+          <label class="studentListDetailSmall">Admission Number : {{student.admission_number}}</label>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="trip-info-div" *ngIf="trip && !isTripSelected">
+    <div *ngIf="selected_route">
+      <div class="row trip-info" *ngFor="let stop of selected_route?.stops;let j =index">
+        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 index-div">
+          {{stop.index}}
+        </div>
+        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+          {{stop.name}}
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+          {{trip.stops[j].eta}}
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+          <button (click)="selectTripAndStop(stop.code)" class="formButton">Select</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

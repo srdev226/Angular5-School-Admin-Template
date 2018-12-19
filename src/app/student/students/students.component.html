@@ -1,0 +1,22 @@
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padded-15" >
+  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 studentListListDiv relative shadow" *ngFor="let studentInfo of studentsInfo" [ngClass]="{'disabled':studentInfo.disabled,'selected': studentInfo.selected}">
+    <!-- <i class="fa fa-check selected-icon" aria-hidden="true"></i>
+    <i class="fa fa-times disabled-icon" aria-hidden="true"></i> -->
+    <div class="pointer col-lg-3 col-md-3 col-sm-3 col-xs-3" *ngIf="studentInfo.profile_image_url">
+      <img [src]="studentInfo.profile_image_url"
+        class="studentListLogo displayInlineBlock shadow" />
+    </div>
+    <div class="detailsContainer displayInlineBlock col-lg-9 col-md-9 col-sm-9 col-xs-9">
+      <label class="studentListDetail bold">{{studentInfo.student.full_name}}</label>
+      <div class="margin-l">
+        <label class="studentListDetail bold">{{studentInfo.student.current_class}} {{studentInfo.student.division}}</label>
+      </div>
+      <!--<div class="detailsSmallDiv">
+        <label class="studentListDetailSmall">{{student.student.gender}}</label>
+      </div>
+      <div class="detailsSmallDiv">
+        <label class="studentListDetailSmall">Admission Number : {{student.student.admission_number}}</label>
+      </div>-->
+    </div>
+  </div>
+</div>

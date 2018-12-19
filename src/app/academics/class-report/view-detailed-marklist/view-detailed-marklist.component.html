@@ -1,0 +1,126 @@
+<button class="edit-marks pointer" (click)="editMarks()">EDIT MARKS</button>
+<div *ngIf="!ready" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+  <div class="loader" id="loader-1"></div>
+</div>
+<div *ngIf="ready" class="aca-marklist">
+	<div class="title">{{"VIEWING DETAILED MARK LIST FOR CLASS " + selected_class.name + " " + selected_division}}</div>
+  <div class="select-exam">
+    <div class="dropdown-toggle" data-toggle="dropdown">
+      {{exam_series[cur_exam_id].name}}
+    </div>
+    <ul class="dropdown-menu">
+      <li *ngFor="let exam of exam_series; let i = index" (click)="selectExam(i)">{{exam.name}}</li>
+    </ul>
+  </div>
+
+  <div class="table">
+		<table class="mark-table">
+			<thead>
+				<tr>
+				  <th class="subjects">Student Name</th>
+				  <th *ngFor="let exam of exam_info" class="test-mark">
+				  	<div>
+				  		{{exam[0].subject_name}}
+				  	</div>
+				  </th>
+				  <th class="test-mark avg">
+				  	<div>
+				  		AVG.
+				  	</div>
+				  </th>
+				  <th class="test-mark student-pcnt">
+				  	<div>
+				  		STUDENT %
+				  	</div>
+				  </th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td colspan="100" class="line">
+						<div class="green-line"></div>
+					</td>
+				</tr>
+
+				<tr *ngFor="let student of student_list; let i = index">
+				  <td class="subjects">{{student.full_name}}</td>
+				  <td *ngFor="let exam of exam_info; let j = index;" class="test-mark">
+				  	<div>
+				  		<input [(ngModel)]="scores[i][j]" placeholder="XX" [disabled]="!editable" class="test-label green-border" type="number">
+				  	</div>
+				  </td>
+				  <td class="test-mark avg">
+				  	<div>
+				  		<input [(ngModel)]="scores[i][exam_count - 2]" placeholder="XX" [disabled]="true" class="test-label green-border" type="number">
+				  	</div>
+				  </td>
+				  <td class="test-mark student-pcnt">
+				  	<div>
+				  		<input [(ngModel)]="scores[i][exam_count - 1]" placeholder="XX" [disabled]="true" class="test-label green-border" type="number">
+				  	</div>
+				  </td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- View-Mark-List Overlay -->
+  <div id="edit-mark-overlay" class="modal fade overlay small-overlay" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title btn-back cur-default" id="myModalLabel" data-dismiss="modal" aria-label="Close" (click)="viewMarklistBack()">
+            <p class="underline-blue">Back</p>
+          </div>
+        </div>
+        <div class="modal-body">
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Overlay -->
+</div>
+<div class="footer">
+	<table *ngIf="ready" class="footer-table">
+		<tbody>
+			<tr class="class-avg">
+			  <td class="subjects">CLASS AVERAGE</td>
+			  <td *ngFor="let exam of exam_info; let j = index" class="test-mark">
+		  		<div>
+			  		<input [(ngModel)]="class_average[j]" placeholder="XX" [disabled]="true" class="test-label green-border" type="number">
+			  	</div>
+			  </td>
+			  <td class="test-mark">
+			  	<div>
+			  		<input [(ngModel)]="class_average[exam_count - 2]" placeholder="XX" [disabled]="true" class="test-label green-border" type="number">
+			  	</div>
+			  </td>
+			  <td class="test-mark">
+			  	<div>
+			  		<input [(ngModel)]="class_average[exam_count - 1]" placeholder="XX" [disabled]="true" class="test-label green-border" type="number">
+			  	</div>
+			  </td>
+			</tr>
+
+			<tr class="class-pcnt">
+			  <td>CLASS %</td>
+			  <td *ngFor="let exam of exam_info; let j = index" class="test-mark">
+			  	<div>
+			  		<input [(ngModel)]="class_pcnt[j]" placeholder="XX" [disabled]="true" class="test-label green-border" type="number">
+			  	</div>
+			  </td>
+			  <td class="test-mark">
+			  	<div>
+			  		<input placeholder="XX" [disabled]="true" class="test-label green-border" type="number">
+			  	</div>
+			  </td>
+			  <td class="test-mark">
+			  	<div>
+			  		<input placeholder="XX" [disabled]="true" class="test-label green-border" type="number">
+			  	</div>
+			  </td>
+			</tr>
+		</tbody>
+	</table>
+</div>

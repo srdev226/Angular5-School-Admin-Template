@@ -1,0 +1,15 @@
+.listcontainer {
+    padding: 10px;
+    margin-right: 40px;
+    background-color: #ffffff;
+    float: left;
+}
+
+.payButton{
+  padding:10px;
+}
+
+.payInput{
+  border:1px solid #3ED783;
+  padding:10px;
+}

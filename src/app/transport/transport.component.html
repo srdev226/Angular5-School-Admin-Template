@@ -1,0 +1,27 @@
+<div class="container-fluid content-margin">
+  <div class="row height100 paddedRow">
+    <div class="boxedDiv shadow">
+      <!-- <div class="header">
+        <h4>Manage Transport</h4>
+        <!-- <input type="text" class="formTextControl underLined pull-right searchTextBox" placeholder="Search" *ngIf="ifListUrl"/> 
+      </div> -->
+      <!-- <div class="row">
+        <ul class="nav nav-tabs nav-justified">
+          <li role="presentation" [routerLinkActive]="['active']" *ngIf="student_key">
+            <a [routerLink]="['subscription']">Subscription</a>
+          </li>
+          <li *gcAccessControl="'TRIP_TRANSPORT'" role="presentation" [routerLinkActive]="['active']">
+            <a [routerLink]="['trips']">Trips</a>
+          </li>
+          <li *gcAccessControl="'ROUTES_TRANSPORT'" role="presentation" [routerLinkActive]="['active']">
+            <a [routerLink]="['routes']">Routes</a>
+          </li>
+          <li *gcAccessControl="'VEHICLE_TRANSPORT'" role="presentation" [routerLinkActive]="['active']">
+            <a [routerLink]="['vehicle']">Vehicles</a>
+          </li>
+        </ul>
+      </div> -->
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

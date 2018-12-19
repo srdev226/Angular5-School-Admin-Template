@@ -1,0 +1,31 @@
+<div class="row rowMain height85Minus padding15">
+  <div class="row padding20 height100">
+      <div class="header">
+        <h4>Users</h4>
+        <input type="text" class="formTextControl underLined pull-right searchTextBox" placeholder="Search"/>
+      </div>
+
+      <div  *gcAccessControl="'USER_LIST'" class="row padding20 maxHeight85">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngFor="let user of users">
+          <div class="userListListDiv shadow">
+            <div class="detailsContainer displayInlineBlock">
+              <label class="userListDetail bold">{{user.full_name}}</label>
+            </div>
+            <div class="userListEdit displayInlineBlock">
+              <i *gcAccessControl="'USER_EDIT'" class="icon-pencil" (click)="goToEditUser(user.accountKey)"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row padding10 text-center">
+        <ul class="pagination">
+          <!-- <li *ngIf="userList.length>0" class="active" (click)="loadMoreData()"><a>Load More</a></li> -->
+          <div *ngIf="userList.length===0" class="message">No users added till now.</div>
+        </ul>
+        <div *gcAccessControl="'USER_ADD'"  class="addNew">
+          <i class="icon-plus" (click)="gotoAddUser()"></i>
+        </div>
+      </div>
+  </div>
+</div>

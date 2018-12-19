@@ -1,0 +1,11 @@
+
+<div class="profilePicDiv shadow" [ngClass]="css_class">
+  <h4 class="profile-upload-text" [hidden]="profile_image_url">CLICK HERE TO UPLOAD PICTURE</h4>
+  <div class="iconDiv">
+    <label for="file-input">
+      <i class="fa fa-cloud-upload icon-white fa-lg upload-icon" title="Upload Profile Picture" aria-hidden="true"></i>
+    </label>
+    <input type="file" (change)="fileChanged($event)" class="hide" name="file-input" id="file-input">
+  </div>
+  <img name="profile_image" src="{{profile_image_url}}" [hidden]="!profile_image_url" class="profileImage" />
+</div>

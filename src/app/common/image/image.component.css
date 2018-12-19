@@ -1,0 +1,39 @@
+.fa.icon-white {
+    color: white;
+}
+
+.profileImage{
+    height: 198px;
+    width: 198px;
+    text-align: center;
+    float: center;
+}
+
+.profilePicDiv{
+    background-color:#caeef5;
+    height: 200px;
+    width: 200px;
+    margin-top: 10px;
+    border-radius: 4px;
+    position: relative;
+    border: 1px solid #67d9ef;
+}
+
+.iconDiv{
+   position:absolute;
+}
+
+.profilePicDiv.small{
+    height: 150px !important;
+    width: 150px !important;
+}
+
+.profilePicDiv.small .profileImage{
+    max-height: 150px !important;
+    max-width: 150px !important;
+}
+
+.profilePicDiv.center{
+   margin: auto auto !important;
+   margin-bottom: 5px !important;
+}

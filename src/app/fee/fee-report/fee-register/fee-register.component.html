@@ -1,0 +1,42 @@
+
+<div id="register_print" *ngIf="fee_registers.length>0">
+  <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <table>
+      <tr>
+        <th class="padding">No</th>
+        <th class="padding">Adm#</th>
+        <th class="padding" width=10% >Name</th>
+        <th class="padding" *ngFor="let status of this.fee_registers[0].monthly_payment_status_report.student_monthly_status_list[0].monthly_status_list">
+           {{status.month}}
+         </th>
+      </tr>
+      <tr *ngFor="let student_register of getStudentMonthlyStatus(fee_registers) let i=index ">
+        <td class="padding">{{ i + 1}}</td>
+        <td class="padding">{{ student_register.admission_number}}</td>
+        <td class="padding" width=10% >{{student_register.student_name}}</td>
+        <td class="padding" *ngFor="let fee_status of student_register.monthly_status_list"
+            [ngClass]="{'overdue-cell':fee_status.status==='OVERDUE','due-cell':fee_status.status==='DUE','paid-cell':fee_status.status==='PAID','new-cell':fee_status.status==='NEW'}">
+          <div>{{fee_status.status === null ? 'NA' : fee_status.status }}</div>
+          <div>{{fee_status.amount}}</div>
+          <div>{{fee_status.receipt_date}}</div>
+          <div>{{fee_status.receipt_number}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td class="padding"><b>Paid</b></td>
+        <td *ngFor="let count of monthly_status_count">{{count.paid}}
+        </td>
+      </tr>
+      <tr >
+        <td></td>
+        <td></td>
+        <td class="padding"><b>Unpaid</b></td>
+        <td *ngFor="let count of monthly_status_count">{{count.unpaid}}
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<!--<button type="button" class="formButton pull-right" (click)="export_table_to_csv('Feeregister.csv')">Download</button>-->

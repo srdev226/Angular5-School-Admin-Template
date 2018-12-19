@@ -1,0 +1,497 @@
+.manage-curriculum-container {
+    display: flex;
+}
+
+.Curriculum-Status {
+    width: 198px;
+    height: 21px;
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+}
+
+.Class-Subject-Plan {
+    width: 188px;
+    height: 21px;
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+}
+
+.Showing-subject-list {
+    width: 292px;
+    height: 19px;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+}
+
+.curriculum-status-graph {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #d7d7d7;
+    padding: 50px;
+    min-width: 740px;
+    overflow-x: auto;
+}
+
+.curriculum-subject-plan {
+    display: flex;
+    align-items: center;
+    padding: 20px 0;
+    flex-direction: column;
+    border: 1px solid #d7d7d7;
+}
+
+.curriculum-subject-plan-control {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.curriculum-subject-plan-control > div,
+curriculum-subject-plan-control > button {
+    padding: 10px;
+}
+
+.Select-your-parameter {
+    width: 494px;
+    height: 19px;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+}
+
+.curriculum-sub-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 50px;
+}
+
+.select-control {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.select-control .select {
+    width: 250px;
+    margin-left: 30px;
+    display: inline-block;
+}
+
+.select-control .select .dropdown-menu {
+    position: absolute;
+    /*width: calc(40% + 115px);*/
+    margin-top: 0px;
+    border-radius: unset;
+    border-color: #7ac943;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 500;
+    color: #525e66;
+    top: unset;
+    left: unset;
+    overflow-y: auto;
+    max-height: 197px;
+}
+.select-control .dropdown-toggle {
+    height: 35px;
+    padding: 8px 11px;
+    opacity: 0.7;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: italic;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+    border-radius: 4px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ababab;
+    background: url(assets/images/down-16@2x.png) no-repeat calc(100% - 11px) center;
+    background-size: 20px;
+}
+
+.select-control-title{
+    width: 125px;
+    text-align: right;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+}
+
+.select-control .half-width {
+    width: calc(50% - 120px);
+    margin-left: 10px;
+}
+
+.select-control .select .half-width .dropdown-menu {
+    width: calc(20% + 53px);
+}
+
+.select-control .first {
+    margin-left: 30px !important;
+}
+
+.regular-checkbox input{
+    -webkit-appearance: none;
+    background-color: #f2f2f2;
+    border: 1px solid #cacece;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+    padding: 8px;
+    border-radius: 2px;
+    display: inline-block;
+    position: relative;
+    margin-top: 0px;
+}
+
+.regular-checkbox input:active, .regular-checkbox input:checked:active {
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+}
+
+.regular-checkbox input:checked {
+    background-color: #7ac943;
+    border: 1px solid #989898;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+    color: #99a1a7;
+}
+
+.regular-checkbox input:checked:after {
+    content: '\2714';
+    font-size: 14px;
+    position: absolute;
+    top: 0px;
+    left: 3px;
+    color: #ffffff;
+}
+
+.check-dropdown {
+    background-color: #f2f2f2;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+}
+
+.check-dropdown li span {
+    margin-left: 30px;
+    display: block;
+    margin-top: -19px;
+}
+
+.VIEW-CURRICULUM-BTN {
+    width: 203px;
+    height: 40px;
+    border-radius: 4px;
+    background-color: #7ac943 !important;
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+    border: 0;
+}
+
+.curriculum-graph {
+    width: 27px;
+    height: 27px;
+    margin: 9px;
+}
+
+.curriculum-status-graph-container {
+    width: 70%;
+    min-width: 670px;
+}
+
+.curriculum-graph-sections {
+    display: flex;
+    justify-content: space-between;
+}
+
+.graph-section {
+    display: flex;
+}
+
+.graph-section-title {
+    padding: 20px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    height: 15px;
+    font-family: Roboto;
+    font-size: 11px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+}
+
+.graph-section-order {
+    margin: 20px;
+    width: 10px;
+    height: 15px;
+    font-family: Roboto;
+    font-size: 11px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #525e66;
+    margin: 0 17.4px;
+}
+
+div.status-level-graph {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+}
+
+.curriculum-status-section {
+    display: flex;
+}
+
+.curriculum-status-level {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+
+p.status-level-title {
+    height: 16px;
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+    margin: 0;
+}
+
+p.status-level-name {
+    font-family: Roboto;
+    font-size: 10px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+    padding: 0px 10px;
+    margin: 0;
+}
+
+.tool-tip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-title {
+    height: 19px;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+    text-align: left;
+}
+
+.tool-tip .tooltip-content {
+    visibility: hidden;
+    color: black;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px 19px 15px 19px;
+    position: absolute;
+    z-index: 10;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -217px;
+    /*margin-left: -60px;*/
+    opacity: 0;
+    transition: opacity 0.8s;
+    width: 437px;
+    height: 146px;
+    background-color: #f2f2f2;
+    border: 1px solid #a4a1a1;
+}
+
+.tool-tip .tooltip-content::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tool-tip:hover .tooltip-content {
+    visibility: visible;
+    opacity: 1;
+}
+
+.tooltip-graph-name {
+    height: 16px;
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+    padding-left: 10px;
+}
+
+.view-subject-plan {
+    width: 104px;
+    height: 16px;
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #268ff0 !important;
+}
+
+.subject-plan-table {
+    width: 100%;
+    padding: 30px;
+}
+
+.exam-table {
+    background-color: #ffffff;
+}
+
+.exam-table tbody tr td {
+    padding: 15px 0;
+    font-weight: 300;
+    border-bottom: unset;
+}
+
+.exam-table tbody tr th {
+    padding-left: calc(2% - 8px);
+}
+
+.exam-table tbody th {
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+}
+
+.exam-header {
+    border-bottom: 2px solid #7ac943;
+}
+
+.exam-header th{
+    padding-bottom: 9px;
+    border-bottom: 2px solid #7ac943;
+}
+
+.exam-row {
+    margin-top: 25px;
+    padding: 17px 0;
+    background-color: #f2f2f2;
+}
+
+.exam-row tbody tr td {
+    padding: 0px calc(2% - 8px);
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+}
+
+.exam-row tbody tr td img{
+    margin:	-6px 0px 0px 15px;
+    height: 15px;
+    width: 20px;
+}
+
+.table-field {
+    width: 30%;
+}
+
+@media only screen and (max-width: 768px) {
+    .select-control,
+    .flex-container{
+        flex-direction: column;
+    }
+
+    .subject-plan-control {
+        margin-left: 0;
+    }
+
+    textarea,
+    .add-session-container .select-control .select {
+        width: 250px;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    .curriculum-status-level {
+        flex-direction: row-reverse;
+    }
+}

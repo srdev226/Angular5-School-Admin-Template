@@ -1,0 +1,139 @@
+.maxHeight85{
+    max-height: calc(100% - 120px);
+    overflow-y: auto;
+}
+
+.header{
+    height: 90%;
+}
+
+.header i{
+    color: #3ED783;
+    font-size: 24px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.employeeListListDiv{
+    height: 90px;
+        overflow: hidden;
+    padding: 15px 30px;
+    margin-bottom: 30px;
+    background-color: #fff;
+    border-radius: 4px;
+}
+
+.employeeListLogo{
+    margin-top: 5px;
+    padding: 5px;
+        height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    border:1px solid  #eee;
+    text-align: center;
+        float: left;
+}
+
+.pointer{
+    cursor: pointer;
+}
+
+.detailsContainer{
+           width: calc(100% - 70px);
+    margin-left: 20px;
+}
+
+.employeeListDetailSmall{
+    margin-right: 20px;
+    margin-bottom: 0 !important;
+}
+
+.employeeListDetail.bold{
+    font-weight: 400 !important;
+}
+
+.employeeListDetailSmall{
+     font-size: 12px;
+    font-weight: 400 !important;
+    color: #707070;
+}
+
+.employeeListDetailInput{
+margin-left: 10px;
+}
+
+.class-div{
+  text-align: center;
+  display: inline-block;
+  min-width:65px;
+  padding: 2px 10px;
+  border: 1px solid #3ED783;
+  margin-right: 10px;
+  margin-top: 10px;
+  font-size: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.class-div.active{
+  background-color: #3ED783;
+  color: #fff;
+}
+
+.search-box{
+  position: relative;
+  padding: 10px;
+  box-shadow: 0 0 1px rgba(57,70,78,.15), 0 20px 55px -8px rgba(57,70,78,.25);
+  border-radius: 4px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.search-container{
+
+}
+
+.search-container i.fa-filter{
+  height: 100%;
+    float: left;
+    font-size: 42px;
+    margin-right: 20px;
+    margin-top: 25px;
+    color: #aaa;
+}
+
+.clear-button{
+  color: red;
+    font-size: 32px;
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.height-85-scroll{
+    overflow-x: hidden !important;
+    height: 440px;
+}
+
+.filter-item{
+    display: inline-block;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.displayInlineBlock{
+    display: inline-block !important;
+}
+
+.control{
+    margin-right: 0px !important;
+}
+
+.borderRadius6{
+    border-radius: 6px !important;
+}
+
+.checkbox-align{
+    top: 27px;
+}

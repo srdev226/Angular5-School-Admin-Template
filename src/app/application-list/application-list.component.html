@@ -1,0 +1,220 @@
+<div id="page-wrapper" class="content-margin">
+  <div *gcAccessControl="'APPL_SUMMARY_BOX'" class="row marginBottom" style="margin-right:0px;">
+    <app-summary-box *ngFor='let summary_item of summaryData' [summaryData]="summary_item" (onStatusClick)="setApplicationsFilterStatus($event)">
+    </app-summary-box>
+  </div>
+  <div class="row">
+    <br/>
+  </div>
+  <div *gcAccessControl="'APPL_LIST'" class="row row-140-px padded-30">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" *ngIf="!is_applications_loaded">
+      <div class="loader" id="loader-1"></div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"
+         *ngIf="admission_application && admission_application.length === 0 && is_applications_loaded">
+      No applications found
+    </div>
+    <div *ngIf="admission_application.length > 0 " class="col-lg-12 col-md-12 col-sm-12 col-xs-12 appDataItem shadowBox height100">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 height100">
+        <div class="pointer height100">
+          <div class="listcontainer">
+            <div class="row listItem relative nopadding">
+              <i class="fa fa-download download-icon" title="Download" aria-hidden="true" (click)="export_table_to_csv('application.csv')"></i>
+              <i class="fa fa-filter filter-icon" aria-hidden="true" (click)="toggleFilter()"></i>
+            </div>
+            <div class="row search-box shadowBox text-center" [ngClass]="{'hide':!showfilter}">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 nopadding">
+                  <h4>Search </h4>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 nopadding">
+                  <h5>
+                    <a (click)="advanced_search_flag = !advanced_search_flag;unpaid_flag=false">{{advanced_search_flag ? "Advanced": "Basic"}}</a>
+                  </h5>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 nopadding">
+                  <h5>
+                    <a (click)="unpaid_flag = true">Unpaid</a>
+                  </h5>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 nopadding">
+                  <h5>
+                    <a (click)="resetFilter();resetUnpaidKey(); unpaid_flag = false">Reset</a>
+                  </h5>
+                </div>
+              </div>
+              <div [hidden]="unpaid_flag">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
+                  <div class="input-group formTextGroup paddedGroup darkText text-center">
+                    <span class="textLabelMain">Status</span>
+                    <select #status [(ngModel)]="selected_status" (ngModelChange)="onSelect(null);resetUnpaidKey()">
+                      <option value="All" selected> -- All -- </option>
+                      <option *ngFor="let status of application_status" [value]="status">{{ status }}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
+                  <div class="input-group formTextGroup paddedGroup darkText text-center">
+                    <span class="textLabelMain">Class Applied</span>
+                    <select #class_applied [(ngModel)]="selected_class" (ngModelChange)="onSelect(null);resetUnpaidKey()">
+                      <option value="All" selected="selected"> -- All -- </option>
+                      <option *ngFor="let class of this.school.admissions[0].classes" [value]="class.code">{{ class.code }}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
+                  <div class="input-group formTextGroup paddedGroup darkText text-center">
+                    <span class="textLabelMain">Application Key</span>
+                    <span class="input-group-addon" id="basic-addon1">
+                      <i class="icon-key" title="Application key"></i>
+                    </span>
+                    <input type="text" placeholder="Application key" class="formTextControl" [(ngModel)]="application_key" (ngModelChange)="onSelect(null);resetUnpaidKey()" #app_key (keyup)="0">
+                  </div>
+                </div>
+              </div>
+              <div [hidden]="advanced_search_flag">
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+                  <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
+                    <div class="input-group formTextGroup paddedGroup darkText text-center">
+                      <span class="textLabelMain">Name</span>
+                      <span class="input-group-addon" id="basic-addon1">
+                        <i class="icon-key" title="Student Name"></i>
+                      </span>
+                      <input type="text" placeholder="Student Name" class="formTextControl" [(ngModel)]="full_name" (ngModelChange)="onSelect(null);resetUnpaidKey()" #child_name (keyup)="0">
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
+                    <div class="input-group formTextGroup paddedGroup darkText text-center">
+                      <span class="textLabelMain">Gender</span>
+                      <select #gender [(ngModel)]="selected_gender" (ngModelChange)="onSelect(null);resetUnpaidKey()">
+                        <option value="All" selected> -- All -- </option>
+                        <option value="Male"> Male </option>
+                        <option value="Female"> Female </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
+                    <div class="input-group formTextGroup paddedGroup darkText text-center">
+                      <span class="textLabelMain">Profession</span>
+                      <select #profession [(ngModel)]="selected_profession" (ngModelChange)="onSelect(null);resetUnpaidKey()">
+                        <option value="All" selected="selected"> -- All -- </option>
+                        <option *ngFor="let profession of productDataService.masterProduct.demographic_configuration.professions" [value]="profession.code">{{ profession.name }}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+                  <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
+                    <div class="input-group formTextGroup paddedGroup darkText text-center">
+                      <span class="textLabelMain">Religion</span>
+                      <select #religion [(ngModel)]="selected_religion" (ngModelChange)="onSelect(null);resetUnpaidKey()">
+                        <option value="All" selected="selected"> -- All -- </option>
+                        <option *ngFor="let religion of productDataService.masterProduct.demographic_configuration.religions" [value]="religion.code">{{ religion.name }}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
+                    <div class="input-group formTextGroup paddedGroup darkText text-center">
+                      <span class="textLabelMain">Caste</span>
+                      <select #caste [(ngModel)]="selected_caste" (ngModelChange)="onSelect(null);resetUnpaidKey()">
+                        <option value="All" selected="selected"> -- All -- </option>
+                        <option *ngFor="let caste of productDataService.masterProduct.demographic_configuration.castes" [value]="caste.code">{{ caste.name }}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
+                    <div class="input-group formTextGroup paddedGroup darkText text-center">
+                      <span class="textLabelMain">Lower Income</span>
+                      <span class="input-group-addon" id="basic-addon1">
+                        <i class="icon-key" title="Lower Income"></i>
+                      </span>
+                      <input type="text" placeholder="Lower Income" class="formTextControl" [(ngModel)]="annual_income_lower" (ngModelChange)="onSelect(null);resetUnpaidKey()" #lower_income (keyup)="0">
+                    </div>
+                  </div>
+                </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+                  <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 nopadding">
+                    <div class="input-group formTextGroup paddedGroup darkText text-center">
+                      <span class="textLabelMain">Higher Income</span>
+                      <span class="input-group-addon" id="basic-addon1">
+                        <i class="icon-key" title="Higher Income"></i>
+                      </span>
+                      <input type="text" placeholder="Higher Income" class="formTextControl" [(ngModel)]="annual_income_higher" (ngModelChange)="onSelect(null);resetUnpaidKey()" #higher_income
+                        (keyup)="0">
+                    </div>
+                  </div>
+                </div>
+               </div>
+             </div>
+             <div [hidden]="!unpaid_flag">
+               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
+                   <div class="input-group formTextGroup paddedGroup darkText text-center">
+                     <span class="textLabelMain">Unpaid Applications</span>
+                     <input type="hidden" #unpaid_app_flag  [(ngModel)]="unpaid_flag"/>
+                     <input type="text" #unpaid_key placeholder="Application Key" class="formTextControl" [(ngModel)]="selected_unpaid_key" (ngModelChange)="resetFilter()"
+                       (keyup)="0">
+                   </div>
+                 </div>
+               </div>
+             </div>
+              </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" *ngIf="!admission_application || admission_application.length <= 0">
+              <h4>No applications found.</h4>
+            </div>
+            <div *ngFor='let application of (admission_application | searchApplication : child_name.value : app_key.value : status.value : class_applied.value : gender.value :
+            profession.value : religion.value : caste.value : lower_income.value : higher_income.value : unpaid_key.value : unpaid_app_flag.value ) as applications_filter_result'
+              [class.selected]="application === selected_application_item" (click)="onSelect(application)" class="row listItem">
+              <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                <!-- <img *ngIf="application.additional_information && application.additional_information.candidate.profile_image_url" [src]="application.additional_information.candidate.profile_image_url" class="profilePic"/>
+                <img *ngIf="application.additional_information && !application.additional_information.candidate.profile_image_url" src="{{application.additional_information.candidate.gender == 'Male' && 'assets/images/male.png' || 'assets/images/female.png'}}" class="profilePic"/> -->
+                <img [src]="getStudentProfilePicURL(application.additional_information.candidate.profile_image_key,application.additional_information.candidate.gender)" class="displayPicImage"/>
+              </div>
+              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-4 application-details-center nopadding" *ngIf="application">
+                <h4 class="block nomargin fontweight400 text-uppercase greytext">{{application.additional_information.candidate.full_name}}</h4>
+                <div class="class-year-details">
+                  <h6 class="">Class</h6>
+                  <h6 class="fontweight600">{{application.class_applied}}</h6>
+                  <h6>Year</h6>
+                  <h6 class="fontweight600">{{application.admission_year}}</h6>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                <div class="greytext">{{application.date_of_application | date}}</div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="status-div">{{application.status}}</div>
+              </div>
+            </div>
+          </div>
+          <div style="display:none">
+            <table>
+              <tr>
+                <th>Name</th>
+                <th>Class</th>
+                <th>Year</th>
+                <th>Applied Date</th>
+                <th>Status</th>
+              </tr>
+              <tr *ngFor='let application of (admission_application | searchApplication : child_name.value : app_key.value : status.value : class_applied.value : gender.value :
+              profession.value : religion.value : caste.value : lower_income.value : higher_income.value : unpaid_key.value : unpaid_app_flag.value ) as applications_filter_result'>
+               <td *ngIf="application">{{application.additional_information.candidate.full_name}}</td>
+               <td *ngIf="application">{{application.class_applied}}</td>
+               <td *ngIf="application">{{application.admission_year}}</td>
+               <td *ngIf="application">{{application.date_of_application | date}}</td>
+               <td *ngIf="application">{{application.status}}</td>
+             </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 height100 overflow-y" *ngIf="selected_application_item">
+        <app-application-details *gcAccessControl="'APPL_DETAILS'" [admission_application]="selected_application_item" (applStatusChange)="onApplicationStatusChange($event)">
+        </app-application-details>
+      </div>
+    </div>
+  </div>
+</div>

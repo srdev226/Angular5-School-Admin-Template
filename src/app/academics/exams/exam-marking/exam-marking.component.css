@@ -1,0 +1,263 @@
+.exam-table {
+	background-color: #ffffff;
+}
+
+.exam-table tbody tr td {
+    padding: 15px 0;
+    font-weight: 300;
+    border-bottom: unset;
+}
+
+.exam-table tbody tr th {
+	padding-left: calc(2% - 8px);
+    display: inline-block;
+}
+
+.exam-table tbody th {
+	font-size: 12px;
+	font-weight: bold;
+	color: #525e66;
+}
+
+.exam-header {
+	border-bottom: 2px solid #7ac943;
+}
+
+.exam-header th{
+	padding-bottom: 9px;
+}
+
+.exam-row {
+	margin-top: 15px;
+	padding: 10px 0;
+}
+
+.exam-row tbody tr td {
+	padding: 0px calc(2% - 8px);
+	font-family: Roboto;
+	font-size: 14px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #525e66;
+    display: inline-block;
+}
+
+.exam-row tbody tr td img{
+	margin:	-6px 0px 0px 15px;
+	height: 15px;
+	width: 20px;
+}
+
+.class-name {
+	padding-left: 3% !important;
+	width: calc(12% + 50px);
+}
+
+.sub-name {
+    width: calc(12% + 50px);
+}
+
+.sub-code {
+	width: calc(12% + 50px);
+}
+
+.mark-stud {
+    width: calc(64% - 150px);
+}
+
+.mark-stud span{
+    width: 99px;
+    height: 19px;
+    font-size: 14px;
+    font-weight: normal;
+    float: right;
+    color: #268ff0;
+}
+
+.sub-header {
+    padding: 0px 0px 2px 0px;
+}
+
+.sub-header tbody tr td{
+    font-size: 14px;
+    font-weight: 500;
+    color: #525e66;
+}
+
+.sub-row {
+    background-color: #f2f2f2;
+    padding: 15px 0 !important;
+    margin-top: 2px !important;
+}
+
+.exam-row .collapse,
+.exam-row .dropdown-menu {
+    background-color: rgb(242, 242, 242);
+    border-color: rgb(122, 201, 67);
+    border-style: solid;
+    border-width: 1px;
+    width: 199px;
+    margin-left: -200px;
+    top: unset;
+    left: unset;
+    position: absolute;
+    border-radius: unset;
+}
+
+.aca-marking {
+	height: 100%;
+    color: #525e66;
+}
+
+.aca-marking .collapsing {
+   	transition-duration: none;
+   	transition: none !important;
+   	transition-delay: none;
+   	display: none !important;
+}
+
+.aca-marking ul li{
+    height: 29px;
+    padding: 6px 20px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #525e66;
+}
+
+.aca-marking ul li:hover {
+    font-weight: 500;
+    color: #525e66;
+    background-color: #e3e3e3;
+}
+
+.exam-select {
+	font-size: 18px;
+	font-weight: 500;
+	color: #525e66;
+}
+
+.marking-header {
+	padding-bottom: 15px;
+}
+
+.marking-header .dropdown-menu{
+    border-radius: unset;
+    top: unset;
+    left: unset;
+}
+
+.add-subject {
+    position: fixed;
+    z-index: 100;
+    width: 127px;
+    height: 35px;
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #aaaaaa;
+    background-color: #ffffff;
+    padding: 7px;
+    top: 10px;
+    left: calc(100% - 200px);
+}
+
+.add-subject:hover {
+    background-color: #f2f2f2;
+}
+
+.add-a-subject {
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #525e66; 
+    margin-left: 8px;
+}
+
+.view-allsub {
+    width: 469px;
+    height: 30px;
+    font-size: 16px;
+    font-weight: normal;
+    color: #525e66;
+    padding: 5px 0;
+}
+
+.filter-sub {
+    font-size: 14px;
+    font-weight: normal;
+    color: #525e66;
+    height: 30px;
+}
+
+.clear-filter {
+    font-weight: 500;
+    color: #02a9e6;
+    padding: 5px 10px;
+    height: 30px;
+    display: inline-block;
+    margin-left: 11px;
+}
+
+th.class-name span.dropdown-toggle {
+    background: url(assets/images/down-16@2x.png) no-repeat center;
+    background-size: 17px;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    position: absolute;
+    margin-left: 5px;
+}
+
+th.class-name span.dropdown-toggle:hover {
+    background: url(assets/images/down-active@2x.png) no-repeat center;
+    background-size: 17px;
+}
+
+th.class-name .dropdown-menu {
+    position: absolute;
+    margin-left: 3%;
+    border: solid 1px #7ac943;
+    border-radius: unset;
+    margin-top: 0px !important;
+}
+
+.margin-top15 {
+    margin-top: 25px !important;
+}
+
+.table-contents {
+    overflow-y: auto;
+    height: calc(100% - 63px);
+    position: sticky;
+}
+
+.class-box span {
+    float: right;
+    margin-top: -2px;
+    margin-left: 6px;
+}
+
+.class-box {
+    background-color: #f2f2f2;
+    border: 1px solid #f0f0f0;
+    opacity: 0.8;
+    margin-left: 11px;
+    min-width: 100px;
+    width: fit-content;
+    height: 30px;
+    padding: 5px 10px;
+    display: inline-block;
+}
+
+.class-box:hover {
+    opacity: 1;
+    border: 1px solid #f0f0f0;
+}

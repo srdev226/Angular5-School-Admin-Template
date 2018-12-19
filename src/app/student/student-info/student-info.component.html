@@ -1,0 +1,668 @@
+<div class="container">
+  <div class="row height100 paddedRow">
+    <div class="boxedDiv shadow">
+      <div class="header col-lg-3 col-md-3 col-sm-6 col-xs-12 warning nopadding">
+        <h4> Student Profile</h4>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <span *ngIf="studentInfo.student.student_key && !mother.full_name && !father.full_name" class="alert alert-danger">
+          Please fill parent details
+        </span>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+        <div *gcAccessControl="'STUDENT_EDIT'" class="rightEditButton">
+          <button type="button" class="formButton" *ngIf="studentInfo.student.student_key && !isEditing" (click)="isEditing = true">
+            Edit Profile
+          </button>
+        </div>
+        <div>
+          <button type="button" class="formButton greyButton pull-right" (click)="goToStudentList()">Back</button>
+        </div>
+      </div>
+
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <ul class="nav nav-tabs nav-justified">
+          <li [ngClass]=" {'active': tab=='student' }">
+            <a (click)=" tab = 'student' " href="javascript:void(0)">Student</a>
+          </li>
+          <li *ngIf="studentInfo.student.student_key" [ngClass]=" {'active': tab=='mother' }">
+            <a (click)=" tab = 'mother' " href="javascript:void(0)">Mother</a>
+          </li>
+          <li *ngIf="studentInfo.student.student_key" [ngClass]=" {'active': tab=='father' }">
+            <a (click)=" tab = 'father' " href="javascript:void(0)">Father</a>
+          </li>
+          <!-- <li *ngIf="!studentInfo.student.student_key"><a class="disabled">Mother</a><li>
+        <li *ngIf="!studentInfo.student.student_key"><a class="disabled">Father</a></li> -->
+        </ul>
+      </div>
+
+      <div *ngIf="!isSuccess" class="maxHeight85 padded-div">
+        <form (ngSubmit)="addOrUpdateStudent()" #studentForm="ngForm" class="marginTop20">
+          <div class="tab-panel" id="tabPanel1" *ngIf="tab=='student'">
+            <div class="row ">
+
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" *ngIf="isEditing">
+                <div class="iconDiv" >
+                  <app-image [profile_image_url]="profile_image_url" (onUploaded)=" onImageUpload($event)"></app-image>
+                </div>
+              </div>
+
+              <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" *ngIf="isEditing">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <div class="input-group required formTextGroup paddedGroup darkText">
+                    <span class="textLabelMain">Name</span>
+                    <span class="input-group-addon" id="basic-addon1">
+                      <i class="icon-key" title="Name"></i>
+                    </span>
+                    <input [(ngModel)]="studentInfo.person.full_name" type="text" name="Name" required #name="ngModel" class="formTextControl"
+                    />
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <div class="input-group required formTextGroup darkText noBorder">
+                    <span class="textLabelMain">Gender</span>
+                    <br>
+                    <label class="control control--radio displayInlineBlock">Male
+                      <input type="radio" name="radio" [(ngModel)]="studentInfo.person.gender" value="Male" />
+                      <div class="control__indicator"></div>
+                    </label>
+                    <label class="control control--radio displayInlineBlock">Female
+                      <input type="radio" name="radio" [(ngModel)]="studentInfo.person.gender" value="Female" />
+                      <div class="control__indicator"></div>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <div class="input-group required formTextGroup paddedGroup darkText">
+                    <span class="textLabelMain">Date of Birth(DD/MM/YYYY)</span>
+                    <span class="input-group-addon" id="basic-addon1">
+                      <i class="icon-key" title="Date of Birth"></i>
+                    </span>
+                    <input [(ngModel)]="studentInfo.person.dob" type="text" name="dob" required #dob="ngModel" [ngClass]="{'error': dob.invalid && !dob.pristine}"
+                      pattern="^(((0[1-9]|[12]\d|3[01])/(0[13578]|1[02])/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)/(0[13456789]|1[012])/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])/02/((19|[2-9]\d)\d{2}))|(29/02/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$"
+                      class="formTextControl" />
+                  </div>
+                  <div [ngClass]="{'hidden': dob.valid || dob.pristine}" class="alert smallMsg">
+                    Date of Birth is not valid
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <div class="input-group formTextGroup noBorder paddedGroup" *ngIf="notification_numbers.length > 0">
+                    <span class="textLabelMain">Contact Mobile Number</span>
+                    <select name="contact" [(ngModel)]="selected_contact" (change)="updateContact($event.target.value)">
+                      <option value="-1"> -- Select -- </option>
+                      <option *ngFor="let no of notification_numbers;let i = index" [value]="no.person_key" [attr.selected]="i == 0">{{ no.notification_number }} - ({{no.name}})</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <app-student-profile [studentInfo]="studentInfo" *ngIf="!isEditing"></app-student-profile>
+
+            </div>
+
+            <div class="row paddedRow" *ngIf="isEditing">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="input-group required formTextGroup paddedGroup darkText">
+                  <span class="textLabelMain">Admission Number</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="Admission Number"></i>
+                  </span>
+                  <input [(ngModel)]="studentInfo.student.admission_number" type="text" name="admissionNumber" required #admissionNumber="ngModel"
+                    [ngClass]="{'error': admissionNumber.invalid && !admissionNumber.pristine}" class="formTextControl" />
+                </div>
+                <div [ngClass]="{'hidden': admissionNumber.valid || admissionNumber.pristine}" class="alert smallMsg">
+                  Admission Number is not valid
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="input-group required formTextGroup paddedGroup darkText">
+                  <span class="textLabelMain">Year of Admission</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="Year of Admission"></i>
+                  </span>
+                  <!--<input [(ngModel)]="studentInfo.student.admission_year" type="text" name="yearofadmission" required
+                placeholder="Year of Admission" #yearofadmission="ngModel" class="formTextControl" />-->
+                  <select [(ngModel)]="studentInfo.student.admission_year" name="yearofadmission" #yearofadmission="ngModel" class="formTextControl select-filter">
+                     <option value="-1" selected>Select Academic year</option>
+                     <option *ngFor="let academic_year of academic_years" [value]="academic_year.code"> {{academic_year.name}} </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="input-group required formTextGroup paddedGroup darkText">
+                  <span class="textLabelMain">Class ({{ current_academic_year}})</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="Class"></i>
+                  </span>
+                  <select [(ngModel)]="studentInfo.student.current_class_key" (ngModelChange)="setDivisions(studentInfo.student.current_class_key)"
+                    name="class" #class="ngModel" class="formTextControl">
+                    <option value="-1" selected>Select Class</option>
+                    <option *ngFor="let cls of classesList" [value]="cls.class_info_key">{{ cls.name }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="input-group required formTextGroup paddedGroup darkText darkText">
+                  <span class="textLabelMain">Division</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="Division"></i>
+                  </span>
+                  <select [(ngModel)]="studentInfo.student.division" name="division" #division="ngModel" class="formTextControl">
+                    <option value="-1" selected>Select Division</option>
+                    <option *ngFor="let division of divisions" [value]="division">{{ division }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="input-group formTextGroup paddedGroup darkText">
+                  <span class="textLabelMain">Aadhaar Number</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="Adhar Number"></i>
+                  </span>
+                  <input placeholder="XXXX XXXX XXXX" class="masked"[(ngModel)]="this.studentInfo.person.identity_information[0].id_number" type="text" name="adhar_number"  #adhar_number="ngModel"
+                  maxlength="12" class="formTextControl"/>
+               </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="input-group formTextGroup paddedGroup darkText">
+                  <span class="textLabelMain">Blood Group</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="Blood Group"></i>
+                  </span>
+                  <select name="blood_group" [(ngModel)]="studentInfo.person.blood_group" class="formTextControl">
+                    <option value="-1" selected>Select Blood Group</option>
+                    <option *ngFor="let blood_group of productDataService.masterProduct.demographic_configuration.blood_groups" [value]="blood_group.code">{{ blood_group.name }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="input-group formTextGroup paddedGroup darkText">
+                  <span class="textLabelMain">Religion</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="Religion"></i>
+                  </span>
+                  <select [(ngModel)]="studentInfo.person.religion" name="religion" #religion="ngModel" class="formTextControl select-filter">
+                     <option value="-1" selected>Select Religion</option>
+                     <option *ngFor="let religion of productDataService.masterProduct.demographic_configuration.religions" [value]="religion.code">{{ religion.name }} </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="input-group formTextGroup paddedGroup darkText">
+                  <span class="textLabelMain">Caste</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="Class"></i>
+                  </span>
+                  <select [(ngModel)]="studentInfo.person.caste" name="caste" #caste="ngModel" class="formTextControl">
+                    <option value="-1" selected>Select Caste</option>
+                    <option *ngFor="let caste of productDataService.masterProduct.demographic_configuration.castes" [value]="caste.code">{{ caste.name }}</option>
+                  </select>
+                </div>
+              </div>
+             </div>
+             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" *ngIf="schoolDataService.school.demographic_configuration && schoolDataService.school.demographic_configuration.subcastes">
+               <div class="input-group formTextGroup paddedGroup darkText">
+                 <span class="textLabelMain">Subcaste</span>
+                 <span class="input-group-addon" id="basic-addon1">
+                   <i class="icon-key" title="Class"></i>
+                 </span>
+                 <select [(ngModel)]="studentInfo.person.subcaste" name="subcaste" #subcaste="ngModel" class="formTextControl">
+                   <option value="-1" selected>Select Subcaste</option>
+                   <option *ngFor="let subcaste of schoolDataService.school.demographic_configuration.subcastes" [value]="subcaste.code">{{ subcaste.name }}</option>
+                 </select>
+               </div>
+             </div>
+           </div>
+          </div>
+
+          <!-- Mother Details -->
+          <div class="tab-panel" id="tabPanel2" *ngIf="tab=='mother'">
+
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <div class="iconDiv" *ngIf="isEditing">
+                <app-image [profile_image_url]="m_profile_image_url" (onUploaded)="onImageUpload($event)"></app-image>
+              </div>
+              <div class="profilePicDiv shadow" *ngIf="!isEditing">
+                <img name="m_profile_image" [src]="m_profile_image_url" *ngIf="m_profile_image_url" class="profileImage" />
+              </div>
+            </div>
+
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" *ngIf="isEditing">
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="input-group required formTextGroup paddedGroup darkText">
+                  <span class="textLabelMain">Mother's Name</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="MotherName"></i>
+                  </span>
+                  <input [(ngModel)]="mother.full_name" type="text" name="MotherName" required #name="ngModel" class="formTextControl" />
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup paddedGroup darkText">
+                  <span class="textLabelMain">Date of birth</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="MotherDob"></i>
+                  </span>
+                  <input [(ngModel)]="mother.dob" type="text" name="motherdob" #motherdob="ngModel" class="formTextControl" pattern="^(((0[1-9]|[12]\d|3[01])/(0[13578]|1[02])/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)/(0[13456789]|1[012])/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])/02/((19|[2-9]\d)\d{2}))|(29/02/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$"
+                    [ngClass]="{'error': motherdob.invalid && !motherdob.pristine}">
+                  <div [ngClass]="{'hidden': motherdob.valid || motherdob.pristine}" class="alert smallMsg">
+                    Date of Birth is not valid
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup paddedGroup darkText">
+                  <span class="textLabelMain">Mobile number</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="MotherMobile"></i>
+                  </span>
+                  <input [(ngModel)]="mother.phone_numbers[0].phone_number" type="text" name="mothermobile" #mothermobile="ngModel" class="formTextControl"
+                    maxlength="10" pattern='[0-9]{10}' [ngClass]="{'error': mothermobile.invalid && !mothermobile.pristine}"/>
+                  <div [ngClass]="{'hidden': mothermobile.valid || mothermobile.pristine}" class="alert smallMsg">
+                    Mobile Number is not valid
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup paddedGroup darkText">
+                  <span class="textLabelMain">Email</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="MotherEmail"></i>
+                  </span>
+                  <input [(ngModel)]="mother.email_addresses[0].email_id" type="text" name="motheremail" #motheremail="ngModel" class="formTextControl"
+                    pattern='\S+@\S+\.\S+|[789]\d{9}' [ngClass]="{'error': motheremail.invalid && !motheremail.pristine}" />
+                  <div [ngClass]="{'hidden': motheremail.valid || motheremail.pristine}" class="alert smallMsg">
+                    Email is not valid
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup paddedGroup darkText">
+                  <span class="textLabelMain">Address Line 1</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="MotherAddress1"></i>
+                  </span>
+                  <input [(ngModel)]="mother.addresses[0].address_line1" type="text" name="motherAddress1" #motherAddress1="ngModel" class="formTextControl"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top-10" *ngIf="isEditing">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup paddedGroup darkText">
+                  <span class="textLabelMain">Address Line 2</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="MotherAddress2"></i>
+                  </span>
+                  <input [(ngModel)]="mother.addresses[0].address_line2" type="text" name="motherAddress2" #motherAddress2="ngModel" class="formTextControl"
+                  />
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup paddedGroup darkText">
+                  <span class="textLabelMain">Pincode</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="MotherPincode"></i>
+                  </span>
+                  <input [(ngModel)]="mother.addresses[0].pincode" type="text" name="motherPincode" #motherPincode="ngModel" class="formTextControl"
+                    maxlength="6" pattern='[0-9]{6}' [ngClass]="{'error': motherPincode.invalid && !motherPincode.pristine}"
+                  />
+                  <div [ngClass]="{'hidden': motherPincode.valid || motherPincode.pristine}" class="alert smallMsg">
+                    Pincode is not valid
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup paddedGroup darkText">
+                  <span class="textLabelMain">State</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="MotherState"></i>
+                  </span>
+                  <input [(ngModel)]="mother.addresses[0].state" type="text" name="motherState" #motherState="ngModel" class="formTextControl"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" *ngIf="!isEditing">
+              <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <app-auto-enroll [student]="studentInfo.student" [person]="mother"></app-auto-enroll>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup noBorder paddedGroup darkText">
+                  <span class="textLabelMain">Mother's Name</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="MotherName"></i>
+                  </span>
+                  <h5 class="labelValue">{{mother.full_name}}</h5>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup noBorder paddedGroup darkText ">
+                  <span class="textLabelMain">Date of birth</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="MotherDob"></i>
+                  </span>
+                  <h5 class="labelValue" *ngIf="mother.dob !== null && mother.dob !== undefined">{{mother.dob}}</h5>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup noBorder paddedGroup darkText ">
+                  <span class="textLabelMain">Mobile number</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="MotherMobile"></i>
+                  </span>
+                  <h5 class="labelValue" *ngIf="mother.phone_numbers && mother.phone_numbers[0]">
+                    {{mother.phone_numbers[0].phone_number}}
+                  </h5>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup noBorder paddedGroup darkText ">
+                  <span class="textLabelMain">Email</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="MotherEmail"></i>
+                  </span>
+                  <h5 class="labelValue" *ngIf="mother.email_addresses && mother.email_addresses[0]">
+                    {{mother.email_addresses[0].email_id}}
+                  </h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top-10" *ngIf="!isEditing">
+              <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup noBorder paddedGroup darkText ">
+                  <span class="textLabelMain">Address Line 1</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="MotherAddress1"></i>
+                  </span>
+                  <h5 class="labelValue" *ngIf="mother.addresses && mother.addresses[0]">
+                    {{mother.addresses[0].address_line1}}
+                  </h5>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup noBorder paddedGroup darkText ">
+                  <span class="textLabelMain">Pincode</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="MotherPincode"></i>
+                  </span>
+                  <h5 class="labelValue" *ngIf="mother.addresses && mother.addresses[0]">
+                     {{mother.addresses[0].pincode}}
+                   </h5>
+                </div>
+              </div>
+              <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup noBorder paddedGroup darkText ">
+                  <span class="textLabelMain">Address Line 2</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="MotherAddress2"></i>
+                  </span>
+                  <h5 class="labelValue" *ngIf="mother.addresses && mother.addresses[0]">
+                     {{mother.addresses[0].address_line2}}
+                   </h5>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup noBorder paddedGroup darkText ">
+                  <span class="textLabelMain">State</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="MotherState"></i>
+                  </span>
+                  <h5 class="labelValue" *ngIf="mother.addresses && mother.addresses[0]">
+                     {{mother.addresses[0].state}}
+                   </h5>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Father Details -->
+          <div class="tab-panel" id="tabPanel3" *ngIf="tab=='father'">
+
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+              <div class="iconDiv" *ngIf="isEditing">
+                <app-image [profile_image_url]="f_profile_image_url" (onUploaded)=" onImageUpload($event)"></app-image>
+              </div>
+              <div class="profilePicDiv shadow" *ngIf="!isEditing">
+                <img name="f_profile_image" [src]="f_profile_image_url" *ngIf="f_profile_image_url" class="profileImage" />
+              </div>
+            </div>
+
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" *ngIf="isEditing">
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="input-group required formTextGroup paddedGroup darkText">
+                  <span class="textLabelMain">Name</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="FatherName"></i>
+                  </span>
+                  <input [(ngModel)]="father.full_name" type="text" name="FatherName" required #name="ngModel" class="formTextControl" />
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup paddedGroup darkText">
+                  <span class="textLabelMain">Date of birth</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="FatherDob"></i>
+                  </span>
+                  <input [(ngModel)]="father.dob" type="text" name="fatherdob" #fatherdob="ngModel" class="formTextControl" pattern="^(((0[1-9]|[12]\d|3[01])/(0[13578]|1[02])/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)/(0[13456789]|1[012])/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])/02/((19|[2-9]\d)\d{2}))|(29/02/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$"
+                    [ngClass]="{'error': fatherdob.invalid && !fatherdob.pristine}">
+                  <div [ngClass]="{'hidden': fatherdob.valid || fatherdob.pristine}" class="alert smallMsg">
+                    Date of Birth is not valid
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup paddedGroup darkText">
+                  <span class="textLabelMain">Mobile number</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="FatherMobile"></i>
+                  </span>
+                  <input [(ngModel)]="father.phone_numbers[0].phone_number" type="text" name="fathermobile" #fathermobile="ngModel" class="formTextControl"
+                    maxlength="10" pattern='[0-9]{10}' [ngClass]="{'error': fathermobile.invalid && !fathermobile.pristine}"
+                  />
+                  <div [ngClass]="{'hidden': fathermobile.valid || fathermobile.pristine}" class="alert smallMsg">
+                    Mobile Number is not valid
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup paddedGroup darkText">
+                  <span class="textLabelMain">Email</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="FatherEmail"></i>
+                  </span>
+                  <input [(ngModel)]="father.email_addresses[0].email_id" type="text" name="fatheremail" #fatheremail="ngModel" class="formTextControl"
+                    pattern='\S+@\S+\.\S+|[789]\d{9}' [ngClass]="{'error': fatheremail.invalid && !fatheremail.pristine}" />
+                  <div [ngClass]="{'hidden': fatheremail.valid || fatheremail.pristine}" class="alert smallMsg">
+                    Email is not valid
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup paddedGroup darkText">
+                  <span class="textLabelMain">Address Line 1</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="FatherAddress1"></i>
+                  </span>
+                  <input [(ngModel)]="father.addresses[0].address_line1" type="text" name="FatherAddress1" #fatherAddress1="ngModel" class="formTextControl"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="isEditing">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup paddedGroup darkText">
+                  <span class="textLabelMain">Address Line 2</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="FatherAddress2"></i>
+                  </span>
+                  <input [(ngModel)]="father.addresses[0].address_line2" type="text" name="FatherAddress2" #fatherAddress2="ngModel" class="formTextControl"
+                  />
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup paddedGroup darkText">
+                  <span class="textLabelMain">Pincode</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="FatherPincode"></i>
+                  </span>
+                  <input [(ngModel)]="father.addresses[0].pincode" type="text" name="fatherPincode" #fatherPincode="ngModel" class="formTextControl"
+                    maxlength="6" pattern='[0-9]{6}' [ngClass]="{'error': fatherPincode.invalid && !fatherPincode.pristine}"
+                  />
+                  <div [ngClass]="{'hidden': fatherPincode.valid || fatherPincode.pristine}" class="alert smallMsg">
+                    Pincode is not valid
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup paddedGroup darkText">
+                  <span class="textLabelMain">State</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="FatherState"></i>
+                  </span>
+                  <input [(ngModel)]="father.addresses[0].state" type="text" name="fatherState" #fatherState="ngModel" class="formTextControl"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" *ngIf="!isEditing">
+              <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <app-auto-enroll [student]="studentInfo.student" [person]="father"></app-auto-enroll>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup noBorder paddedGroup darkText">
+                  <span class="textLabelMain">Name</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="FatherName"></i>
+                  </span>
+                  <h5 class="labelValue">{{father.full_name}}</h5>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup noBorder paddedGroup darkText">
+                  <span class="textLabelMain">Date of birth</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="FatherDob"></i>
+                  </span>
+                  <h5 class="labelValue" *ngIf="father">{{father.dob}}</h5>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup noBorder paddedGroup darkText">
+                  <span class="textLabelMain">Mobile number</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="FatherMobile"></i>
+                  </span>
+                  <h5 class="labelValue" *ngIf="father.phone_numbers && father.phone_numbers[0]">
+                    {{father.phone_numbers[0].phone_number}}</h5>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup noBorder paddedGroup darkText">
+                  <span class="textLabelMain">Email</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="FatherEmail"></i>
+                  </span>
+                  <h5 class="labelValue" *ngIf="father.email_addresses && father.email_addresses.length > 0">
+                     {{father.email_addresses[0].email_id}}
+                   </h5>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="!isEditing">
+              <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup noBorder paddedGroup darkText">
+                  <span class="textLabelMain">Address Line 1</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="FatherAddress1"></i>
+                  </span>
+                  <h5 class="labelValue" *ngIf="father.addresses && father.addresses.length > 0">
+                     {{father.addresses[0].address_line1}}
+                   </h5>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup noBorder paddedGroup darkText">
+                  <span class="textLabelMain">Pincode</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="FatherPincode"></i>
+                  </span>
+                  <h5 class="labelValue" *ngIf="father.addresses && father.addresses.length > 0">
+                    {{father.addresses[0].pincode}}
+                  </h5>
+                </div>
+              </div>
+              <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup noBorder paddedGroup darkText">
+                  <span class="textLabelMain">Address Line 2</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="FatherAddress2"></i>
+                  </span>
+                  <h5 class="labelValue" *ngIf="father.addresses && father.addresses.length > 0">
+                     {{father.addresses[0].address_line2}}
+                   </h5>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="input-group formTextGroup noBorder paddedGroup darkText">
+                  <span class="textLabelMain">State</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="FatherState"></i>
+                  </span>
+                  <h5 class="labelValue" *ngIf="father.addresses && father.addresses.length > 0">
+                   {{father.addresses[0].state}}
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+              <button type="button" *ngIf="studentInfo.student.student_key && isEditing" class="formButton greyButton" (click)="isEditing = false">Cancel</button>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+              <button type="submit" class="formButton pull-right" *ngIf="!studentInfo.student.student_key" [disabled]="!studentForm.valid">Add Student</button>
+              <button type="submit" class="formButton pull-right" *ngIf="studentInfo.student.student_key && isEditing">Update {{tab}}</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <div *ngIf="isSuccess">
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <div class="profilePicDiv shadow">
+              <i class="icon-cloud-upload iconUpload" title="Upload Profile Pic" id="iconUpload"></i>
+              <img src="assets/images/boy.png" class="profileImage" />
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <div class="input-group darkText noBorder">
+              <h4 *ngIf="!studentInfo.student.student_key">Student Added</h4>
+              <h4 *ngIf="studentInfo.student.student_key">Student Updated</h4>
+              <h5 class="block genderLabel">{{studentInfo.person.full_name}}</h5>
+              <h5 class="block genderLabel">
+                {{studentInfo.person.gender}} {{studentInfo.student.current_class}}-{{studentInfo.student.division}}
+              </h5>
+            </div>
+          </div>
+        </div>
+        <div class="row paddedRow">
+          <button class="formButton" (click)="goToStudentList()">Go to student list</button>
+          <button class="formButton" (click)="addNew()">Add another student</button>
+        </div>
+        <div *ngIf="!isSuccess" class="alert">
+          {{error_message}}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

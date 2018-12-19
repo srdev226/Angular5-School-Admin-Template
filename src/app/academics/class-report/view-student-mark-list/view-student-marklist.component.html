@@ -1,0 +1,95 @@
+<div *ngIf="!editable">
+	<button class="edit-marks pointer" (click)="editMarks()">EDIT MARKS</button>
+</div>
+<div *ngIf="editable">
+	<button class="edit-marks pointer" (click)="saveChanges()">SAVE MARKS</button>
+	<button class="btn-default outline-none" (click)="cancelChanges()">CANCEL CHANGES</button>
+</div>
+<div *ngIf="!ready" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+  <div class="loader" id="loader-1"></div>
+</div>
+<div *ngIf="ready" class="aca-marklist">
+	<div class="title">
+		{{"VIEWING DETAILED MARK LIST FOR CLASS " +
+		 	selected_class.name + " " + selected_division + "  -  " +
+		 	getRollNo(student_id) + " " +
+		 	this.student_list[this.student_id].full_name
+		}}</div>
+  <div class="select-exam">
+  	<span class="arrow-left" (click)="previousStudent()"></span>
+    <span class="dropdown-toggle" data-toggle="dropdown">
+      {{
+      	getRollNo(student_id) + " " +
+		 		this.student_list[this.student_id].full_name
+		 	}}
+    </span>
+    <span class="arrow-right" (click)="nextStudent()"></span>
+  </div>
+
+	<table class="mark-table">
+		<thead>
+			<tr>
+			  <th class="subject">Student Name</th>
+			  <th class="cons-sub"></th>
+			  <th *ngFor="let exam of exam_series" class="test-mark">
+			  	<div>
+			  		{{exam.name}}
+			  	</div>
+			  </th>
+			  <th class="test-mark">
+			  	<div>
+			  		TOTAL
+			  	</div>	
+			  </th>
+			  <th class="test-mark">
+			  	<div>
+			  		GRADE
+			  	</div>	
+			  </th>
+			</tr>
+		</thead>
+
+		<tbody *ngFor="let subjects of student_scores; let i = index">
+			<tr>
+				<td *ngIf="i == 0" colspan="100" class="line">
+					<div class="green-line"></div>
+				</td>
+			</tr>
+			<tr *ngFor="let subject of subjects; let j = index">
+			  <td class="subject">{{subject.name}}</td>
+			  <td class="cons-sub">{{subject.cons_sub_name}}</td>
+			  <td *ngFor="let score of subject.scores; let k = index" class="test-mark">
+			  	<div>
+			  		<input [(ngModel)]="score.score" placeholder="XX" (change)="validate(i, j, k)" [disabled]="!editable || !exam_series[k].results_publish" class="test-label green-border" type="number">
+			  	</div>
+			  </td>
+			  <td *ngIf="j == 0" class="test-mark" [attr.rowspan] ="subject.num_of_cons">
+			  	<div>
+			  		19
+			  	</div>	
+			  </td>
+			  <td *ngIf="j == 0" class="test-mark" [attr.rowspan] ="subject.num_of_cons">
+			  	<div>
+			  		A+
+			  	</div>	
+			  </td>
+			</tr>
+		</tbody>
+	</table>
+	<!-- View-Mark-List Overlay -->
+  <div id="edit-mark-overlay" class="modal fade overlay small-overlay" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title btn-back cur-default" id="myModalLabel" data-dismiss="modal" aria-label="Close" (click)="viewMarklistBack()">
+            <p class="underline-blue">Back</p>
+          </div>
+        </div>
+        <div class="modal-body">
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Overlay -->
+</div>

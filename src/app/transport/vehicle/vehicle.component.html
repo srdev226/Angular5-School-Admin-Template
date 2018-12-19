@@ -1,0 +1,129 @@
+<simple-notifications [options]="notification_options"></simple-notifications>
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 height-minus10-scroll">
+  <div *gcAccessControl="'ADD_VEHICLE_TRANSPORT'" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <h6 class="pull-right pointer greentext vertical-middle" (click)="addNewVehicle()">
+      <i class="icon-plus "></i> ADD VEHICLE</h6>
+  </div>
+  <div class="vehicles-container">
+    <div class="vehicle-div text-center" *ngFor="let vehicle of vehicles;let i = index" [ngClass]="{'active': i == selected_vehicle_index}"
+      (click)="selectVehicle(i) ">
+      <h4 class="block fontweight400">{{vehicle.name}}</h4>
+      <h6 class="block">Reg NO: {{vehicle.registration_number}}</h6>
+    </div>
+  </div>
+</div>
+<div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 height-minus10-scroll">
+  <div class="vehicle-info-div" *ngIf="vehicle && !isEdit">
+    <div *gcAccessControl="'EDIT_VEHICLE_TRANSPORT'" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+        <button type="button" class="formButton pull-right" (click)="isEdit=true">{{vehicle.vehicle_key ? "Edit Vehicle" : "Add Vehicle"}}</button>
+        <h4>{{vehicle.name}}</h4><br>
+   </div>
+
+  <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+    <div *ngIf="vehicle.vehicle_key"class="vehicle-details-div padding-5 ">
+  <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+      <span *ngIf="vehicle.registration_number"> Registration number:</span><br>
+      <h5> {{vehicle.registration_number}}</h5>
+
+      <span *ngIf="vehicle.model">  Model:</span>
+      <h5> {{vehicle.model}}</h5>
+  </div>
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+      <span *ngIf="vehicle.seating_capacity"> Seating Capacity:</span>
+      <h5> {{vehicle.seating_capacity}}</h5>
+      <span *ngIf="vehicle.year">Year: </span>
+      <h5>{{vehicle.year}}</h5>
+   </div>
+    </div>
+    <div *ngIf="vehicle.gps_key"class="vehicle-details-div padding-5 ">
+      <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+          <span>GPS KEY:</span>
+          <h5>{{vehicle.gps_key}}</h5>
+      </div>
+     </div>
+   </div>
+ </div>
+
+  <div class="vehicle-info-div" *ngIf="vehicle && isEdit">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+      <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 nopadding">
+        <div class="input-group required formTextGroup margin-left-0 paddedGroup darkText text-center">
+          <span class="textLabelMain">Vehicle Name</span>
+          <span class="input-group-addon" id="basic-addon1">
+            <i class="icon-key" title="Name"></i>
+          </span>
+          <input [(ngModel)]="vehicle.name" type="text" name="vehicle_name" #vehicle_name="ngModel" minlength="3" maxlength="50" class="formTextControl"
+            required>
+          <div *ngIf="vehicle_name.errors && (vehicle_name.dirty || vehicle_name.touched)" class="alert abolsute-msg smallMsg ">
+            <div [hidden]="!vehicle_name.hasError('required')">
+              Vehicle Name is required
+            </div>
+          </div>
+        </div>
+       </div>
+     </div>
+     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
+          <div class="input-group required formTextGroup margin-left-0 paddedGroup darkText text-center">
+          <span class="textLabelMain">registration number</span>
+          <span class="input-group-addon" id="basic-addon1">
+            <i class="icon-key" title="Number"></i>
+          </span>
+          <input [(ngModel)]="vehicle.registration_number" type="text" name="vehicle_num" #vehicle_num="ngModel" minlength="3" maxlength="50" class="formTextControl"
+            required>
+          </div>
+        </div>
+      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
+        <div class="input-group required formTextGroup margin-left-0 paddedGroup darkText text-center">
+        <span class="textLabelMain">Year</span>
+        <span class="input-group-addon" id="basic-addon1">
+          <i class="icon-key" title="Year"></i>
+        </span>
+        <input [(ngModel)]="vehicle.year" type="text" name="vehicle_yr" #vehicle_yr="ngModel" minlength="3" maxlength="50" class="formTextControl"
+          required>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
+      <div class="input-group required formTextGroup margin-left-0 paddedGroup darkText text-center">
+      <span class="textLabelMain">Model</span>
+      <span class="input-group-addon" id="basic-addon1">
+        <i class="icon-key" title="Model"></i>
+      </span>
+      <input [(ngModel)]="vehicle.model" type="text" name="vehicle_model" #vehicle_model="ngModel" minlength="2" maxlength="50" class="formTextControl"
+        required>
+      </div>
+    </div>
+     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
+      <div class="input-group required formTextGroup margin-left-0 paddedGroup darkText text-center">
+      <span class="textLabelMain">Seating Capacity</span>
+      <span class="input-group-addon" id="basic-addon1">
+        <i class="icon-key" title="Seat"></i>
+      </span>
+      <input [(ngModel)]="vehicle.seating_capacity" type="number" name="vehicle_seat" #vehicle_seat="ngModel" minlength="2" maxlength="50" class="formTextControl"
+        required>
+      </div>
+  </div>
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 nopadding">
+  <div class="input-group  formTextGroup margin-left-0 paddedGroup darkText text-center">
+  <span class="textLabelMain">GPS KEY</span>
+  <span class="input-group-addon" id="basic-addon1">
+    <i class="icon-key" title="gpskey"></i>
+  </span>
+  <input [(ngModel)]="vehicle.gps_key" type="text" name="vehicle_gpskey" #vehicle_gpskey="ngModel" minlength="2" maxlength="50" class="formTextControl">
+  </div>
+</div>
+</div>
+    <div class="row">
+      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+        <button type="button" (click)="isEdit=false" class="formButton greyButton ">Cancel</button>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+          <button type="submit" class="formButton pull-right" (click)="addOrUpdateVehicle()">{{vehicle.vehicle_key ? "Update Vehicle" : "Save Vehicle"}}</button>
+      </div>
+    </div>
+  </div>
+</div>

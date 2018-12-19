@@ -1,0 +1,227 @@
+<div class="container-fluid content-margin" style="overflow-y:scroll;">
+  <div class="row height100 paddedRow">
+    <div class="col-md-12 col-lg-12 padding_none">
+      <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 chartPaneContainer">
+        <div *gcAccessControl="'DASH_OVERDUE_BILLS'" class="chartPane shadowBox green text-center for_chart">
+          <!-- <h5 class="chart--header">Daily collections</h5> -->
+          <button type="button" class="btn btn-default chart-btn-right" (click)="openModal(template)"><i class="fa fa-arrows-alt"></i></button>
+          <!-- <div *ngIf="feeBillData" class="d3 d3--line">
+            <svg class="line-graph">
+              <defs xmlns="http://www.w3.org/2000/svg">
+                <filter id="dropshadow" height="130%">
+                  <feGaussianBlur in="SourceAlpha" stdDeviation="10" />
+                  <feOffset dx="0" dy="0" result="offsetblur" />
+                  <feComponentTransfer>
+                    <feFuncA type="linear" slope="0.6" />
+                  </feComponentTransfer>
+                  <feMerge>
+                    <feMergeNode/>
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+            </svg>
+          </div> -->
+          <!-- <div *ngIf="!feeBillData" class="application-count-div">
+            <h3>No data available</h3>
+          </div> -->
+          <div [chart]="area_chart"></div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 chartPaneContainer">
+       <div *gcAccessControl="'DASH_COLLECTED_BILLS'" class="chartPane shadowBox green for_chart">
+          <div [chart]="due_bills_summary_chart"  style="height: 400px;"></div>
+          <!-- <h5 class="chart--header absolute">Bills Collected</h5> -->
+          <!-- <div id="chart" class="absolutePosition">
+            <svg id="pie-chart">
+              <defs xmlns="http://www.w3.org/2000/svg">
+                <linearGradient id="red_black" x1="0%" y1="0%" x2="0%" y2="100%" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#7873f5" stop-opacity="0.8" />
+                  <stop offset="40%" stop-color="#ec77ab" stop-opacity="0.8" />
+                </linearGradient>
+                <linearGradient id="red_black_border" x1="0%" y1="0%" x2="0%" y2="100%" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#7873f5" stop-opacity="1" />
+                  <stop offset="40%" stop-color="#ec77ab" stop-opacity="1" />
+                </linearGradient>
+                <linearGradient id="red_orange" x1="0%" y1="0%" x2="0%" y2="100%" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#ec8c69" stop-opacity="1" />
+                  <stop offset="40%" stop-color="#ed6ea0" stop-opacity="1" />
+                </linearGradient>'
+                <filter id="dropshadow-pie" height="130%">
+                  <feGaussianBlur in="SourceAlpha" stdDeviation="10" />
+                  <feOffset dx="0" dy="0" result="offsetblur" />
+                  <feComponentTransfer>
+                    <feFuncA type="linear" slope="0.3" />
+                  </feComponentTransfer>
+                  <feMerge>
+                    <feMergeNode/>
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+            </svg>
+          </div> -->
+<!--           <div *ngIf="!current_month_data" class="application-count-div">
+  <h3>No data available</h3>
+</div> -->
+          <!-- <div class="d3-line" id="d3-line">
+            <svg class="line-graph1">
+              <defs xmlns="http://www.w3.org/2000/svg">
+                <filter id="dropshadow" height="130%">
+                  <feGaussianBlur in="SourceAlpha" stdDeviation="10" />
+                  <feOffset dx="0" dy="0" result="offsetblur" />
+                  <feComponentTransfer>
+                    <feFuncA type="linear" slope="0.6" />
+                  </feComponentTransfer>
+                  <feMerge>
+                    <feMergeNode/>
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+            </svg>
+          </div> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 chartPaneContainer small">
+      <div *gcAccessControl="'DASH_APP_COUNT'" class="chartPane shadowBox green">
+        <div class="application-count-div">
+          <h3 *ngIf="application_count">{{application_count}}</h3>
+          <h3 *ngIf="!application_count">No applcations available</h3>
+          <h4>Applications</h4>
+        </div>
+        <div id="application-pie-chart">
+          <svg id="applications-pie-chart">
+            <defs xmlns="http://www.w3.org/2000/svg">
+              <!-- <linearGradient id="red_black" x1="0%" y1="0%" x2="0%" y2="100%" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" style="stop-color:rgb(255,0,0);stop-opacity:1" />
+                <stop offset="100%" style="stop-color:rgb(255,255,0);stop-opacity:1" />
+              </linearGradient> -->
+              <linearGradient id="green_blue" x1="0%" y1="0%" x2="0%" y2="100%" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#65d7d3" stop-opacity="0.8" />
+                <!-- <stop offset="5%" stop-color="#bf91db" /> -->
+                <stop offset="40%" stop-color="#45e550" stop-opacity="0.8" />
+              </linearGradient>
+              <linearGradient id="green_blue_border" x1="0%" y1="0%" x2="0%" y2="100%" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#65d7d3" stop-opacity="1" />
+                <!-- <stop offset="5%" stop-color="#bf91db" /> -->
+                <stop offset="40%" stop-color="#45e550" stop-opacity="1" />
+              </linearGradient>
+              <filter id="dropshadow-pie" height="130%">
+                <feGaussianBlur in="SourceAlpha" stdDeviation="10" />
+                <feOffset dx="0" dy="0" result="offsetblur" />
+                <feComponentTransfer>
+                  <feFuncA type="linear" slope="0.3" />
+                </feComponentTransfer>
+                <feMerge>
+                  <feMergeNode/>
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div *gcAccessControl="'DASH_DUE_BILLS'" class="col-lg-4 col-md-4 col-sm-12 col-xs-12 chartPaneContainer small">
+      <div class="chartPane shadowBox green padded">
+        <h5 class="chart--header text-center block">Due Bills</h5>
+        <div *ngIf="current_month_data">
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" *ngFor="let data of current_month_data[0]?.overdue_students_list;let i =index"
+            [ngClass]="{'hidden':i>5}">
+            <div class="due-bill-div">
+              {{data.full_name}}
+              <a>PAY</a>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!current_month_data" class="application-count-div">
+          <h3>No data available</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 chartPaneContainer small">
+      <div *gcAccessControl="'DASH_SCHOOL_DETAIL'" class="chartPane shadowBox green padded text-right">
+        <h2 class="margin-top-10 greentext fontweight400 school-name-text-h2">{{school.name}}</h2>
+        <div class="school-details-info">
+          <h5>{{school.address}}</h5>
+          <i class="fa fa-map-marker" aria-hidden="true"></i>
+        </div>
+        <div class="school-details-info">
+          <h5>{{school.school_information.phone}}</h5>
+          <i class="fa fa-phone" aria-hidden="true"></i>
+        </div>
+        <div class="school-details-info">
+          <h5>{{school.school_information.email}}</h5>
+          <i class="fa fa-envelope-o" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="studentData" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 relative" style="margin-left:-20px;">
+        <!-- <i class="fa fa-angle-left navigation-icon left" aria-hidden="true" *ngIf="classindex>0" (click)="classindex = classindex - 1"></i>
+        <i class="fa fa-angle-right navigation-icon right" aria-hidden="true" *ngIf="studentData.class_student_data.length > (classindex * 5 + 5) "
+          (click)="classindex = classindex + 1"></i> -->
+        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 chartPaneContainer noheight no-left-padding">
+          <div *gcAccessControl="'DASH_TOTAL'" class="chartPane shadowBox green padded text-center">
+            <h3 class="block">STUDENTS</h3>
+            <!-- <h1 class="colored-text">{{studentData.total_girls_count + studentData.total_boys_count}}</h1> -->
+            <angular-d3-donut [id]="donutChartId" [spreadSlice]=true width="400" height="320" [middleText]="studentData.total_girls_count+studentData.total_boys_count" [middleTextFontSize]="'2.5em'" [middleTextColor]="'#3ED783'" [data]="donutChartData"></angular-d3-donut>
+          </div>
+        </div>
+        <!-- <div *ngFor="let class of studentData.class_student_data;let i=index">
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 chartPaneContainer noheight" *ngIf="i>=5*classindex && i< 5*classindex + 5">
+            <div class="chartPane shadowBox green padded text-center">
+              <h3 class="block">{{class.class_name + ""+class.division_name}}</h3>
+              <h1 class="colored-text">{{class.boys_count+class.girls_count }}</h1>
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+    <!-- <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 chartPaneContainer noheight">
+      <div class="chartPane shadowBox green padded text-center">
+        <h3 class="block">8A</h3>
+        <h1>120</h1>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 chartPaneContainer noheight">
+      <div class="chartPane shadowBox green padded text-center">
+        <h3 class="block">8A</h3>
+        <h1>120</h1>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 chartPaneContainer noheight">
+      <div class="chartPane shadowBox green padded text-center">
+        <h3 class="block">8A</h3>
+        <h1>120</h1>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 chartPaneContainer noheight">
+      <div class="chartPane shadowBox green padded text-center">
+        <h3 class="block">8A</h3>
+        <h1>120</h1>
+      </div>
+    </div> -->
+
+  </div>
+</div>
+
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left"></h4>
+        <button type="button" class="close pull-right"
+                aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+      <div [chart]="area_chart2"></div>
+    </div>
+</ng-template>

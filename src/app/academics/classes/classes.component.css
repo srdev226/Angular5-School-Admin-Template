@@ -1,0 +1,451 @@
+.class-table {
+	background-color: #ffffff;
+}
+
+.class-table tbody tr td {
+    padding: 15px 0;
+    font-weight: 300;
+    border-bottom: unset;
+}
+
+.class-table tbody tr th {
+	padding-left: calc(2% - 8px);
+}
+
+.class-table tbody th {
+	font-family: Roboto;
+	font-size: 12px;
+	font-weight: bold;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #525e66;
+}
+
+.class-header {
+	border-bottom: 2px solid #7ac943;
+}
+
+.class-header th{
+	padding-bottom: 9px;
+	border-bottom: 2px solid #7ac943;
+}
+
+.class-row {
+	margin-top: 7px;
+	padding: 10px 0;
+	background-color: #f2f2f2;
+}
+
+.class-row tbody tr td {
+	padding: 7px calc(2% - 8px);
+	font-family: Roboto;
+	font-size: 14px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #525e66;
+}
+
+.class-row tbody tr td img{
+	margin:	-6px 0px 0px 15px;
+	height: 15px;
+	width: 20px;
+}
+
+.class {
+	padding-left: 3% !important;
+	width: 16%;
+}
+
+.class p {
+	margin: unset;
+}
+
+.division {
+	width: 12%;
+}
+
+.cla-tcher {
+	width: 22%;
+}
+
+.class-row .cla-tcher:hover {
+	background-color: #e3e3e3;
+}
+
+.stdnt {
+	width: 12%;
+}
+
+.attd {
+	width: 16%;
+}
+
+.subj {
+	width: 14%;
+}
+
+.class-row .attd,
+.class-row .subj {
+	font-size: 12px !important;
+	color: #268ff0 !important;
+}
+
+.option {
+    width: 8%;
+    padding-left: calc(5% - 25px) !important;
+}
+
+.opt-btn {
+	padding: 1px 3px 5px 3px;
+	cursor: pointer;
+}
+
+.opt-btn:hover .oval{
+	background-color: #7ac943;
+}
+
+.oval {
+  	height: 5px;
+  	width: 5px;
+  	background-color: #525e66;
+  	border-radius: 50%;
+  	display: inline-block;
+}
+
+.class-row .collapse,
+.class-row .dropdown-menu {
+    background-color: rgb(242, 242, 242);
+    border-color: rgb(122, 201, 67);
+    border-style: solid;
+    border-width: 1px;
+    width: 199px;
+    margin-left: -200px;
+    top: unset;
+    left: unset;
+    position: absolute;
+    border-radius: unset;
+}
+
+.aca-classes {
+	height: 100%;
+}
+
+.aca-classes .collapsing {
+/*	position: fixed;
+    background-color: rgb(242, 242, 242);
+    border-color: rgb(122, 201, 67);
+    border-style: solid;
+    border-width: 1px;
+    width: 199px;
+    margin-left: -200px;*/
+   	transition-duration: none;
+   	transition: none !important;
+   	transition-delay: none;
+   	display: none !important;
+}
+
+.aca-classes ul li{
+	height: 37px;
+    padding: 10px 20px;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+}
+
+.aca-classes ul li:hover {
+    font-weight: 500;
+    color: #525e66;
+    background-color: #e3e3e3;
+}
+
+.add-class {
+	position: fixed;
+	z-index: 100;
+	width: 127px;
+  	height: 35px;
+  	border-radius: 4px;
+  	border-style: solid;
+  	border-width: 1px;
+  	border-color: #aaaaaa;
+  	background-color: #ffffff;
+  	padding: 7px;
+	top: 10px;
+    left: calc(100% - 200px);
+}
+
+.add-class:hover {
+	background-color: #f2f2f2;
+}
+
+
+.add-a-class {
+	font-family: Roboto;
+	font-size: 14px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	text-align: center;
+	color: #525e66;
+	margin-left: 8px;
+}
+
+.triangle {
+    position: fixed;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 12px 9px 0px 9px;
+    border-color: #7ac943 transparent transparent transparent;
+    margin-top: 6px;
+    margin-left: 5px;
+}
+
+.class-select {
+	font-family: Roboto;
+	font-size: 18px;
+	font-weight: 500;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #525e66;
+}
+
+.search-box {
+	width: 271px;
+	height: 30px;
+	border-radius: 100px;
+	border-style: solid;
+  	border-width: 1px;
+  	border-color: #dedede;
+	background-color: #ffffff;
+	padding: 4px 15px;
+	float: right;
+}
+
+.search-box:focus {
+	border-color: #999999;
+}
+
+.search-box input{
+	border: none;
+	outline: none;
+    width: 220px;
+    opacity: 0.7;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: italic;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #111111;
+}
+
+.search-box img {
+	margin-top: 2px;
+}
+
+.search-box input.middle:focus {
+    outline-width: 0;
+}
+
+.sel-cla {
+	display: inline;
+	width: 196px;
+}
+
+.sel-aca {
+	width: 300px;
+  display: inline-block;
+}
+
+.cla-header {
+	padding-bottom: 20px;
+}
+
+.cla-header .dropdown-menu{
+    border-radius: unset;
+    top: unset;
+    left: unset;
+}
+
+@media (max-width: 1024px) {
+	.aca-classes {
+		margin-left: -28px;
+    	margin-right: -28px;
+	}
+}
+
+#class-type {
+	position: fixed;
+    margin-top: 25px;
+    width: 178px;
+    margin-left: 10px;
+    background-color: rgb(242, 242, 242);
+    border-color: rgb(122, 201, 67);
+    border-style: solid;
+    border-width: 1px;
+}
+
+#academic-year {
+	position: fixed;
+    margin-top: 2px;
+    width: 188px;
+    background-color: rgb(242, 242, 242);
+    border-color: rgb(122, 201, 67);
+    border-style: solid;
+    border-width: 1px;
+}
+
+select.formTextControl.select-filter{
+	border: none !important;
+    padding: 8px;
+    height: auto !important;
+    max-height: 100px !important;
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+}
+
+select.formTextControl {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	-o-appearance: none;
+  /* no standardized syntax available, no ie-friendly solution available */
+}
+
+select + i.fa {
+	float: right;
+	margin-top: -30px;
+	margin-right: 5px;
+	/* this is so when you click on the chevron, your click actually goes on the dropdown menu */
+	pointer-events: none;
+	/* everything after this is just to cover up the original arrow */
+	/* (for browsers that don't support the syntax used above) */
+	background-color: #fff;
+	padding-right: 5px;
+}
+
+.table-contents {
+	height: calc(100% - 74px);
+	overflow-y: auto;
+	position: sticky;
+}
+
+.input-group {
+	height: 35px;
+    padding: 7px 11px;
+    opacity: 0.7;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+
+    border-radius: 4px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ababab;
+}
+
+.small-button {
+	height: 20px;
+    width: 20px;
+    min-width: unset;
+    background-color: #7ac943;
+    border-radius: unset;
+    font-size: 20px;
+    padding: 0;
+    opacity: 1 !important;
+}
+
+.small-button:hover {
+	background-color: #69b832;
+}
+
+.formTextControl {
+    width: 100%;
+    padding: 0 10px;
+    margin: unset;
+    font-size: 16px;
+    font-weight: normal;
+    opacity: 1;
+}
+
+.input-group-addon {
+	padding: unset;
+    background: none;
+    border: none;
+}
+
+.input-focus {
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    opacity: 1;
+    border-color: #bcbcbc;
+}
+
+.add-subject {
+	width: 27px;
+	height: 27px;
+	margin-top: 3px;
+	margin-left: 15px;
+}
+
+.reduce-width {
+	width: calc(50% - 140px) !important;
+}
+
+.reduce-width .dropdown-menu {
+    width: calc(20% + 33px);
+}
+
+.input-group ::webkit-input-placeholder {
+	opacity: 1 !important;
+}
+
+.selected-sub {
+	font-family: Roboto;
+    font-size: 14px;
+    font-weight: normal;
+    color: #525e66;
+    height: 30px;
+    background-color: rgba(122, 201, 67, 0.5);
+    border: 1px solid rgba(122, 201, 67, 0.5);
+    padding: 4px 10px 0 18px;
+    margin-top: 10px;
+    opacity: 0.8;
+}
+
+.sub-box {
+	padding: 10px 40px 20px 40px;
+	border: solid 1px #bcbcbc;
+    border-radius: 4px;
+}
+
+.selected-sub:hover {
+	opacity: 1;
+	border-color: rgba(122, 201, 67, 1);
+	background-color: rgba(122, 201, 67, 0.8);
+}

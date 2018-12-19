@@ -1,0 +1,48 @@
+.studentListListDiv{
+    height: 90px;
+        overflow: hidden;
+    padding: 15px 30px;
+    margin-bottom: 30px;
+    background-color: #fff;
+    border-radius: 4px;
+}
+.studentListLogo{
+    margin-top: 5px;
+    padding: 5px;
+        height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    border:1px solid  #eee;
+    text-align: center;
+        float: left;
+}
+.detailsContainer{
+           width: calc(100% - 70px);
+    margin-left: 20px;
+}
+.studentListDetailSmall{
+    margin-right: 20px;
+    margin-bottom: 0 !important;
+}
+
+.studentListDetail.bold{
+    font-weight: 400 !important;
+}
+
+.studentListDetailSmall{
+     font-size: 12px;
+    font-weight: 400 !important;
+    color: #707070;
+}
+
+.studentListDetailInput{
+margin-left: 10px;
+}
+
+.control{
+    margin-right: 0px !important;
+}
+
+.verticalAlignTop{
+        vertical-align: top;
+}

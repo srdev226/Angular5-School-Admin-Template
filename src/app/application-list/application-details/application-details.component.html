@@ -1,0 +1,467 @@
+<div *ngIf="admission_application" class="col-lg-12 listcontainer overflowHide">
+  <span *gcAccessControl="'APPL_DETAILS_PRINT'">
+   <button *ngIf="!isUnpaid" class="formButton" (click)="print()">Print</button>
+  </span>
+   <div *ngIf="!isUnpaid" id="print_app_div" style="display:none">
+      <h2 *ngIf="admission_application.child"><b>{{admission_application.child.full_name}}</b></h2>
+      <table cellpadding="5" width="100%" align="center"
+         cellspacing="3">
+         <tr>
+            <td class="label">Applied Class:  &nbsp;<b>{{admission_application.applicationData.class_applied}}</b></td>
+            <td class="label">Application Id : &nbsp;<b>{{admission_application.applicationData.application_key | slice:0:5}}</b></td>
+         </tr>
+      </table>
+      <hr>
+      <table class="aatable" cellpadding="5" width="100%" align="center" cellspacing="2">
+         <tr *ngIf="admission_application.applicationData">
+           <td *ngIf="admission_application.child">
+               <img *ngIf="child_profile_image_url" src="{{child_profile_image_url}}" alt="child" width="100" height="110"align="center">
+               <img *ngIf="!child_profile_image_url" src="{{admission_application.child.gender == 'Male' && 'assets/images/male.png' || 'assets/images/female.png'}}" alt="child" width="100" height="110"align="center">
+           </td>
+           <td  *ngIf="admission_application && admission_application.mother">
+               <img src="{{mother_profile_image_url}}" alt="mother" width="100" height="110"align="center">
+           </td>
+           <td  *ngIf="admission_application && admission_application.father">
+               <img src="{{father_profile_image_url}}" alt="father" width="100" height="110"align="center">
+           </td>
+           <td *ngFor="let image_url of guardian_profile_image_urls">
+             <img src="{{image_url}}" alt="guardian" width="100" height="110"align="center">
+           </td>
+         </tr>
+         <tr>
+            <td *ngIf="admission_application.applicationData">
+              Child
+            </td>
+            <td *ngIf="admission_application && admission_application.mother">
+              Mother
+            </td>
+            <td *ngIf="admission_application && admission_application.father">
+              Father
+            </td>
+            <td *ngFor="let guardian of admission_application.guardians">
+             {{guardian.full_name}} (guardian)
+           </td>
+         </tr>
+      </table>
+      <hr>
+
+      <table class="bbtable" cellpadding="5" width="70%" align="center"
+         cellspacing="2">
+         <tr *ngIf="admission_application.child">
+            <td class="label">Student Name</td>
+            <td>:</td>
+            <td class="data">{{admission_application.child.full_name}}</td>
+            <td class="label">Application Date</td>
+            <td>:</td>
+            <td class="data">{{admission_application.applicationData.date_of_application | date}}</td>
+         </tr>
+         <tr *ngIf="admission_application.applicationData">
+            <td class="label">Application Status</td>
+            <td>:</td>
+            <td class="data">new</td>
+            <td class="label">Year</td>
+            <td>:</td>
+            <td class="data">{{admission_application.applicationData.admission_year}}</td>
+         </tr>
+         <tr *ngIf="admission_application.child">
+            <td class="label">Date of birth</td>
+            <td>:</td>
+            <td class="data"> {{admission_application.child.dob}}</td>
+            <td class="label">Gender</td>
+            <td>:</td>
+            <td class="data">{{admission_application.child.gender}}</td>
+         </tr>
+         <tr *ngIf="admission_application.child">
+            <td class="label" *ngIf="admission_application.child.religion">Religion</td>
+            <td *ngIf="admission_application.child.religion">:</td>
+            <td class="data" *ngIf="admission_application.child.religion"> {{getReligionName(admission_application.child.religion)}}</td>
+            <td class="label" *ngIf="admission_application.child.caste">caste</td>
+            <td *ngIf="admission_application.child.caste">:</td>
+            <td class="data" *ngIf="admission_application.child.caste">{{getCasteName(admission_application.child.caste)}}</td>
+         </tr>
+      </table>
+      <br>
+      <table class="atable" cellpadding="10" width="18%"  align="left"
+         cellspacing="2">
+         <tr height="30">
+            <th class="head">&nbsp;
+               &nbsp;
+            </th>
+         </tr>
+         <tr height="30">
+            <td class="label"> Name</td>
+         </tr>
+         <tr height="30">
+            <td class="label">Education</td>
+         </tr>
+         <tr height="30">
+            <td class="label">Profession</td>
+         </tr>
+         <tr height="30">
+            <td class="label">Annual income</td>
+         </tr>
+         <tr height="55">
+            <td class="label">Address</td>
+         </tr>
+         <tr height="30">
+            <td class="label">Email</td>
+         </tr>
+         <tr height="30">
+            <td class="label">Phone number</td>
+         </tr>
+         <tr height="30">
+            <td class="label">Mobile no</td>
+         </tr>
+      </table>
+      <div *ngIf="admission_application && admission_application.mother">
+         <table class="btable"cellpadding="10" width="41%"  align="left"cellspacing="2">
+            <tr height="30" *ngIf="admission_application.mother">
+               <th class="head"><u>MOTHER</u></th>
+            </tr>
+            <tr>
+               <td class="data" height="30" *ngIf="admission_application.mother">
+                  {{admission_application.mother.full_name}}
+               </td>
+            </tr>
+            <tr height="30">
+               <td class="data" *ngIf="admission_application.mother && admission_application.mother.education">
+                  {{getEducation(admission_application.mother.education.level)}}
+               </td>
+            </tr>
+            <tr height="30" *ngIf="admission_application.mother && admission_application.mother.profession">
+               <td class="data">
+                  {{getProfesssion(admission_application.mother.profession.profession_name)}}
+               </td>
+            </tr>
+            <tr height="30">
+               <td class="data" *ngIf="admission_application.mother && admission_application.mother.profession">
+                  {{admission_application.mother.profession.annual_income}}
+               </td>
+            </tr>
+            <tr height="55">
+               <td class="data"  *ngIf="admission_application.mother && admission_application.mother.addresses
+                  && admission_application.mother.addresses[0]">
+                  {{admission_application.mother.addresses[0].address_line1}},
+                  {{admission_application.mother.addresses[0].address_line2}},
+                  {{admission_application.mother.addresses[0].pincode}},
+                  {{admission_application.mother.addresses[0].state}},
+                  {{admission_application.mother.addresses[0].country}}
+               </td>
+            </tr>
+            <tr height="30" >
+               <td class="data" *ngIf="admission_application.mother && admission_application.mother.email_addresses
+                  && admission_application.mother.email_addresses[0]">
+                  {{admission_application.mother.email_addresses[0].email_id}}
+               </td>
+            </tr>
+            <tr height="30" >
+               <td class="data" >
+                  <div *ngIf="admission_application.mother && admission_application.mother.phone_numbers
+                     && admission_application.mother.phone_numbers[1]">
+                     {{admission_application.mother.phone_numbers[1].phone_number}}
+                  </div>
+               </td>
+            </tr>
+            <tr height="30">
+               <td class="data" *ngIf="admission_application.mother && admission_application.mother.phone_numbers
+                  && admission_application.mother.phone_numbers[0]">
+                  {{admission_application.mother.phone_numbers[0].phone_number}}
+               </td>
+            </tr>
+         </table>
+      </div>
+      <div *ngIf="admission_application && admission_application.father">
+         <table class="ctable"cellpadding="10" width="41%"  align="left"
+            cellspacing="2">
+            <tr height="30" *ngIf="admission_application.father">
+               <th class="head"><u>FATHER</u></th>
+            </tr>
+            <tr height="30" >
+               <td class="data" *ngIf="admission_application.father">
+                  {{admission_application.father.full_name}}
+               </td>
+            </tr>
+            <tr height="30" >
+               <td class="data" *ngIf="admission_application.father && admission_application.father.education">
+                  {{getEducation(admission_application.father.education.level)}}
+               </td>
+            </tr>
+            <tr height="30" >
+               <td class="data" *ngIf="admission_application.father && admission_application.father.profession">
+                  {{getProfesssion(admission_application.father.profession.profession_name)}}
+               </td>
+            </tr>
+            <tr height="30" *ngIf="admission_application.father && admission_application.father.profession">
+               <td class="data">
+                  {{admission_application.father.profession.annual_income}}
+               </td>
+            </tr>
+            <tr height="55">
+               <td class="data" *ngIf="admission_application.father && admission_application.father.addresses
+                  && admission_application.father.addresses[0]">
+                  {{admission_application.father.addresses[0].address_line1}},
+                  {{admission_application.father.addresses[0].address_line2}},
+                  {{admission_application.father.addresses[0].pincode}},
+                  {{admission_application.father.addresses[0].state}},
+                  {{admission_application.father.addresses[0].country}}
+               </td>
+            </tr>
+            <tr height="30">
+               <td class="data" *ngIf="admission_application.father && admission_application.father.email_addresses
+                  && admission_application.father.email_addresses[0]">
+                  {{admission_application.father.email_addresses[0].email_id}}
+               </td>
+            </tr>
+            <tr height="30">
+               <td class="data">
+                  <div *ngIf="admission_application.father && admission_application.father.phone_numbers
+                     && admission_application.father.phone_numbers[1]">
+                     {{admission_application.father.phone_numbers[1].phone_number}}
+                  </div>
+               </td>
+            </tr>
+            <tr height="30">
+               <td class="data" *ngIf="admission_application.father && admission_application.father.phone_numbers
+                  && admission_application.father.phone_numbers[0]">
+                  {{admission_application.father.phone_numbers[0].phone_number}}
+               </td>
+            </tr>
+         </table>
+      </div>
+
+&nbsp;&nbsp;
+<div *ngIf="admission_application && admission_application.guardians && admission_application.guardians[0]">
+  <b><u>GUARDIANS</u></b></div>
+      <div *ngIf="admission_application.guardians.length>0">
+         <table *ngFor="let guardian of admission_application.guardians"  class="dtable" cellpadding="10" width="100%"  align="left"
+            cellspacing="2">
+            <tr height="20">
+              <td  colspan="6"class="data">
+              </td>
+            </tr>
+            <tr height="30">
+               <td class="label">Name</td>
+               <td  colspan="2"class="data">
+                  {{guardian.full_name}}
+               </td>
+              <td class="label">Education</td>
+               <td  colspan="2"class="data" >
+                 <div *ngIf="guardian.education">
+                  {{getEducation(guardian.education.level)}}
+                </div>
+               </td>
+            </tr>
+            <tr height="30">
+              <td class="label">Profession</td>
+               <td  colspan="2"class="data">
+                 <div *ngIf="guardian.profession">
+                  {{getProfesssion(guardian.profession.profession_name)}}
+                </div>
+               </td>
+              <td class="label">Annual Income</td>
+               <td  colspan="2"class="data">
+                 <div *ngIf="guardian.profession">
+                  {{guardian.profession.annual_income}}
+                </div>
+               </td>
+            </tr>
+            <tr  height="40">
+              <td class="label">Address</td>
+               <td colspan="6" class="data" >
+                 <div *ngIf="guardian.addresses[0]">
+                  {{guardian.addresses[0].address_line1}},
+                  {{guardian.addresses[0].address_line2}},
+                  {{guardian.addresses[0].pincode}},
+                  {{guardian.addresses[0].state}},
+                  {{guardian.addresses[0].country}}
+                </div>
+               </td>
+            </tr>
+            <tr height="30">
+              <td class="label">Email id</td>
+              <td class="data">
+                 <div *ngIf="guardian.email_addresses[0]">
+                  {{guardian.email_addresses[0].email_id}}
+                </div>
+              </td>
+              <td class="label">Mobile no</td>
+              <td class="data">
+                  {{guardian.phone_numbers[0]?.phone_number}},{{guardian.phone_numbers[1]?.phone_number}}
+              </td>
+            </tr>
+         </table>
+      </div>
+   </div>
+
+   <div class="row">
+     <simple-notifications [options]="options"></simple-notifications>
+      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+         <h4 class="block">Application ID : {{admission_application.applicationData.application_key | slice:0:5}}</h4>
+         <h5 class="labelValue block nomarginbottom">{{admission_application.applicationData.date_of_application | date}}</h5>
+         <h5 class="label-text">Class</h5>
+         <h5 class="fontweight600">{{admission_application.applicationData.class_applied}}</h5>
+         <h5 class="label-text">Year</h5>
+         <h5 class="fontweight600">{{admission_application.applicationData.admission_year}}</h5>
+      </div>
+      <div *ngIf="!isUnpaid" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+         <!-- <h5>Status </h5> -->
+         <span *gcAccessControl="'APPL_DETAILS_STATUS_CHANGE'">
+           <select *ngIf="admission_application.applicationData.status !== 'Enrolled'" [(ngModel)]="admission_application.applicationData.status"
+            name="status" required placeholder="Status" (ngModelChange)="onStatusChange()">
+              <option *ngFor="let status of application_status_list" [value]="status">{{ status }}</option>
+           </select>
+        </span>
+         <span *ngIf="admission_application.applicationData.status === 'Enrolled'">Enrolled</span>
+         <div><a (click)="toggleNotes()">{{admission_application.applicationData.notes?.length || '0'}} Notes</a></div>
+      </div>
+      <div *ngIf="isUnpaid" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+        <h5>Payment Pending</h5>
+      </div>
+   </div>
+   <div *ngIf="!isEnrolled">
+   <hr class="small" *ngIf="current_application_status === 'Accepted' && !isUnpaid">
+   <div class="row" *ngIf="current_application_status === 'Accepted' && !isUnpaid">
+      <form (ngSubmit)="enrollStudent()" #enrollForm="ngForm">
+      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+         <input [(ngModel)]="admission_number" type="text" name="adm_number" placeholder="Admission Number" required #adm_number="ngModel"/>
+         <div [ngClass]="{'hidden': adm_number.valid || adm_number.pristine}" class="alert small smallMsg">
+            Admission Number is required
+         </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+         <button type="submit" class="formButton pull-right" [disabled]="!enrollForm.valid">Enroll Student</button>
+      </div>
+      </form>
+   </div>
+ </div>
+   <div *ngIf="note_flag && !isUnpaid" >
+      <div class="row">
+         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+            <h5>Notes</h5>
+         </div>
+         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <a (click)="toggleAddNote()">+ add note</a>
+         </div>
+      </div>
+      <div class="row" *ngIf="add_note_flag || (note_flag && !admission_application.applicationData.notes)" >
+         <form (ngSubmit)="addNote()" #noteForm="ngForm">
+         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+            <input [(ngModel)]="note_message" type="text" name="note_msg" placeholder="Message" required #note_msg="ngModel"/>
+            <!-- <div [ngClass]="{'hidden': note_msg.valid || note_msg.pristine}" class="alert small smallMsg">
+               Please enter a message
+               </div> -->
+         </div>
+         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <button type="submit" class="formButton pull-right" [disabled]="!noteForm.valid">Add</button>
+         </div>
+         </form>
+      </div>
+      <div class="row" *ngFor="let note of admission_application.applicationData.notes">
+         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            {{note.entry_date | date:'d MMM'}} {{note.entry_date | date:'shortTime'}}
+         </div>
+         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            {{note.user_name}}
+         </div>
+         <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+            {{note.message}}
+         </div>
+      </div>
+   </div>
+   <div class="row" *ngIf="enrolled_student && !isUnpaid">
+      {{enrolled_student.full_name}} enrolled in class {{enrolled_student.current_class}} for academic year {{enrolled_student.admission_year}}
+   </div>
+   <hr class="small">
+   <span *ngIf="admission_application.child">
+      <div class="row">
+         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+            <h6 class="block nomargin fontweight400">Applicant Name</h6>
+            <h5 class="labelValue fontweight600 nomargin">{{admission_application.child.full_name}}</h5>
+         </div>
+         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+            <h6 class="block nomargin fontweight400">Date of birth</h6>
+            <h5 class="labelValue fontweight600 nomargin">{{admission_application.child.dob}}</h5>
+         </div>
+         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+            <h6 class="block nomargin fontweight400">Gender</h6>
+            <h5 class="labelValue fontweight600 nomargin">{{admission_application.child.gender}}</h5>
+         </div>
+         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" *ngIf="admission_application.child">
+            <h6 class="block nomargin fontweight400">Religion</h6>
+            <h5 class="labelValue fontweight600 nomargin">{{getReligionName(admission_application.applicationData.additional_information.candidate.religion)}}</h5>
+         </div>
+         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" *ngIf="admission_application.child">
+            <h6 class="block nomargin fontweight400">Caste</h6>
+            <h5 class="labelValue fontweight600 nomargin">{{getCasteName(admission_application.child.caste)}}</h5>
+         </div>
+      </div>
+      <hr class="small">
+      <div class="row" *ngIf="!isUnpaid">
+         <div *ngIf="admission_application.mother" class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 header-details-grey">
+               <h5>Mother</h5>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+               <h5 class="block labelValue fontweight600">{{admission_application.mother.full_name}}</h5>
+               <app-contact-details [person_info]="admission_application.mother">
+               </app-contact-details>
+            </div>
+         </div>
+         <div *ngIf="admission_application.father" class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 header-details-grey">
+               <h5>Father</h5>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+               <h5 class="block labelValue fontweight600">{{admission_application.father.full_name}}</h5>
+               <app-contact-details [person_info]="admission_application.father">
+               </app-contact-details>
+            </div>
+         </div>
+         <hr class="small">
+         <div *ngIf="admission_application.guardians.length>0" class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+               <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 header-details-grey">
+                     <h5>Guardian</h5>
+                  </div>
+               </div>
+               <div *ngFor="let guardian of admission_application.guardians">
+                  <div class="row">
+                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                           <h5 class="block labelValue fontweight600">{{guardian.full_name}}</h5>
+                        </div>
+                        <app-contact-details [person_info]="guardian">
+                        </app-contact-details>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div *ngIf="isUnpaid" class="payButton">
+ 			    <button (click)="isPayByCash = true" class="formbutton">Pay By Cash</button>
+ 		  </div>
+      <div [hidden]="!isPayByCash" class="payInput">
+  			<input type="text" [(ngModel)]="billNo" placeholder="Bill Number"/>
+  			<button (click)="payNow()">Pay</button>
+ 			  <button (click)="isPayByCash = false">Cancel</button>
+  		</div>
+   </span>
+   <div *ngIf="admission_application.applicationData.audit_logs && !isUnpaid">
+      <div class="row">
+         <h5>Audit Timeline</h5>
+      </div>
+      <div class="row" *ngFor="let audit_log of admission_application.applicationData.audit_logs">
+         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            {{audit_log.log_date | date:'d MMM'}} {{audit_log.log_date | date:'shortTime'}}
+         </div>
+         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            {{audit_log.user_name}}
+         </div>
+         <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+            {{audit_log.message}}
+         </div>
+      </div>
+   </div>
+</div>

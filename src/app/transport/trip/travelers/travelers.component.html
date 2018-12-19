@@ -1,0 +1,43 @@
+<div *ngIf="studentlist && studentlist.length > 0 && !listFlag && !sendMsgFlag" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  <i class="fa fa-print fa-icon pull-right" title="Print" aria-hidden="true" (click)="listview()"></i>
+  <i class="fa fa-envelope-o fa-icon pull-right" title="Send SMS" aria-hidden="true" (click)="sendMessage()"></i>
+</div>
+<div *ngIf="sendMsgFlag">
+  <app-communication [contactList]="getContactList()" (onSent)="onMessageSent($event)"></app-communication>
+</div>
+<div *ngIf="!sendMsgFlag && !listFlag" class="row padding10 height-85-scroll" >
+  <app-students [students]="students"></app-students>
+</div>
+<div *ngIf="studentlist && studentlist.length > 0 && listFlag">
+<div id="print_div" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 height-85-scroll">
+  <div style="text-align:center"><h3>{{school?.name}}</h3></div>
+  <table>
+    <tr>
+      <td class="align" colspan="5"><b>{{_trip.name}}</b></td>
+    </tr>
+    <tr>
+      <th><b>No</b></th>
+      <th><b>Admission#</b></th>
+      <th><b>Name</b></th>
+      <th><b>Class</b></th>
+      <th><b>Stops</b></th>
+    </tr>
+    <tr *ngFor="let student of studentlist; let i=index" >
+      <td>{{ i + 1}}</td>
+      <td>{{student.student.admission_number}}</td>
+      <td>{{student.student.full_name}}</td>
+      <td><div *ngIf="student.student.current_class">{{student.student.current_class}}-{{student.student.division}}</div></td>
+      <td>{{getStopName(student.stop)}}</td>
+    </tr>
+  </table>
+</div>
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padding">
+  <button type="button" class="formButton greyButton" (click)="listFlag = false">Back</button><br>
+</div>
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 padding">
+  <button type="button" class="formButton pull-right" (click)="print()">Print</button><br>
+</div>
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 padding">
+<button type="button" class="formButton pull-right" (click)="export_table_to_csv(_trip.name + '.csv')">Download</button><br>
+</div>
+</div>

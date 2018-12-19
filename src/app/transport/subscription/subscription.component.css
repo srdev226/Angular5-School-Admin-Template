@@ -1,0 +1,144 @@
+
+.trips-container{
+  padding:0px 0px;
+}
+
+.filter-item{
+    display: inline-block;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.displayInlineBlock{
+    display: inline-block !important;
+}
+
+.control{
+    margin-right: 0px !important;
+}
+
+.trip-div{
+  position: relative;
+  background-color: #f5f5f5;
+  border: 2px solid #f5f5f5;
+  padding: 10px 20px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.trip-div.active{
+  background-color: #fff !important;
+  border: 2px solid #3ED783;
+}
+
+.trip-div.active::after{
+  content: "";
+  border-left: 1em solid #3ED783;
+  border-top: 15pt solid transparent;
+  border-bottom: 15pt solid transparent;
+  width: 0;
+  height: 0;
+  position: absolute;
+  right: -1em;
+  top: 30%;
+}
+
+.trip-div h5,.trip-div h4,.trip-div h5,.trip-div h6{
+  margin: 0 !important;
+  margin-bottom: 5px !important;
+}
+
+.trip-stop-div{
+  position: relative;
+  border: 1px solid #e5e5e5;
+  padding-top: 15px;
+  padding-left: 50px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.trip-info-div{
+  padding: 25px;
+}
+
+.fee-period-div{
+  text-align: center;
+  float: left;
+  display: inline;
+  width: 12%;
+  padding: 2px 10px;
+  border: 1px solid #3ED783;
+  margin-right: 10px;
+  margin-top: 10px;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+.fee-period-div.active{
+  background-color: #3ED783;
+  color: #fff;
+}
+
+.subscription-div{
+  margin-top: 20px;
+  cursor: pointer;
+  overflow: hidden;
+  padding: 15px 30px;
+  margin-bottom: 30px;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+.trip-name{
+  font-size: 16px;
+  font-weight: 300;
+  color: #aaa;
+  margin-bottom: 10px;
+}
+
+.stop-details{
+  font-size: 12px;
+}
+
+.borderRadius6{
+    border-radius: 6px !important;
+}
+
+.trip-info-div{
+
+}
+
+.trip-info{
+  display: flex;
+    align-items: center;
+    padding: 5px 10px;
+  background-color: #eee;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.index-div{
+  font-size: 34px;
+    margin: 0 !important;
+    border-right: 1px solid #ccc;
+    color: #aaa;
+}
+
+.student-name-div{
+  cursor: pointer;
+  text-align: center;
+  padding: 10px;
+  background-color: #caeef5;
+  border: 1px solid #67d9ef;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.student-name-div h4,.student-name-div h6{
+  display: block !important;
+  margin:0;
+  margin-bottom: 5px;
+  color: #06a6c5;
+}

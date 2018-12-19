@@ -1,0 +1,70 @@
+.userRoleListListDiv{
+    height: 90px;
+        overflow: hidden;
+    padding: 15px 30px;
+    margin-bottom: 30px;
+    background-color: #fff;
+    border-radius: 4px;
+}
+
+.userRoleListDetail{
+    margin-bottom: 0 !important;
+    margin-right: 20px;
+    font-size: 16px;
+    font-weight: 300;
+    color: #aaa;
+}
+
+.userRoleListDetailSmall{
+    margin-right: 20px;
+    margin-bottom: 0 !important;
+}
+
+.userRoleListDetail.bold{
+    font-weight: 400 !important;
+}
+
+.userRoleListDetailSmall{
+     font-size: 12px;
+    font-weight: 400 !important;
+    color: #707070;
+}
+
+.userRoleListDetailInput{
+margin-left: 10px;
+}
+
+.detailsContainer{
+    width: calc(100% - 70px);
+    margin-left: 20px;
+}
+
+.userRoleListEdit{
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    right: 25px;
+}
+
+.userRoleListEdit i{
+    color: #3ED783 ;
+    cursor: pointer;
+}
+
+.addNew i{
+    color: #3ED783 ;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.userRoleListEdit{
+    cursor: pointer;
+position: absolute;
+top: 5px;
+right: 25px;
+}
+
+.userRoleListEdit i{
+    color: #3ED783 ;
+    cursor: pointer;
+}

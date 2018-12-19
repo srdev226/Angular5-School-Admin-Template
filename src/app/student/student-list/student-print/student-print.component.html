@@ -1,0 +1,109 @@
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding">
+
+    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+      <div class="filter-item">
+        <label class="control control--checkbox displayInlineBlock">
+          <input type="checkbox" (change)="isGender($event)" />
+          <div class="control__indicator borderRadius6"></div>
+        </label>
+        <h5>Gender</h5>
+      </div>
+      <div class="filter-item">
+        <label class="control control--checkbox displayInlineBlock">
+          <input type="checkbox" (change)="isDob($event)"/>
+          <div class="control__indicator borderRadius6"></div>
+        </label>
+        <h5>DOB</h5>
+      </div>
+      <div class="filter-item">
+        <label class="control control--checkbox displayInlineBlock">
+          <input type="checkbox" (change)="isCaste($event)"/>
+          <div class="control__indicator borderRadius6"></div>
+        </label>
+        <h5>Caste</h5>
+      </div>
+      <div class="filter-item">
+        <label class="control control--checkbox displayInlineBlock">
+          <input type="checkbox" (change)="isNumb($event)"/>
+          <div class="control__indicator borderRadius6"></div>
+        </label>
+        <h5>Mobile</h5>
+      </div>
+      <div class="filter-item">
+        <label class="control control--checkbox displayInlineBlock">
+          <input type="checkbox" (change)="isFather($event)"/>
+          <div class="control__indicator borderRadius6"></div>
+        </label>
+        <h5>Father</h5>
+      </div>
+      <div class="filter-item">
+        <label class="control control--checkbox displayInlineBlock">
+          <input type="checkbox" (change)="isMother($event)"/>
+          <div class="control__indicator borderRadius6"></div>
+        </label>
+        <h5>Mother</h5>
+      </div>
+      <div class="filter-item">
+        <label class="control control--checkbox displayInlineBlock">
+          <input type="checkbox" (change)="isAddress($event)"/>
+          <div class="control__indicator borderRadius6"></div>
+        </label>
+        <h5>Address</h5>
+      </div>
+      <div class="filter-item">
+        <label class="control control--checkbox displayInlineBlock">
+          <input type="checkbox" (change)="isEmpty($event)"/>
+          <div class="control__indicator borderRadius6"></div>
+        </label>
+        <h5>Notes</h5>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+      <button type="button" class="formButton greyButton pull-right" (click)="back()">Back</button><br>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+      <button type="button" class="formButton pull-right" (click)="print()">Print</button><br>
+    </div>
+  </div>
+  <div id="print_div" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 height-85-scroll">
+    <div style="text-align:center"><h3>{{school?.name}}</h3></div>
+    <table class="css-serial table">
+      <tr>
+        <th><b>No</b></th>
+        <th><b>Admission#</b></th>
+        <th><b>Name</b></th>
+        <th><b>Class</b></th>
+        <th *ngIf="isgender"><b>Gender</b></th>
+        <th *ngIf="isdob"><b>DOB</b></th>
+        <th *ngIf="iscaste"><b>Caste</b></th>
+        <th *ngIf="ismother"><b>Mother</b></th>
+        <th *ngIf="isfather"><b>Father</b></th>
+        <th *ngIf="isnum"><b>Mobile</b></th>
+        <th *ngIf="isaddress"><b>Address</b></th>
+        <th  width="30%" *ngIf="isempty"><b>Notes</b></th>
+      </tr>
+      <tr *ngFor="let student of students">
+        <td>&nbsp;</td>
+        <td>{{student.student.admission_number}}</td>
+        <td>{{student.student.full_name}}</td>
+        <td><div *ngIf="student.student.current_class">{{student.student.current_class}}-{{student.student.division}}</div></td>
+        <td *ngIf="isgender"><div *ngIf="student.student.gender">{{student.student.gender}}</div></td>
+        <td *ngIf="isdob"><div *ngIf="student.person">{{student.person.dob}}</div></td>
+        <td *ngIf="iscaste"><div *ngIf="student.person">{{getCasteName(student.person.caste)}}</div></td>
+        <td *ngIf="ismother"><div *ngIf="student.mother">{{student.mother.full_name}}</div></td>
+        <td *ngIf="isfather"><div *ngIf="student.father">{{student.father.full_name}}</div></td>
+        <td *ngIf="isnum">
+          <div *ngIf="student.student.notification_mobile_numbers && student.student.notification_mobile_numbers[student.student.notification_mobile_numbers.length-1]">
+            {{student.student.notification_mobile_numbers[student.student.notification_mobile_numbers.length-1].phone_number}}
+          </div>
+        </td>
+        <td *ngIf="isaddress"><div *ngIf="student.father && student.father.addresses[0]">{{student.father.addresses[0].address_line1}}</div></td>
+        <td width="30%" *ngIf="isempty"></td>
+      </tr>
+    </table>
+  </div>
+  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12 padding">
+ <button type="button" class="formButton" (click)="export_table_to_csv('student.csv')">Download</button><br>
+</div>
+</div>

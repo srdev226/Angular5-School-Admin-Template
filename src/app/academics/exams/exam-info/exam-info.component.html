@@ -1,0 +1,251 @@
+<simple-notifications [options]="options"></simple-notifications>
+  <div class="row height100 paddedRow">
+    <div class="">
+      <div class="row">
+        <div class="header col-lg-9 col-md-9 col-sm-6 col-xs-12 warning nopadding">
+          <h4> Exams</h4>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+          <div *gcAccessControl="'ACADEMICS_EXAMS_EDIT'" class="rightEditButton">
+            <button type="button" class="formButton" *ngIf="!isExamSeries && !isEditing && !no_edit" (click)="edit()">
+              Edit
+            </button>
+          </div>
+          <div>
+            <button type="button" class="formButton greyButton pull-right" (click)="goToExamList()">Back</button>
+          </div>
+        </div>
+      </div>
+      <div class="row maxHeight85 padded-div">
+        <form (ngSubmit)="addOrUpdateExam()" #examForm="ngForm" class="marginTop20">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div  *ngIf="isExamSeries" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div class="input-group required formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Series Name</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Series Name"></i>
+                </span>
+                <input [(ngModel)]="exam.series_name" type="text" name="seriesname" required #series_name="ngModel" class="formTextControl" />
+              </div>
+            </div>
+            <div  *ngIf="!isExamSeries" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="input-group noBorder formTextGroup darkText noBorder">
+                <span class="textLabelMain">Series Name</span>
+                <br>
+                <h5 class="labelValue">{{exam.series_name}}</h5>
+              </div>
+            </div>
+          </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div  *ngIf="isEditing" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div class="input-group required formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Exam Name</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Exam Name"></i>
+                </span>
+                <input [(ngModel)]="exam.name" type="text" name="Name" required #name="ngModel" class="formTextControl" />
+              </div>
+            </div>
+
+            <div *ngIf="!isEditing" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="input-group noBorder formTextGroup darkText noBorder">
+                <span class="textLabelMain">Exam Name</span>
+                <br>
+                <h5 class="labelValue">{{exam.name}}</h5>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="isExamSeries">
+            <div class="input-group required formControlGroup paddedGroup darkText margin-top-10">
+              <span class="textLabelMain">Classes : </span>
+              <div *ngFor="let cls of classes" class="class-div" (click)="addOrRemoveClass(cls.class_info_key)"
+                    [ngClass]="{'active': isClassSelected(cls.class_info_key)}">
+                {{cls.name}}
+              </div>
+              {{selected_classes}}
+            </div>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="!isExamSeries">
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="input-group noBorder formTextGroup darkText noBorder">
+                <span class="textLabelMain">Class</span>
+                <br>
+                <h5 class="labelValue">{{getClass(exam.class_key)}}</h5>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="input-group noBorder formTextGroup darkText noBorder">
+                <span class="textLabelMain">Subject</span>
+                <br>
+                <h5 class="labelValue">{{getSubjectName(exam.subject_code)}}</h5>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div *ngIf="isEditing && exam.exam_key" class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <div class="input-group required formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Exam Status</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Status"></i>
+                </span>
+                <select [(ngModel)]="exam.status" name="exam_status"class="formTextControl select-filter">
+                  <option value="undefined" selected>Select Exam Status </option>
+                  <option *ngFor="let status of exam_status" [value]="status.code">{{status.name}} </option>
+                </select>
+              </div>
+            </div>
+            <div *ngIf="isEditing && exam.exam_key" class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <div class="input-group required formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Visibility</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Visibility"></i>
+                </span>
+                <select [(ngModel)]="exam.visibility" name="exam_visibility" class="formTextControl select-filter">
+                  <option value="undefined" selected>Select Exam Visibility </option>
+                  <option value="SCHOOL"> School </option>
+                  <option value="STUDENT"> Student </option>
+                </select>
+              </div>
+            </div>
+            <div *ngIf="isEditing" class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <div class="input-group required formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Type</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Type"></i>
+                </span>
+                <select [(ngModel)]="exam.type" name="type"class="formTextControl select-filter">
+                  <option value="undefined" selected>Select Exam Type </option>
+                  <option *ngFor="let type of exam_types" [value]="type.code"> {{type.name}} </option>
+                </select>
+              </div>
+            </div>
+            <div *ngIf="isEditing" class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <div class="input-group required formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Assessment Type</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Assessment Type"></i>
+                </span>
+                <select [(ngModel)]="exam.assessment_type" name="assessment_type"class="formTextControl select-filter">
+                  <option value="undefined" selected>Select Assessment Type </option>
+                  <option *ngFor="let type of assessment_types"[value]="type.code"> {{type.name}} </option>
+                </select>
+                </div>
+            </div>
+            <div *ngIf="isEditing" class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <div class="input-group required formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Maximum Score</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Maximum Score"></i>
+                </span>
+                <input [(ngModel)]="exam.max_score" type="number" name="max_score" required #max_score="ngModel" class="formTextControl" />
+              </div>
+              <div [ngClass]="{'hidden': max_score.valid || max_score.pristine}" class="alert smallMsg">
+                Maximum Score is not valid
+              </div>
+            </div>
+            <div *ngIf="isEditing && exam.exam_key && has_constituent_subjects" class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group required formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Aggregation Method</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Aggregation Method"></i>
+                </span>
+                <select [(ngModel)]="exam.aggregation_info.aggregation_method.aggregate_type" name="aggregate_type" class="formTextControl select-filter">
+                  <option value="undefined" selected> Aggregration Method </option>
+                  <option value="ADD"> Add </option>
+                  <option value="AVG"> Average </option>
+                  <option value="BEST"> Best </option>
+                </select>
+              </div>
+            </div>
+            <div *ngIf="isEditing && !isExamSeries" class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <div class="input-group formTextGroup paddedGroup darkText">
+                <span class="textLabelMain">Date (DD/MM/YYYY)</span>
+                <span class="input-group-addon" id="basic-addon1">
+                  <i class="icon-key" title="Date"></i>
+                </span>
+                <input [(ngModel)]="exam.date_time" required type="text" name="date_time" #date_time="ngModel" [ngClass]="{'error': date_time.invalid && !date_time.pristine}"
+                  pattern="^(((0[1-9]|[12]\d|3[01])/(0[13578]|1[02])/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)/(0[13456789]|1[012])/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])/02/((19|[2-9]\d)\d{2}))|(29/02/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$"
+                  class="formTextControl" />
+              </div>
+              <div [ngClass]="{'hidden': date_time.valid || date_time.pristine}" class="alert smallMsg">
+                Exam date is not valid
+              </div>
+            </div>
+
+          </div>
+
+          <!-- View Details -->
+
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="!isEditing">
+            <div  class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="input-group noBorder formTextGroup darkText noBorder">
+                <span class="textLabelMain">Status</span>
+                <br>
+                <h5 class="labelValue">{{getExamStatus(exam.status)}}</h5>
+              </div>
+            </div>
+            <div  class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="input-group noBorder formTextGroup darkText noBorder">
+                <span class="textLabelMain">Visibility</span>
+                <br>
+                <h5 class="labelValue">{{exam.visibility}}</h5>
+              </div>
+            </div>
+            <div  class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="input-group noBorder formTextGroup darkText noBorder">
+                <span class="textLabelMain">Assessment Type</span>
+                <br>
+                <h5 class="labelValue">{{getAssessmentType(exam.assessment_type)}}</h5>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="!isEditing">
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="input-group noBorder formTextGroup darkText noBorder">
+                <span class="textLabelMain">Exam Type</span>
+                <br>
+                <h5 class="labelValue">{{getExamType(exam.type)}}</h5>
+              </div>
+            </div>
+            <div  class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group noBorder formTextGroup darkText noBorder">
+              <span class="textLabelMain">Maximum Score</span>
+              <br>
+              <h5 class="labelValue">{{exam.max_score}}</h5>
+            </div>
+          </div>
+          <div *ngIf="!isEditing && exam.aggregation_info" class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <div class="input-group noBorder formTextGroup darkText noBorder">
+            <span class="textLabelMain">Aggregation Method</span>
+            <br>
+            <h5 class="labelValue">{{exam.aggregation_info.aggregation_method.aggregate_type}}</h5>
+          </div>
+        </div>
+            <div *ngIf="exam.date_time" class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="input-group noBorder formTextGroup darkText noBorder">
+              <span class="textLabelMain">Date</span>
+              <br>
+              <h5 class="labelValue">{{exam.date_time}}</h5>
+            </div>
+          </div>
+        </div>
+
+
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+              <button type="button" *ngIf="!isExamSeries && isEditing" class="formButton greyButton" (click)="isEditing = false">Cancel</button>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+              <button type="submit" class="formButton pull-right" *ngIf="isExamSeries" [disabled]="!examForm.valid">Add Exam Series</button>
+              <button type="submit" class="formButton pull-right" *ngIf="exam.exam_key && isEditing">Update Exam</button>
+            </div>
+          </div>
+
+          <!-- <div *ngIf="!isSuccess" class="alert">
+            {{error_message}}
+          </div> -->
+
+        </form>
+      </div>
+    </div>
+  </div>

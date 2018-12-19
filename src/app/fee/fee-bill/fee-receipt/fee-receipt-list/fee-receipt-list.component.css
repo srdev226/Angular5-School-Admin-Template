@@ -1,0 +1,98 @@
+.fee-bill-list-div{
+    overflow: hidden;
+padding: 15px 30px;
+    margin-bottom: 40px;
+background-color: #fff;
+border-radius: 4px;
+}
+
+.fee-bill-list-div.selected{
+    border-left: 2px solid #3ED783;
+}
+
+.fee-bill-details-text{
+    font-weight: 600 !important;
+    color: #aaa;
+    font-size: 12px;
+    margin: 0 !important;
+}
+.receiptListListDiv{
+    height: 95px;
+        overflow: hidden;
+    padding: 15px 15px;
+        margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 4px;
+}
+.detailsContainer{
+    position: relative;
+           width: calc(100% - 70px);
+}
+.receiptListDetail i{
+        font-size: 12px;
+    margin-left: 5px;
+    margin-right: 10px;
+    font-weight: 200;
+}
+.receiptListDetail{
+    margin-bottom: 5px !important;
+    font-size: 16px;
+    font-weight: 300;
+    color: #aaa;
+}
+.receiptListDetail.small{
+    font-size: 12px !important;
+}
+
+.receiptListDetailSearch{
+    margin-bottom: 0 !important;
+    font-size: 16px;
+    font-weight: 300;
+    color: #aaa;
+}
+
+.receiptListDetailSmall{
+    margin-right: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.receiptListDetail.bold{
+    font-weight: 400 !important;
+}
+
+.receiptListDetailSmall{
+     font-size: 12px;
+    font-weight: 400 !important;
+    color: #707070;
+}
+
+.receiptSerial{
+  color: #b20000;
+}
+
+.receiptListDetailInput{
+  margin-left: 10px;
+}
+
+div.box.cancelled:after
+{
+    content:"CANCELLED";
+    position:absolute;
+    bottom: -20px;
+    left:100px;
+    z-index:1;
+    font-family:Arial,sans-serif;
+
+    font-size:20px;
+    color:#c00;
+    background:#fff;
+    border:solid 4px #c00;
+    padding:5px;
+    border-radius:5px;
+    zoom:1;
+    filter:alpha(opacity=20);
+    opacity:0.2;
+    -webkit-text-shadow: 0 0 2px #c00;
+    text-shadow: 0 0 2px #c00;
+    box-shadow: 0 0 2px #c00;
+}

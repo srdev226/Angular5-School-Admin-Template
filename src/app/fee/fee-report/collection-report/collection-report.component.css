@@ -1,0 +1,63 @@
+.text-align{
+  text-align: center;
+}
+
+.align-right{
+  text-align: right;
+}
+
+.display{
+   display:none;
+}
+
+.align{
+   text-align: center;
+   font-size: 16px;
+   font-weight: normal;
+}
+
+.fee_type{
+  background-color: #bedce5;
+}
+
+.unpaid{
+  background-color: #e0d4ce;
+  padding: 2px;
+}
+
+.padding{
+  padding-left: 8px;
+}
+
+.pending{
+  background-color: #eddbd7;
+}
+
+.feepadding{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.border:hover{
+  border: 2px solid #0bbf35;
+}
+
+.value{
+   border-top: 2px solid black;
+}
+
+.overdue-cell{
+  background-color: #ffb3b3;
+}
+
+.new-cell{
+  background-color: #f4f7f7;
+}
+
+.due-cell{
+  background-color: #ffff99;
+}
+
+.paid-cell{
+  background-color: #ccff99;
+}

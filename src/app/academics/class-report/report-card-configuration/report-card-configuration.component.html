@@ -1,0 +1,154 @@
+
+<div class="config-contents">
+	<div class="btn-back cur-default" (click)="viewOverlayBack()">
+	  <p class="blue-link">Back</p>
+	</div>
+	<button class="btn-done pointer" (click)="viewOverlayBack()">DONE</button>
+	<div class="config-body">
+		<div *ngFor="let config of all_configurations; let i = index" class="config-for-class">
+			<div class="config-row">
+				<div class="class-box col-xs-12 col-sm-12 col-md-10 col-lg-8" style="padding:unset !important;">
+					<div class="row-label col-xs-4 col-sm-4 col-md-4 col-lg-4">CONFIGURATION FOR CLASS</div>
+					<div class="row-input col-xs-4 col-sm-4 col-md-3 col-lg-3">
+				    <div class="dropdown-toggle cur-default input-focus" data-toggle="dropdown">
+	            {{config.academic_year.name}}
+	          </div>
+	          <ul class="dropdown-menu check-dropdown regular-checkbox cur-default">
+	            <li *ngFor="let academic_year of academic_years" (click)="selectYear(academic_year)">{{academic_year.name}}</li>
+	          </ul>
+					</div>
+
+					<div class="row-input col-xs-4 col-sm-4 col-md-5 col-lg-5">
+				    <div class="dropdown-toggle cur-default" [ngClass]="{'input-focus': getSelectedClassesCodes(i) != 'Select Class'}" data-toggle="dropdown">
+	          	{{getSelectedClassesCodes(i)}}
+	          </div>
+	          <ul class="dropdown-menu check-dropdown regular-checkbox cur-default">
+	            <li *ngFor="let class of config.classes; let j = index"><input type="checkbox" (change)="toggleClassSelection(i, j)" [checked]="class.is_selected"/><span>{{'Class ' + class.class_info.name}}</span></li>
+	          </ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="config-row">
+				<div class="row-label">SET GRADE RULES</div>
+				<div class="col-xs-6 col-sm-6 col-md-5 col-lg-4">
+					<div class="rules-title font-size-14 font-weight-500">
+						<div class="pcnt-range col-xs-7 col-sm-7 col-md-7 col-lg-7">Percentage Range</div>
+						<div class="letter-grade col-xs-5 col-sm-5 col-md-5 col-lg-5">
+							<div class="col-xs-12 col-sm-12 col-md-11 col-lg-10 float-right">
+								Letter Grade
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 separate-line back-clr-green"></div>
+					<div class="rules-row font-size-16 font-weight-normal">
+						<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+								<div class="static-box pcnt">90.1</div>
+							</div>
+							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 font-size-14 font-weight-500" style="text-align: center; line-height: 2.5;">to</div>
+							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+								<div class="static-box pcnt">100</div>
+							</div>
+						</div>
+						<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+							<div class="col-xs-12 col-sm-12 col-md-11 col-lg-10 float-right">
+								<div class="static-box">O [Outstanding]</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 separate-line back-clr-grey"></div>
+					</div>
+				</div>
+
+				<div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
+
+				<div class="col-xs-6 col-sm-6 col-md-5 col-lg-4">
+					<div class="rules-title font-size-14 font-weight-500">
+						<div class="pcnt-range col-xs-7 col-sm-7 col-md-7 col-lg-7">Percentage Range</div>
+						<div class="letter-grade col-xs-5 col-sm-5 col-md-5 col-lg-5">
+							<div class="col-xs-12 col-sm-12 col-md-11 col-lg-10 float-right">
+								Letter Grade
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 separate-line back-clr-green"></div>
+					<div class="rules-row font-size-16 font-weight-normal">
+						<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+								<div class="static-box pcnt">90.1</div>
+							</div>
+							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 font-size-14 font-weight-500" style="text-align: center; line-height: 2.5;">to</div>
+							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+								<div class="static-box pcnt">100</div>
+							</div>
+						</div>
+						<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+							<div class="col-xs-12 col-sm-12 col-md-11 col-lg-10 float-right">
+								<div class="static-box">O [Outstanding]</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 separate-line back-clr-grey"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="config-row">
+				<div class="row-label">MARK DISTRIBUTION</div>
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
+					<div class="rules-title font-size-14 font-weight-500">
+						<div class="pcnt-range col-xs-5 col-sm-5 col-md-4 col-lg-4">Exam</div>
+						<div class="letter-grade col-xs-7 col-sm-7 col-md-8 col-lg-8">
+							Percentage Weightage
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 separate-line back-clr-green"></div>
+					<div class="rules-row font-size-14 font-weight-normal">
+						<div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+							<div class="col-xs-10 col-sm-8 col-md-7 col-lg-6">
+								<div class="static-box">Term 1</div>
+							</div>
+						</div>
+						<div class="col-xs-7 col-sm-7 col-md-8 col-lg-8">
+							<div class="col-xs-5 col-sm-4 col-md-3 col-lg-3">
+								<div class="col-xs-9 col-sm-9 col-md-8 col-lg-7 font-weight-500">
+									<div class="static-box pcnt">100</div>
+								</div>
+							</div>
+							<div class="col-xs-7 col-sm-8 col-md-9 col-lg-9 pointer underline-blue">
+								Remove Exam
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 separate-line back-clr-grey"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="config-row">
+				<button type="button" class="btn btn-primary" (click)="saveConfiguration()">SAVE CONFIGURATION</button>
+			  <button type="button" class="btn btn-default" (click)="cancelChanges()">CANCEL CHANGES</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- Warning Modal -->
+	<div id="warning-modal" class="modal fade regular-modal small-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+		  <div class="modal-content">
+		    <div class="modal-header">
+		      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		      <p class="modal-title" id="myModalLabel">WARNING</p>
+		    </div>
+
+		    <div class="modal-body">
+		      Are you sure you want to exit without saving changes?
+		    </div>
+
+		    <div class="modal-footer">
+		    	<button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveChanges()">Save Changes and exit</button>
+		      <button type="button" class="btn btn-default back-grey" data-dismiss="modal" (click)="closeWithoutSaving()">Exit without saving</button>
+		    </div>
+		  </div>
+		</div>
+	</div>
+	<!-- End Modal -->
+<div>

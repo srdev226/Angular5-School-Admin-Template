@@ -1,0 +1,35 @@
+.product-div{
+  text-align: center;
+  display: inline-block;
+  min-width:80px;
+  padding: 2px 10px;
+  border: 1px solid #3ED783;
+  margin-right: 10px;
+  margin-top: 10px;
+  font-size: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.module-div{
+  margin-top: 10px;
+  cursor: pointer;
+  overflow: hidden;
+  padding: 15px 30px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+.product-div.active{
+  background-color: #3ED783;
+  color: #fff;
+}
+
+.module-name{
+  font-weight:bold;
+}
+
+.feature-name{
+  font-style:italic;
+}

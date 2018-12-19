@@ -1,0 +1,199 @@
+
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 height-minus10-scroll">
+  <div *gcAccessControl="'ADD_TRIP_TRANSPORT'" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <h6 class="pull-right pointer greentext vertical-middle" (click)="addNewTrip()">
+      <i class="icon-plus "></i> ADD TRIP</h6>
+  </div>
+  <div class="trips-container">
+    <div class="trip-div text-center" *ngFor="let trip of trips;let i = index" [ngClass]="{'active': i == selected_trip_index}"
+      (click)="selectTrip(i) ">
+      <h4 class="block fontweight400">{{trip.name}}</h4>
+      <h6 class="block">Number of stops : {{trip.stops?.length}}</h6>
+      <h6 class="block">Starting From : {{ trip.stops?.length>0 ? trip.stops[0].code : 'NA'}} {{ trip.stops?.length>0 ? ('at ' + trip.stops[0].eta)
+        : ''}} </h6>
+    </div>
+  </div>
+</div>
+<div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 margin-top-20 trip-header" *ngIf="trip">
+  <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 nopadding">
+    <h4 class="block nomargin">{{trip.name}}</h4>
+    <h5 *ngIf="selected_vehicle" class="nomargin margin-top-10">{{this.selected_vehicle.name}}</h5>
+  </div>
+  <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 nopadding">
+   <i class="fa fa-file-text pull-right info-trip-icon" title="Show fare list" aria-hidden="true" (click)="stopInfo = true"></i>
+   <i class="fa fa-info-circle pull-right info-trip-icon" aria-hidden="true" (click)="showInfo = true"></i>
+  </div>
+</div>
+
+<div class="col-lg-9 col-md-9 col-sm-6 col-xs-12" *ngIf="trip && !isEdit && !stopInfo">
+    <app-trip-logs [trip]="trip"></app-trip-logs>
+</div>
+
+<div class="col-lg-9 col-md-9 col-sm-6 col-xs-12" *ngIf="trip && !isEdit && !stopInfo">
+    <app-travelers [trip]="trip"></app-travelers>
+</div>
+<div id="print_div"  *ngIf="stopInfo" class="col-lg-9 col-md-9 col-sm-6 col-xs-12 height-scroll">
+  <div style="text-align:center"><h3>{{school?.name}}</h3></div>
+  <div style="text-align:center"><h4>{{trip.name}}</h4></div>
+  <div><h4>Fare Amounts({{this.todays_date}})</h4></div>
+ <table>
+  <tr>
+    <th>No</th>
+    <th>Stops</th>
+    <th>Amount</th>
+  </tr>
+  <tr *ngFor="let stoplist of stopList; let i=index">
+    <td>{{ i + 1}}</td>
+    <td>{{stoplist.stop}}</td>
+    <td>{{stoplist.fare_amount}}</td>
+  </tr>
+ </table>
+</div>
+<div *ngIf="stopInfo" class="col-lg-9 col-md-9 col-sm-6 col-xs-12">
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padding">
+  <button type="button" class="formButton greyButton" (click)="stopInfo = false">Back</button><br>
+</div>
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 padding">
+  <button type="button" class="formButton pull-right" (click)="print()">Print</button><br>
+</div>
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 padding">
+<button type="button" class="formButton pull-right" (click)="export_table_to_csv(trip.name + '.csv')">Download</button><br>
+</div>
+</div>
+
+<div class="col-lg-9 col-md-9 col-sm-6 col-xs-12">
+  <div class="live-map-overlay whiteback shadow" *ngIf="showInfo">
+    <i class="fa fa-times pull-right close-trip-info-icon" (click)="showInfo = false"></i>
+    <div class="trip-info-div" *ngIf="trip && !isEdit">
+      <!-- <app-trip-logs [trip]="trip"></app-trip-logs> -->
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 nopadding">
+          <h4>{{trip.name}}</h4>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
+          <h4  *ngIf="selected_vehicle">{{this.selected_vehicle.name}}</h4>
+        </div>
+        <div *gcAccessControl="'EDIT_TRIP_TRANSPORT'" class="col-lg-3 col-md-3 col-sm-12 col-xs-12 nopadding">
+          <button type="button" class="formButton pull-right " (click)="setupEdit()">Edit Trip</button>
+        </div>
+      </div>
+
+      <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 nopadding">
+          <h4>{{trip.name}}</h4>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
+          <h4 *ngIf="selected_vehicle">{{this.selected_vehicle.name}}</h4>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 nopadding">
+          <button type="button" class="formButton pull-right " (click)="isEdit=true">Edit Trip</button>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding margin-top-10">
+          <button type="button" class="formButton pull-right " (click)="showLiveTripTracking()">Live Trip Tracking</button>
+        </div>
+      </div> -->
+
+      <div class="margin-top-10">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding margin-bottom-10">
+          <h4 class="pull-left nomargin vertical-middle">Stops</h4>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 height-85-scroll">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngFor="let stop of trip?.stops;let j =index">
+          <div class="route-stop-div">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <h2 class="stop-index">{{getStopIndex(trip.route_key, stop.stop_code)}}</h2>
+              {{stop.name}}
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <span class="textLabelMain">ETA</span>
+              <h5>{{stop.eta}}</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding margin-bottom-10">
+
+        </div>
+      </div>
+
+    </div>
+    <div class="trip-info-div" *ngIf="trip && isEdit">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
+          <div class="input-group required formTextGroup margin-left-0 paddedGroup darkText text-center">
+            <span class="textLabelMain">Trip Name</span>
+            <span class="input-group-addon" id="basic-addon1">
+              <i class="icon-key" title="Name"></i>
+            </span>
+            <input [(ngModel)]="trip.name" type="text" name="trip_name" #trip_name="ngModel" minlength="3" maxlength="50" class="formTextControl"
+              required>
+            <div *ngIf="trip_name.errors && (trip_name.dirty || trip_name.touched)" class="alert abolsute-msg smallMsg ">
+              <div [hidden]="!trip_name.hasError('required')">
+                Trip Name is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
+          <div class="input-group required formTextGroup margin-left-0 paddedGroup darkText text-center">
+            <span class="textLabelMain">Route</span>
+            <select [(ngModel)]="trip.route_key" (ngModelChange)="selectRoute()">
+              <option value="undefined" selected> -- Select Route -- </option>
+              <option *ngFor="let route of routes" [value]="route.route_key">{{ route.name }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
+          <div class="input-group formTextGroup margin-left-0 paddedGroup darkText text-center">
+            <span class="textLabelMain">Vehicle</span>
+            <select [(ngModel)]="trip.vehicle_key" (ngModelChange)="selectVehicle()">
+              <option value="undefined" selected> -- Select Vehicle -- </option>
+              <option *ngFor="let vehicle of vehicles" [value]="vehicle.vehicle_key">{{ vehicle.name }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+
+      <div *ngIf="trip">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding margin-bottom-10">
+          <h4 class="pull-left nomargin vertical-middle">Stops</h4>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 height-85-scroll">
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngFor="let stop of trip?.stops;let j =index">
+            <div class="route-stop-div padding-5">
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <h2 class="stop-index">{{stop.index}}</h2>
+                {{stop.name}}
+                <!-- <div class="input-group required formTextGroup margin-left-0 paddedGroup darkText text-center">
+                    <span class="textLabelMain">Name</span>
+                    <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="Name"></i></span>
+                    <input [(ngModel)]="stop.name" type="text" [name]="'stopname'+j" minlength="3" maxlength="50" class="formTextControl" required>
+                  </div> -->
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="input-group required formTextGroup nomargin paddedGroup darkText text-center">
+                  <span class="textLabelMain">ETA</span>
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="icon-key" title="Name"></i>
+                  </span>
+                  <input [(ngModel)]="trip.stops[j].eta" type="text" [name]="'eta'+j" minlength="3" maxlength="50" class="formTextControl"
+                    required>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+            <button type="button" (click)="isEdit=false" class="formButton greyButton ">Cancel</button>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <button type="submit" class="formButton pull-right" (click)="addOrUpdateTrip()">Save Trip</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

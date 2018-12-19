@@ -1,0 +1,138 @@
+
+.routes-container{
+  padding: 30px 0px;
+}
+
+.route-div{
+  position: relative;
+  background-color: #f5f5f5;
+  padding: 10px 20px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.route-div.active{
+  background-color: #fff !important;
+  border: 2px solid #3ED783;
+}
+
+.route-div.active::after{
+  content: "";
+  border-left: 1em solid #3ED783;
+  border-top: 15pt solid transparent;
+  border-bottom: 15pt solid transparent;
+  width: 0;
+  height: 0;
+  position: absolute;
+  right: -1em;
+  top: 30%;
+}
+
+.route-div h4,.route-div h5,.route-div h6{
+  margin: 0 !important;
+  margin-bottom: 5px !important;
+}
+
+.route-stop-div{
+  overflow: hidden;
+  position: relative;
+  border: 1px solid #e5e5e5;
+  padding-top: 15px;
+  padding-left: 50px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.route-info-div{
+  padding: 25px;
+}
+
+.route-info-header{
+  margin-bottom: 10px;
+  z-index: 2000;
+}
+
+.route-info-header.editing{
+  border-radius: 4px;
+  color: rgba(62, 215, 131, 1);
+  padding-top: 10px;
+  background-color: #000000c7;
+}
+
+.route-info-header.editing h6{
+  font-weight: 600 !important;
+}
+
+.route-info-header.editing i{
+border: none !important;
+background-color: transparent !important;
+}
+
+.route-info-header.editing input{
+  color: #fff;
+}
+
+.route-info-header{
+  display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left:0;
+    /* background-color: rgba(62, 215, 131, 0.9); */
+}
+
+.route-details{
+  position: relative;
+
+}
+
+.route-overlay{
+  z-index: 20000;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+.route-info-header h4,.route-info-header i{
+  /* light theme */
+  /* border-radius: 4px;
+  border: 2px solid rgba(62, 215, 131, 1);
+  color: #fff;
+  padding: 10px;
+  background-color: rgba(62, 215, 131, 0.75); */
+
+  /* dark theme */
+  border-radius: 4px;
+  border: 1px solid rgba(62, 215, 131, 0.7);
+  color: rgba(62, 215, 131, 1);
+  padding: 10px;
+  background-color: #000000c7;
+}
+
+.route-info-header i{
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.route-details{
+  margin-bottom: 10px;
+  padding: 0 !important;
+  background-color: #eee;
+  border-radius: 4px;
+  align-items: center;
+  position: relative;
+}
+
+.route-details h3,.route-details h5{
+  margin:0;
+  flex-basis: 25%;
+}

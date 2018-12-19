@@ -1,0 +1,332 @@
+.report-header {
+    padding-bottom: 32px;
+}
+
+.report-table {
+	background-color: #ffffff;
+}
+
+.cla-report tbody tr td,
+.report-table tbody tr td {
+    padding: 15px 0;
+    font-weight: 300;
+    border-bottom: unset;
+}
+
+.cla-report tbody tr th,
+.report-table tbody tr th {
+	padding-left: calc(2% - 8px);
+    display: inline-block;
+}
+
+.report-table tbody th {
+	font-size: 12px;
+	font-weight: bold;
+	color: #525e66;
+}
+
+.class-info-box {
+    width: 100%;
+    height: 72px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    background-color: #ffffff;
+    padding: 17px 23px;
+    display: inline-block;
+    margin-bottom: 30px;
+}
+
+.table-header {
+    margin-bottom: 15px;
+	border-bottom: 2px solid #7ac943;
+}
+
+.table-header th{
+	padding-bottom: 9px;
+}
+
+.report-row {
+	margin-top: 15px;
+	padding: 10px 0;
+}
+
+.cla-report tbody tr td,
+.report-row tbody tr td {
+    padding: 0px calc(2% - 8px);
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+    display: inline-block;
+    height: 29px;
+}
+
+.report-row tbody tr td div{
+    height: 100%;
+    display: inline-block;
+    padding: 6px 12px;
+    margin-left: -12px;
+    padding-right: 40px;
+    min-width: 181px;
+}
+
+.report-row tbody tr td img{
+	margin:	-6px 0px 0px 15px;
+	height: 15px;
+	width: 20px;
+}
+
+.class-name {
+    padding-left: 3% !important;
+    width: calc(10% + 50px);
+}
+
+.cla-teacher {
+    width: calc(20% + 30px);
+}
+
+.total-std {
+    width: calc(10% + 50px);
+}
+
+.top-table .mark-list {
+    width: calc(60% - 130px);
+}
+
+.roll-no {
+	padding-left: 3% !important;
+	width: calc(8% + 40px);
+}
+
+.std-name {
+    width: calc(23% + 85px);
+}
+
+.mark-list {
+    width: calc(69% - 125px);
+}
+
+.mark-list span{
+    height: 19px;
+    font-size: 14px;
+    font-weight: normal;
+    color: #268ff0;
+}
+
+.sub-header {
+    padding: 0px 0px 2px 0px;
+}
+
+.sub-header tbody tr td{
+    font-size: 14px;
+    font-weight: 500;
+    color: #525e66;
+}
+
+.sub-row {
+    background-color: #f2f2f2;
+    padding: 11px 0 !important;
+    margin-top: 2px !important;
+}
+
+.report-row .collapse,
+.report-row .dropdown-menu {
+    background-color: rgb(242, 242, 242);
+    border-color: rgb(122, 201, 67);
+    border-style: solid;
+    border-width: 1px;
+    width: 199px;
+    margin-left: -200px;
+    top: unset;
+    left: unset;
+    position: absolute;
+    border-radius: unset;
+}
+
+.cla-report {
+	height: 100%;
+    color: #525e66;
+    padding: 0 calc(10% - 75px);
+}
+
+.cla-report .collapsing {
+   	transition-duration: none;
+   	transition: none !important;
+   	transition-delay: none;
+   	display: none !important;
+}
+
+.cla-report ul li{
+    height: 29px;
+    padding: 6px 20px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #525e66;
+}
+
+.cla-report ul li:hover {
+    font-weight: 500;
+    color: #525e66;
+    background-color: #e3e3e3;
+}
+
+.exam-select {
+	font-size: 18px;
+	font-weight: 500;
+	color: #525e66;
+}
+
+.report-header .dropdown-menu{
+    border-radius: unset;
+    top: unset;
+    left: unset;
+}
+
+.margin-top15 {
+    margin-top: 25px !important;
+}
+
+.table-contents {
+    overflow-y: auto;
+    height: calc(100% - 221px);
+    position: sticky;
+}
+
+.triangle {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 12px 9px 0px 9px;
+    border-color: #7ac943 transparent transparent transparent;
+    margin-top: 6px;
+    margin-left: 5px;
+}
+
+.cla-report ul li{
+    height: 37px;
+    padding: 10px 20px;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+}
+
+.cla-report ul li:hover {
+    font-weight: 500;
+    color: #525e66;
+    background-color: #e3e3e3;
+}
+
+.cla-report.collapse,
+.cla-report .dropdown-menu {
+    background-color: rgb(242, 242, 242);
+    border-color: rgb(122, 201, 67);
+    border-style: solid;
+    border-width: 1px;
+    width: 199px;
+    top: unset;
+    left: unset;
+    position: absolute;
+    border-radius: unset;
+    height: 197px;
+    overflow-y: auto;
+    margin-left: 2%;
+}
+
+.edit-hover:hover {
+    background: url(assets/images/edit.png) no-repeat calc(100% - 13px) center;
+    background-size: 19px;
+    background-color: #e3e3e3;
+    font-weight: 500;
+}
+
+.class-info-box .dropdown-menu {
+    position: absolute;
+    width: 152px;
+    min-width: unset;
+    margin-top: 0px;
+    border-radius: unset;
+    border-color: #7ac943;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 500;
+    color: #525e66;
+    top: unset;
+    left: unset;
+    overflow-y: auto;
+    max-height: 197px;
+    height: unset;
+}
+
+.class-info-box .first .dropdown-menu {
+    margin-left: 111px;
+}
+
+.class-info-box .second .dropdown-menu {
+    margin-left: 52px;
+}
+
+.class-info-box .dropdown-toggle {
+    height: 36px;
+    padding: 8px 11px;
+    opacity: 0.7;
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: italic;
+    color: #525e66;
+    border-radius: 4px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ababab;
+    background: url(assets/images/down-16@2x.png) no-repeat calc(100% - 11px) center;
+    background-size: 20px;
+    display: inline-block;
+    width: 152px
+}
+
+.class-info-box .label {
+    display: inline-block;
+    height: 36px;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+    padding: 8px 14px 9px 0px;
+}
+
+.class-info-box .dropdown-toggle.input-focus {
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    opacity: 1;
+    border-color: #bcbcbc;
+}
+
+.class-info-box > div {
+    display: inline-block;
+    width: 300px;
+}
+
+.configure {
+    position: fixed;
+    top: 20px;
+    left: calc(100% - 240px);
+}
+
+.modal .report-card-config-title {
+    margin-left: 5%;
+    margin-top: -2px;
+    font-weight: 500;
+}

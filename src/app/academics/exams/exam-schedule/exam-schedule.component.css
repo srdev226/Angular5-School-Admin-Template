@@ -1,0 +1,461 @@
+.exam-schedule {
+    height: calc(100% - 1px);
+    overflow-y: auto;
+    font-family: Roboto;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    padding: 0 calc(22% - 140px);
+    position: sticky;
+}
+
+@media (max-width: 1200px) {
+    .exam-schedule {
+        /*padding: 0 0;*/
+    }
+}
+.schedule-row {
+	display: block;
+    height: 51px;
+    background-color: #f2f2f2;
+    padding: 12px 17px;
+    margin-top: 15px; 
+}
+
+.schedule-box {
+	margin-top: 5px;
+    /*display: block;*/
+}
+
+.class-name {
+    font-family: Roboto;
+    font-size: 16px;
+    color: #525e66;
+    display: inline-block;
+    width: 75px;
+    margin-top: 5px;
+}
+
+.view-schedule {
+    font-size: 12px;
+    text-align: right;
+    color: #268ff0;
+    width: 150px;
+    background: url(assets/images/down-16@3x.png) no-repeat calc(100% - 5px) center;
+    background-size: 24px !important;
+    float: right;
+    display: inline-flex;
+    margin-top: 7px;
+    padding-left: 35px;
+}
+
+.view-schedule.collapsed {
+    background: url(assets/images/dropdown-right@2x.png) no-repeat calc(100% - 11px) center !important;
+    background-size: 10px !important;
+}
+
+.schedule-status {
+ 	font-size: 14px;
+    color: #525e66;
+    display: inline-block;
+    float: right;
+}
+
+.schedule-status span,
+.table-row span,
+.exam-status span {
+    font-weight: normal !important;
+    height: 27px;
+    width: 90px;
+    padding: 4px 17px;
+    margin-left: 5px;
+    display: inline-block;
+    border: solid 1px #ababab;
+    border-radius: 4px;
+}
+
+.exam-status span,
+.table-row span {
+	width: 105px;
+	background: url(assets/images/down-16@2x.png) no-repeat calc(100% - 5px) center;
+    background-size: 20px;
+    padding: 4px 10px;
+    margin-left: 0px;
+}
+
+.detail {
+	background-color: #f2f2f2;
+    padding: 25px 30px;
+}
+
+.detail .schedule-status {
+	font-weight: 500;
+	font-size: 14px;
+    color: #525e66;
+    display: block;
+    float: right;
+    margin-bottom: 19px;
+}
+
+.detail .schedule-status span{
+	margin-left: 15px;
+}
+
+.schedule-table {
+
+}
+
+.schedule-table tbody tr td {
+    padding: 15px 0;
+    font-weight: 300;
+    border-bottom: unset;
+}
+
+.schedule-table tbody tr th {
+	padding-left: calc(2% - 8px);
+}
+
+.schedule-table tbody th {
+	font-family: Roboto;
+	font-size: 12px;
+	font-weight: bold;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #525e66;
+}
+
+.schedule-header {
+	border-bottom: 2px solid #7ac943;
+}
+
+.schedule-header th{
+	padding-bottom: 9px;
+	border-bottom: 2px solid #7ac943;
+}
+
+.table-row {
+	margin-top: 0px;
+    padding: 10px 0;
+    background-color: #f2f2f2;
+    border-bottom: solid 1px #c6c6c6;
+}
+
+.table-row tbody tr td {
+	padding: 0px calc(2% - 8px);
+	font-family: Roboto;
+	font-size: 14px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #525e66;
+    display: inline-block;
+}
+
+.table-row tbody tr td img{
+	margin:	-6px 0px 0px 15px;
+	height: 15px;
+	width: 20px;
+}
+
+.subjects {
+	padding-left: 3% !important;
+	width: 25%;
+}
+
+.subjects p {
+	margin: unset;
+}
+
+.exm-date {
+    width: 20%;
+}
+
+.exm-time {
+	width: 25%;
+}
+
+.max_score {
+    width: 10%;
+}
+
+.status {
+    width: 20%;
+    padding-left: calc(11% - 40px) !important;
+}
+
+.max_score input {
+    width: calc(50% + 30px);
+    padding: 3px;
+}
+
+.exam-schedule ul li{
+    height: 29px;
+    padding: 7px 15px;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+}
+
+.exam-schedule ul li:hover {
+    font-weight: 500;
+    color: #525e66;
+    background-color: #e3e3e3;
+}
+
+.exam-status .dropdown-menu,
+.status .dropdown-menu {
+    background-color: rgb(242, 242, 242);
+    border-color: rgb(122, 201, 67);
+    border-style: solid;
+    border-width: 1px;
+    top: unset;
+    left: unset;
+    position: absolute;
+    border-radius: unset;
+    width: 125px;
+    min-width: unset;
+}
+
+.date-picker {
+    border: none;
+    background-color: unset;
+}
+
+
+.exm-time .dropdown-menu {
+    position: absolute;
+    top: unset;
+    left: unset;
+    background-color: #f6f6f6;
+    width: unset;
+    padding: 2px 5px;
+    min-width: unset;
+    margin-top: 2px !important;
+}
+
+.exm-time .tp-label {
+    width: 45px;
+    padding-top: 31px;
+}
+
+.exm-time .dropdown-menu div {
+    display: flex;
+}
+
+.exm-time .dropdown-menu div div {
+    display: block;
+}
+
+.exm-time .dropdown-menu div p{
+    float: right;
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+.background-white {
+    background-color: #ffffff !important;
+}
+
+.date-picker:hover {
+    background-color: #e3e3e3;
+}
+
+.save-marks {
+    position: fixed;
+    z-index: 100;
+    width: 159px;
+    height: 40px;
+    border-radius: 4px;
+    border: 0px solid;
+    background-color: #7ac943;
+    padding: 10px;
+    top: 11px;
+    left: calc(78% - 19px);
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    color: #ffffff;
+    opacity: 0.8;
+}
+
+.save-marks:hover {
+    opacity: 1;
+}
+
+/deep/ ngb-timepicker input {
+    padding: 0 !important;
+    background-color: #f2f2f2 !important;
+}
+
+/deep/ .ngb-tp-meridian button {
+    padding: 6px !important;
+    background-color: #f2f2f2;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    border-bottom: 2px solid #aaa !important;
+    margin-left: -3px;
+    color: #525e66 !important;
+}
+
+/deep/ .ngb-tp-meridian button:hover {
+    background-color: #f2f2f2;
+}
+
+/deep/ .ngb-tp-meridian button:active {
+    border-bottom: 1px solid #aaa !important;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .175) !important;
+}
+
+/deep/ .btn-link {
+    padding: 0 !important;
+}
+
+/deep/ ngb-datepicker.dropdown-menu {
+    position: absolute !important;
+    background-color: #f9f9f9 !important;
+    max-height: unset !important;
+    top: unset !important;
+}
+
+/deep/ .ngb-dp-header select {
+    height: inherit;
+    width: 49%;
+    display: inline-block;
+    min-width: unset;
+    font-family: Roboto;
+    font-size: 14px !important;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+    border-radius: 4px;
+    border: 1px solid #ababab;
+    padding: 0.4rem 0.5rem !important;
+}
+
+/deep/ .ngb-dp-header select:hover {
+    background-color: #f2f2f2;
+}
+
+/deep/ .ngb-dp-arrow {
+    height: 3rem !important;
+    flex-grow: 0.1 !important;
+}
+
+/deep/ .ngb-dp-month {
+    font-family: Roboto !important;
+    font-size: 14px !important;
+    color: #525e66;
+}
+
+/deep/ .ngb-dp-month .ngb-dp-week {
+    margin-top: 5px !important;
+}
+
+/deep/ .ngb-dp-day,
+/deep/ .ngb-dp-weekday,
+/deep/ .ngb-dp-week-number {
+    width: 3.5rem !important;
+    height: 3rem !important;
+}
+
+/deep/ .ngb-dp-weekday {
+    color: #5bc0de !important;
+    padding-top: 6px;
+}
+
+/deep/ .ngb-dp-day {
+    cursor: pointer;
+}
+
+/deep/ .ngb-dp-day .bg-primary {
+    padding-top: 5px;
+    text-align: center;
+    width: 3.5rem !important;
+    height: 3rem !important;
+    line-height: 2rem;
+    border-radius: 0.25rem;
+    background: transparent;
+    background-color: #337ab7 !important;
+}
+
+/deep/ .ngb-dp-day .btn-light {
+    padding-top: 5px;
+    width: 3.5rem !important;
+    height: 3rem !important;
+}
+
+.date-picker {
+    width: calc(100% - 30px);
+}
+
+.ph-txt {
+    font-size: 12px !important;
+    font-weight: normal;
+    color: #268ff0 !important;
+}
+
+.exam-status {
+    display: inline-block;
+    position: unset;
+    margin-top: -40px;
+    float: right;
+
+}
+
+.status-title {
+    float: right;
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 500;
+    color: #525e66;
+    margin-top: 4px;
+    margin-right: 13px;
+    display: inline;
+}
+
+.btn-default {
+    width: 159px;
+    height: 40px;
+    border: none;
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: normal;
+    color: #02a9e6;
+    position: fixed;
+    z-index: 100;
+    top: 11px;
+    border-radius: 4px;
+    left: calc(78% - 185px);
+    background: none;
+    padding: 10px;
+}
+
+.btn-default:hover {
+    background-color: #f2f2f2 !important;
+}
+
+.btn-default:focus {
+    border: none;
+    outline: none;
+    color: #02a9e6 !important;  
+    background-color: #e6e6e6;
+}
+
+
+

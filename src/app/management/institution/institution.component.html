@@ -1,0 +1,8 @@
+<div class="row rowMain paddedRow">
+  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngFor="let institute of institutions">
+    <app-institution-info [institution]="institute"></app-institution-info>
+  </div>
+  <div class="addNew">
+    <i *gcAccessControl="'MGMNT_INSTITUTION_ADD'" class="icon-plus" (click)="addRow()"></i>
+  </div>
+</div>

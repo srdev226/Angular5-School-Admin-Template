@@ -1,0 +1,222 @@
+:host {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+.profile-sidebar {
+    display: none;
+}
+
+.rectangle {
+    padding: 17px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+.subject-plan-header {
+    width: 100%;
+    height: 61px;
+    background-color: #e6e6e6;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    display: flex;
+    align-items: center;
+    padding-left: 45px;
+}
+
+.subject-plan-title {
+    /*width: 404px;*/
+    height: 24px;
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+    margin: 0;
+    padding-left: 20px;
+}
+
+.dropdown-left {
+    width: 18px;
+    height: 20px;
+}
+
+.back-btn {
+    width: 45px;
+    height: 19px;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #268ff0;
+    padding-left: 10px;
+}
+
+.subject-plan-control {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.subject-plan-container {
+    margin: 75px 50px;
+}
+
+.subject-plan-control div {
+    /*margin-left: 20px;*/
+    padding: 10px;
+}
+
+.line-separator {
+    width: 97%;
+    height: 1px;
+    background: #d7d7d7;
+    margin: 13px 0;
+}
+
+.subject-table-field {
+    width: 15%;
+}
+
+.subject-table-field-plan {
+    width: 55%;
+}
+
+.class-subject-plan-table {
+    width: 100%;
+    padding-top: 20px;
+}
+
+.class-subject-plan-table table tbody tr td {
+    border: 1px solid #ddd !important;
+    padding: 10px 20px;
+}
+
+.class-subject-plan-table table tbody tr td:first-child {
+    background: #eee;
+}
+
+.class-subject-plan-table table tbody tr td:nth-child(3),
+.class-subject-plan-table table tbody tr td:nth-child(4) {
+    text-align: center;
+}
+
+.class-subject-plan-table table tbody tr td p {
+    margin: 0;
+}
+
+.subject-session-name {
+    height: 16px;
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+}
+
+.subject-session-time {
+    width: 152px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+}
+
+.subject-plan-name {
+    height: 19px;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+}
+
+.subject-plan-content {
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #525e66;
+}
+
+.subject-status-time {
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #525e66;
+    padding: 5px;
+}
+
+.edit-icon {
+    width: 23px;
+    border-radius: unset;
+    margin: 0;
+    box-shadow: none;
+}
+
+.subject-status-btn {
+    width: 140px;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #525e66;
+    border: 0;
+}
+
+.green-btn {
+    background-color: rgba(122, 201, 67, 0.5) !important;
+}
+
+.red-btn {
+    background-color: #f49980 !important;
+}
+
+.edit-session-plan {
+    width: 124px;
+    height: 16px;
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #268ff0 !important;
+}

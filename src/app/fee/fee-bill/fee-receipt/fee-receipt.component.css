@@ -1,0 +1,118 @@
+.receipt-div{
+  overflow: hidden;
+  padding: 15px 30px;
+  margin-bottom: 40px;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+ .header{
+   text-align:center;
+   padding:1px;
+   background-color:#3ED783;
+   color:#fff;
+ }
+
+ .border{
+   border-bottom: 1px;
+   color: #252423;
+ }
+
+  .inline{
+    display:inline-block;
+  }
+
+  .inline-right{
+    float:right;
+  }
+
+  .table{
+    cellpadding:10;
+    cellspacing:10;
+    width:100%;
+    font-size:10px;
+  }
+
+  .table-div{
+    background-color:#e5e5e5;
+    padding-top:10px;
+  }
+
+  .right{
+    text-align: right;
+  }
+
+  .centre{
+    text-align:center;
+    padding-top:30px;
+
+  }
+
+  .signature{
+    text-align:right;
+    padding-top:30px;
+  }
+
+.net-total{
+  text-align: right;
+  /*border-top: solid 1px grey;*/
+  font: medium bold;
+}
+
+.font{
+  font-family:Calibri !important;
+}
+
+div.box.paid:after
+{
+    content:"**PAID**";
+    position:absolute;
+    bottom: 50px;
+    left:250px;
+    z-index:1;
+    font-family:Arial,sans-serif;
+    -webkit-transform: rotate(-35deg); /* Safari */
+    -moz-transform: rotate(-35deg); /* Firefox */
+    -ms-transform: rotate(-35deg); /* IE */
+    -o-transform: rotate(-35deg); /* Opera */
+    transform: rotate(-35deg);
+    font-size:40px;
+    color:#c00;
+    background:#fff;
+    border:solid 4px #c00;
+    padding:5px;
+    border-radius:5px;
+    zoom:1;
+    filter:alpha(opacity=20);
+    opacity:0.2;
+    -webkit-text-shadow: 0 0 2px #c00;
+    text-shadow: 0 0 2px #c00;
+    box-shadow: 0 0 2px #c00;
+}
+
+div.box.cancelled:after
+{
+    content:"**CANCELLED**";
+    position:absolute;
+    bottom: 50px;
+    left:250px;
+    z-index:1;
+    font-family:Arial,sans-serif;
+    -webkit-transform: rotate(-35deg); /* Safari */
+    -moz-transform: rotate(-35deg); /* Firefox */
+    -ms-transform: rotate(-35deg); /* IE */
+    -o-transform: rotate(-35deg); /* Opera */
+    transform: rotate(-35deg);
+    font-size:40px;
+    color:#c00;
+    background:#fff;
+    border:solid 4px #c00;
+    padding:5px;
+    border-radius:5px;
+    zoom:1;
+    filter:alpha(opacity=20);
+    opacity:0.2;
+    -webkit-text-shadow: 0 0 2px #c00;
+    text-shadow: 0 0 2px #c00;
+    box-shadow: 0 0 2px #c00;
+}

@@ -1,0 +1,122 @@
+
+.trips-container{
+    padding: 30px 0px;
+  }
+  
+  .trip-div{
+    position: relative;
+    background-color: #f5f5f5;
+    padding: 10px 20px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  
+  .trip-div.active{
+    background-color: #fff !important;
+    border: 2px solid #3ED783;
+  }
+  
+  .trip-div.active::after{
+    content: "";
+    border-left: 1em solid #3ED783;
+    border-top: 15pt solid transparent;
+    border-bottom: 15pt solid transparent;
+    width: 0;
+    height: 0;
+    position: absolute;
+    right: -1em;
+    top: 30%;
+  }
+  
+  .trip-div h4,.trip-div h5,.trip-div h6{
+    margin: 0 !important;
+    margin-bottom: 5px !important;
+  }
+  
+  .trip-stop-div{
+    position: relative;
+    border: 1px solid #e5e5e5;
+    padding-top: 15px;
+    padding-left: 50px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  
+  .trip-info-div{
+    padding: 25px;
+  }
+  
+  .stop-index{
+    left: auto !important;
+    position: relative !important;
+    margin-right: 10px !important;
+  }
+  
+  .trip-info-div h5{
+    display: block !important;
+  }
+  
+  .route-stop-div{
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    background-color: #eee;
+    border-radius: 6px;
+  }
+  
+  .padding-5{
+    padding: 5px !important;
+  }
+  
+  .live-map-header{
+    position: absolute;
+    right:10px;
+    top: 5px;
+  }
+  
+  .live-trip-item{
+    cursor: pointer;
+    padding: 10px;
+    background-color: #fd33016e;
+    border-radius: 4px;
+    border: 1px solid #fd3301;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    margin-top: 10px;
+  }
+  
+  .message-trip-item{
+    padding: 10px;
+    border-color: #404040;
+    border-radius: 4px;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    margin-top: 10px;
+  }
+  
+  .prev-trip-item{
+    cursor: pointer;
+    padding: 10px;
+    background-color: #404040;
+    border-radius: 4px;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    margin-top: 10px;
+  }
+  
+  .prev-trip-item h6 {
+    display: block;
+    color: #aaa;
+    font-weight: 600 !important;
+    margin: 0 !important;
+  }
+  
+  .prev-trip-item h4 {
+    color: #fff;
+    margin: 0 !important;
+      margin-top: 5px !important;
+  }

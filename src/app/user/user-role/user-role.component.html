@@ -1,0 +1,48 @@
+<simple-notifications [options]="options"></simple-notifications>
+<div class="row rowMain height85Minus padding15">
+  <div class="row padding20 height100">
+      <div class="header">
+        <h4 *ngIf="user_role.user_role_key">Update User Role</h4>
+        <h4 *ngIf="!user_role.user_role_key">Create User Role</h4>
+      </div>
+
+      <div class="maxHeight85">
+        <form (ngSubmit)="addOrUpdateUserRole()" #userForm="ngForm" class="marginTop20">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="input-group required formTextGroup paddedGroup darkText text-center">
+                <span class="textLabelMain">Role name</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="Role Name"></i></span>
+                <input [(ngModel)]="user_role.role_name" type="text" name="roleName" required #name="ngModel" class="formTextControl"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div *ngIf="product && product.modules" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="input-group paddedGroup darkText">
+                <div *ngFor="let module of product.modules" class="module-div shadow">
+                  <div (click)="addOrRemoveModule(module.code)" [ngClass]="{'active': isModuleSelected(module.code)}" class="product-div module-name">
+                    {{module.name}}
+                  </div>
+                  <div *ngFor="let feature of getModuleFeatures(module.code)" class="product-div feature-name" (click)="addOrRemoveFeature(module.code,feature.code)"
+                    [ngClass]="{'active': isFeatureSelected(module.code,feature.code)}">
+                   {{feature.name}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+              <button type="button" class="formButton" (click)="goToUserRoleList()">Cancel</button>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+              <button type="submit" class="formButton">Save</button>
+            </div>
+          </div>
+        </form>
+        </div>
+    </div>
+  </div>

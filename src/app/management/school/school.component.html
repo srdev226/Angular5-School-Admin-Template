@@ -1,0 +1,228 @@
+<div class="row height-85-scroll">
+  <form *gcAccessControl="'MGMNT_SCHOOL'"  #schoolForm="ngForm" class="marginTop20">
+    <div class="row paddingTop20">
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+        <div class="schoolPicDiv shadow">
+          <i class="icon-cloud-upload iconUpload" title="Upload Profile Pic" id="iconUpload"></i>
+          <img src="assets/images/school.png" class="profileImage" />
+        </div>
+      </div>
+
+      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" *ngIf="isEditing">
+
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="input-group formTextGroup paddedGroup darkText text-center">
+            <span class="textLabelMain">Name</span>
+            <span class="input-group-addon" id="basic-addon1">
+              <i class="icon-key" title="Name"></i>
+            </span>
+            <input [(ngModel)]="school.name" type="text" name="name" required #name="ngModel" class="formTextControl" />
+          </div>
+
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="input-group formTextGroup paddedGroup darkText text-center">
+            <span class="textLabelMain">Founded</span>
+            <span class="input-group-addon" id="basic-addon1">
+              <i class="icon-key" title="Founded"></i>
+            </span>
+            <input [(ngModel)]="school.school_information.foundingYear" type="text" name="founded" required #founded="ngModel" class="formTextControl"
+            />
+          </div>
+        </div>
+
+
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="input-group formTextGroup paddedGroup darkText text-center">
+            <span class="textLabelMain">Email</span>
+            <span class="input-group-addon" id="basic-addon1">
+              <i class="icon-key" title="Email"></i>
+            </span>
+            <input [(ngModel)]="school.school_information.email" type="text" name="email" required #email="ngModel" class="formTextControl"
+            />
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="input-group formTextGroup paddedGroup darkText text-center">
+            <span class="textLabelMain">Phone Number</span>
+            <span class="input-group-addon" id="basic-addon1">
+              <i class="icon-key" title="Phone Number"></i>
+            </span>
+            <input [(ngModel)]="school.school_information.phone" type="text" name="phonenumber" required #phonenumber="ngModel" class="formTextControl"
+            />
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding" *ngIf="isEditing">
+        <div class="col-lg-8 col-md-4 col-sm-4 col-xs-4">
+          <div class="input-group formTextGroup paddedGroup darkText text-center">
+            <span class="textLabelMain">Address</span>
+            <span class="input-group-addon" id="basic-addon1">
+              <i class="icon-key" title="Address"></i>
+            </span>
+            <textarea [(ngModel)]="school.address" name="address" required #address="ngModel" class="formTextControl" rows="2"></textarea>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+          <div class="input-group formTextGroup paddedGroup darkText text-center">
+            <span class="textLabelMain">Principal</span>
+            <span class="input-group-addon" id="basic-addon1">
+              <i class="icon-key" title="Principal"></i>
+            </span>
+            <textarea [(ngModel)]="school.school_information.principal" name="principal" required #principal="ngModel" class="formTextControl"
+              rows="2"></textarea>
+          </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+          <div class="input-group formTextGroup paddedGroup darkText text-center">
+            <span class="textLabelMain">About</span>
+            <span class="input-group-addon" id="basic-addon1">
+              <i class="icon-key" title="About"></i>
+            </span>
+            <textarea [(ngModel)]="school.school_information.description" name="about" required #about="ngModel" class="formTextControl"
+              rows="3"></textarea>
+          </div>
+        </div>
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin10px">
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <button type="button" (click)="isEditing = false" class="formButton greyButton" *ngIf="isEditing">Cancel</button>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <button type="button" (click)="updateSchool()" class="formButton pull-right" *ngIf="isEditing">Save</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" *ngIf="!isEditing">
+
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin10px">
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          </div>
+          <div *gcAccessControl="'MGMNT_SCHOOL_EDIT'" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <button type="button" class="formButton small-button pull-right" *ngIf="!isEditing" (click)="isEditing = true">
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="input-group formLabelGroup paddedGroup darkText text-center">
+            <span class="textLabelMain">Name</span>
+            <span class="input-group-addon" id="basic-addon1">
+              <i class="icon-key" title="Name"></i>
+            </span>
+            <h5 class="labelValue">{{school.name}}</h5>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="input-group formLabelGroup paddedGroup darkText text-center">
+            <span class="textLabelMain">Founded</span>
+            <span class="input-group-addon" id="basic-addon1">
+              <i class="icon-key" title="Founded"></i>
+            </span>
+            <h5 class="labelValue">{{school.school_information.foundingYear || 'NA'}}</h5>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="input-group formLabelGroup margin10px paddedGroup darkText text-center">
+            <span class="textLabelMain">Email</span>
+            <span class="input-group-addon" id="basic-addon1">
+              <i class="icon-key" title="Email"></i>
+            </span>
+            <h5 class="labelValue">{{school.school_information.email}}</h5>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="input-group formLabelGroup margin10px paddedGroup darkText text-center">
+            <span class="textLabelMain">Phone Number</span>
+            <span class="input-group-addon" id="basic-addon1">
+              <i class="icon-key" title="Phone Number"></i>
+            </span>
+            <h5 class="labelValue">{{school.school_information.phone}}</h5>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding" *ngIf="!isEditing">
+        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+          <div class="input-group formLabelGroup margin10px paddedGroup darkText text-center">
+            <span class="textLabelMain">Address</span>
+            <span class="input-group-addon" id="basic-addon1">
+              <i class="icon-key" title="Address"></i>
+            </span>
+            <h5 class="labelValue">{{school.address}}</h5>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+          <div class="input-group formLabelGroup margin10px paddedGroup darkText text-center">
+            <span class="textLabelMain">Principal</span>
+            <span class="input-group-addon" id="basic-addon1">
+              <i class="icon-key" title="Principal"></i>
+            </span>
+            <h5 class="labelValue">{{school.school_information.principal}}</h5>
+          </div>
+        </div>
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+          <div class="input-group formLabelGroup margin10px paddedGroup darkText text-center">
+            <span class="textLabelMain">About</span>
+            <span class="input-group-addon" id="basic-addon1">
+              <i class="icon-key" title="About"></i>
+            </span>
+            <h5 class="labelValue">{{school.school_information.description}} {{school.school_information.schoolTrust}} {{school.school_information.schoolCategory}}</h5>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- <div class="row paddingTop20">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="input-group formLabelGroup margin10px paddedGroup darkText text-center">
+            <span class="textLabelMain">Classes</span>
+            <span class="input-group-addon" id="basic-addon1">
+              <i class="icon-key" title="Classes"></i>
+            </span>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 marginBottom30">
+              <div *ngFor="let cls of school.classes">
+                <span class="classItem">{{cls.name}} -
+                  <span *ngFor="let div of cls.divisions">{{div.name}} </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <!-- <button type="button" class="formButton" *ngIf="isEditing && !isAddClass" (click)="isAddClass=true">Add Class</button>
+        <div class="addClass" *ngIf="isEditing">
+          <input type="text" placeholder="Class" [(ngModel)]="class_name" name="class_name" />
+          <input type="text" readonly placeholder="Division" [(ngModel)]="divisions" name="divisions" />
+          <button (click)="addDivision()" title="Add Division"> + </button>
+          <button (click)="deleteDivision()" title="Delete Division"> - </button>
+          <button (click)="addClass()"> Add Class</button>
+          <!-- <button (click)="isAddClass=false">Cancel</button>
+          <div [ngClass]="{'hidden': class_name.valid || class_name.pristine}" class="alert smallMsg" *ngIf="isExists">
+            Class already exists.
+          </div>
+        </div>
+
+      </div>
+
+
+    </div> -->
+  </form>
+</div>

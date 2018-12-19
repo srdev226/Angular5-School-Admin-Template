@@ -1,0 +1,349 @@
+.instituteLogo{
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    background-color: #ddd;
+    text-align: center;
+    float: left;
+    margin-right: 20px;
+}
+
+.instituteLogo label{
+       text-transform: uppercase;
+    color: #909090;
+    font-weight: 600 !important;
+    vertical-align: middle;
+    padding-top: 5px;
+    font-size: 18px;
+}
+
+.studentListLogo{
+    margin-top: 5px;
+    padding: 5px;
+        height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    border:1px solid  #eee;
+    text-align: center;
+        float: left;
+}
+
+.studentListListDiv{
+    height: 95px;
+        overflow: hidden;
+    padding: 15px 15px;
+        margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 4px;
+}
+
+.fee-bill-list-div{
+    overflow: hidden;
+padding: 15px 30px;
+    margin-bottom: 40px;
+background-color: #fff;
+border-radius: 4px;
+}
+
+.studentListListDivSearch{
+    cursor: pointer;
+     height: 70px;
+        overflow: hidden;
+    padding: 15px 30px;
+    margin-bottom: 30px;
+    background-color: #fff;
+    border-radius: 4px;
+}
+
+.studentListListDivSearch label{
+    cursor:pointer;
+}
+
+.studentListListDiv.selected{
+        border-left: 2px solid #3ED783;
+}
+
+.fee-bill-list-div.selected{
+    border-left: 2px solid #3ED783;
+}
+
+.studentListDetail{
+    margin-bottom: 5px !important;
+    font-size: 16px;
+    font-weight: 300;
+    color: #aaa;
+}
+
+.fee-bill-details-text{
+    font-weight: 600 !important;
+    color: #aaa;
+    font-size: 12px;
+    margin: 0 !important;
+}
+
+
+.fee-bill-total-text{
+    font-weight: 400 !important;
+    margin: 0 !important;
+}
+
+.studentListDetail.small{
+    font-size: 12px !important;
+}
+
+.studentListDetailSearch{
+    margin-bottom: 0 !important;
+    font-size: 16px;
+    font-weight: 300;
+    color: #aaa;
+}
+
+.studentListDetailSmall{
+    margin-right: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.studentListDetail.bold{
+    font-weight: 400 !important;
+}
+
+.studentListDetailSmall{
+     font-size: 12px;
+    font-weight: 700 !important;
+    color: #707070;
+}
+
+.studentListDetailSmall.light{
+    font-weight: 300 !important;
+    padding-right: 5px;
+}
+
+.studentListDetailInput{
+margin-left: 10px;
+}
+
+.detailsContainer{
+    position: relative;
+           width: calc(100% - 70px);
+}
+
+.detailsContainerSearch{
+    position: relative;
+           width: calc(100%);
+}
+
+.borderRadius6{
+    border-radius: 6px !important;
+}
+
+
+.verticalAlignTop{
+        vertical-align: top;
+}
+
+.noMarginBottom{
+    margin-bottom: 0 !important;
+}
+
+.studentListEdit{
+    cursor: pointer;
+position: absolute;
+    z-index: 20000;
+top: 5px;
+right: 25px;
+}
+
+.studentListInfo{
+    cursor: pointer;
+          z-index: 20000;
+position: absolute;
+top: 5px;
+right: 45px;
+}
+
+.studentListEdit i,.studentListInfo i{
+    color: #3ED783 ;
+    cursor: pointer;
+}
+
+.addNew{
+    position: absolute;
+    bottom: -5px;
+    right: 65px;
+}
+
+.addNewLeft{
+    position: absolute;
+    bottom: -5px;
+    left: 65px;
+}
+
+.addNewLeft.center{
+    left: 40%;
+}
+
+.addNew i{
+    color: #3ED783 ;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.rowMain{
+        position: relative;
+}
+
+.maxHeight80{
+    max-height: 85%;
+    overflow-y: auto;
+}
+
+.maxHeight90{
+    max-height: 90%;
+    overflow-y: auto;
+}
+
+.maxHeight95{
+    max-height: 95%;
+    overflow-y: auto;
+}
+
+.shadowSmall{
+box-shadow: 0 0 1px rgba(57,70,78,.15), 0 20px 25px -8px rgba(57,70,78,.25);
+}
+
+.padding15{
+    padding: 15px;
+}
+
+.studentListDetail i{
+        font-size: 12px;
+    margin-left: 5px;
+    margin-right: 10px;
+    font-weight: 200;
+}
+
+.height40Minus{
+    height: calc(100% - 40px);
+}
+
+
+.hiddenPanel{
+        height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    background-color: #fff;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: none !important;
+}
+
+.studentListInfo:hover ~ .detailsContainer .hiddenPanel{
+    display: inline-block !important;
+}
+
+.classItem{
+    padding: 2px 10px;
+    border: 1px solid #3ED783;
+    margin-right: 10px;
+    font-size: 12px;
+    border-radius: 4px;
+}
+
+
+.timeIcon{
+        font-size: 10px;
+    margin-right: 10px;
+    color: #aaa;
+}
+
+.detailsContainer{
+    vertical-align: middle;
+    margin-left: 20px;
+}
+
+.billStatusDiv{
+    display: none;
+    padding: 1px 5px;
+    position: absolute;
+    left: 15px;
+    font-size: 10px;
+    color: #fff;
+    bottom: 25px;
+    min-width:56px;
+    text-align: center;
+}
+
+.billStatusDiv.overdue{
+    display: inline-block !important;
+    background-color: rgba(255,0,0,0.6);
+}
+
+.billStatusDiv.due{
+    display: inline-block !important;
+    background-color: rgba(244, 140, 66,0.6);
+}
+
+.billStatusDiv.paid{
+    display: inline-block !important;
+    background-color: rgba(53, 160, 3,0.6);
+}
+
+.billStatusDiv.new{
+    display: inline-block !important;
+    background-color: rgba(183, 146, 11,0.6);
+}
+
+
+.bill-status-big{
+    display: none;
+    margin-top: 10px;
+    padding: 5px 10px;
+    font-size: 10px;
+    color: #fff;
+    min-width: 86px;
+    text-align: center;
+    border-radius: 4px;
+}
+
+.bill-status-big.overdue{
+    display: inline-block !important;
+    background-color: rgba(255,0,0,0.6);
+}
+
+.bill-status-big.due{
+    display: inline-block !important;
+    background-color: rgba(244, 140, 66,0.6);
+}
+
+.bill-status-big.paid{
+    display: inline-block !important;
+    background-color: rgba(53, 160, 3,0.6);
+}
+
+.bill-status-big.new{
+    display: inline-block !important;
+    background-color: rgba(183, 146, 11,0.6);
+}
+
+.margin-left-50{
+    margin-left: 50px;
+}
+
+.filter-item{
+    display: inline-block;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.filter-item-div{
+    padding:4px 20px;
+}
+
+.control{
+    margin-right: 0px !important;
+}
+
+.warning{
+  background-color: #c00 !important;
+}

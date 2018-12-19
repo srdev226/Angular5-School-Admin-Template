@@ -1,0 +1,46 @@
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 search-box">
+  <!-- <h5>Search : {{student_filter | json}} </h5> -->
+  <form #studentFilterForm="ngForm">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 search-container" *ngIf="!readOnly">
+      <i class="fa fa-filter" aria-hidden="true"></i>
+      <div>
+        <input type="text" placeholder="Full Name" [(ngModel)]="student_filter.full_name" name="student_filter.full_name"
+          (keyup)="setSearchString('name',student_filter.full_name)">
+        <input type="text" placeholder="Admission Number" [(ngModel)]="student_filter.admission_number"
+          (keyup)="setSearchString('admno',student_filter.admission_number)" name="student_filter.admission_number">
+          <!-- <span class="textLabelMain">Gender :</span> -->
+          <select [(ngModel)]="student_filter.gender" name="student_filter.gender" (ngModelChange)="setSearchString('gen',student_filter.gender)">
+            <option value="undefined" selected> -- Select Gender -- </option>
+            <option value="Male"> Male </option>
+            <option value="Female"> Female </option>
+          </select>
+          <select [(ngModel)]="selected_year" name="selected_year" (ngModelChange)="filterClassesBySelectedYear()">
+            <option value="undefined" selected> --Academic Year-- </option>
+            <option *ngFor ="let academic_year of this.academic_years"[value]="academic_year.code">{{academic_year.name}}</option>
+          </select>
+          <select [(ngModel)]="student_filter.status" name="selected_status" (ngModelChange)="setSearchString('status',student_filter.status)"class="status">
+            <option value="undefined" selected> ACTIVE </option>
+            <option value="TC"> TC </option>
+          </select>
+        <div class="margin-top-10">
+          <h5>Classes : </h5>
+          <div *ngFor="let cls of getClassesList()" class="class-div" (click)="addOrRemoveClass(cls.class_info_key)"
+                [ngClass]="{'active': isClassSelected(cls.class_info_key)}">
+            {{cls.name}}
+          </div>
+        </div>
+        <div *ngIf="student_filter.classes.length == 1">
+          <h5>Division : </h5>
+          <div *ngFor="let division of getDivisionsOfSelectedClass()" class="class-div" (click)="addOrRemoveDivision(division.code)"
+            [ngClass]="{'active': isDivisionSelected(division.code)}">
+           {{division.code}}
+          </div>
+       </div>
+      </div>
+      <i (click)="clearFilter()" title="Clear All Filters" class="fa fa-times clear-button"></i>
+    </div>
+    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12" *ngIf="readOnly">
+       <label>{{student_filter.search_string}}</label>
+    </div>
+  </form>
+</div>

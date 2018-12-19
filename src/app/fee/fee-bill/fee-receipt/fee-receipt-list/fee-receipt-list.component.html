@@ -1,0 +1,16 @@
+
+<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngFor="let receipt of fee_receipt_list">
+  <div class="receiptListListDiv shadow" (click)="showReceiptDetails(receipt.receipt_key)">
+    <div class="detailsContainer displayInlineBlock {{ receipt.status === 'CANCELLED' ? 'box cancelled font' : ''}}">
+      <div>
+        <label class="receiptListDetail bold"> {{getNetTotalReceiptAmount(receipt) | currency:[currencyCode]}}</label>
+        <div class="detailsSmallDiv displayInlineBlock pull-right">
+          <label class="receiptListDetailSmall"> Paid On : {{receipt.receipt_date | date}} </label>
+        </div>
+      </div>
+      <label class="receiptListDetail bold small ">
+        Receipt # : <span class="receiptSerial">{{receipt.serial_number}}</span>
+      </label>
+    </div>
+  </div>
+</div>

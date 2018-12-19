@@ -1,0 +1,52 @@
+.formControlGroup {
+    margin: 0 auto;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #C0C0C0;
+    width: 90%;
+}
+
+.formControlGroupEdit {
+    margin: 0 auto;
+    margin-bottom: 30px;
+    width: 70%;
+}
+
+.formInputControl {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #3ED783;
+}
+
+.icon-align{
+     top: 27px;
+ }
+
+ .name-cell{
+   width: 40%;
+ }
+
+.padding{
+  min-width: 140px;
+}
+
+.subject-div{
+  text-align: center;
+  display: inline-block;
+  min-width:80px;
+  padding: 2px 10px;
+  border: 1px solid #3ED783;
+  margin-right: 10px;
+  margin-top: 10px;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+.subjet-title-div{
+    padding-left: 60px;
+    padding-bottom: 20px;
+}
+
+.maxHeight85 {
+  max-height: calc(100% - 250px);
+}

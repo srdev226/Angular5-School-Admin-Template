@@ -1,0 +1,11 @@
+.padding15{
+    padding: 15px;
+}
+
+.rowMain{
+        position: relative;
+}
+
+.height40Minus{
+    height: calc(100% - 40px);
+}

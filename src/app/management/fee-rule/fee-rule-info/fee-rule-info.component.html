@@ -1,0 +1,422 @@
+<div class="row rowMain height40Minus padding15" *ngIf="feeRule">
+  <form (ngSubmit)="addOrUpdateFeeRule()" #feeRuleForm="ngForm" class="marginTop20 height100">
+    <!-- <div class='row'>
+      {{ feeRule | json}}
+    </div> -->
+    <div class="row padding20 maxHeight80" *ngIf="!showConfirmation">
+
+      <!-- Basic Details section-->
+      <div *ngIf="pageState.type == pageStateType.BASIC">
+        <div class="collapsiblePanel active">
+          Basic Details
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+              <div class="input-group required formTextGroup paddedGroup darkText text-center">
+                <span class="textLabelMain">Name</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="Name"></i></span>
+                <input [(ngModel)]="feeRule.name" type="text" name="Name" #name="ngModel"  minlength="3" maxlength="50" class="formTextControl" required >
+              </div>
+              <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert smallMsg">
+                <div [hidden]="!name.hasError('required')">
+                  Name is required
+                </div>
+              </div>
+            </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <div class="input-group required formTextGroup paddedGroup darkText text-center">
+                <span class="textLabelMain">Description</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="Description"></i></span>
+                <textarea [(ngModel)]="feeRule.description" name="description" required #description="ngModel" maxlength="300" class="formTextControl" rows="1"></textarea>
+              </div>
+              <div *ngIf="description.errors && (description.dirty || description.touched)" class="alert smallMsg">
+              <div [hidden]="!description.hasError('required')">
+                Description is required
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 nopadding">
+              <div class="input-group required formTextGroup paddedGroup darkText text-center">
+                <span class="textLabelMain">Student Type</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="studenttype"></i></span>
+              <select [(ngModel)]="feeRule.student_type" name="studenttype" #studenttype="ngModel" required class="formTextControl">
+                <option value="undefined" selected> -- Select Student Type -- </option>
+                <option *ngFor="let student_type of student_types" [value]="student_type.code">{{student_type.name}}</option>
+              </select>
+             </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="input-group required formTextGroup paddedGroup darkText text-center">
+                <span class="textLabelMain">Fee Rule Type</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="feetype"></i></span>
+                <select [(ngModel)]="feeRule.fee_rule_type" name="feeruletype" #feeruletype="ngModel" required class="formTextControl" (ngModelChange)="initRuleType()">
+                  <option value="undefined" selected>Select Fee Rule Type</option>
+                  <option *ngFor="let fee_rule_type of fee_rule_types" [value]="fee_rule_type.code">{{fee_rule_type.name}}</option>
+                </select>
+              </div>
+              <!--<div *ngIf="feeruletype.errors && (feeruletype.dirty || feeruletype.touched)" class="alert smallMsg">
+              <div [hidden]="!feeruletype.hasError('required')">
+                  Fee Rule Type is required
+              </div>
+             </div>-->
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" *ngIf="feeRule.fee_rule_type === 'CO_CURR'">
+              <div class="input-group required formTextGroup paddedGroup darkText text-center">
+                <span class="textLabelMain">Cocurricular Classes</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="feetype"></i></span>
+                <select [(ngModel)]="feeRule.cocurricular_class_key" name="cocurr_key" #cocurr_key="ngModel" required class="formTextControl">
+                  <option value="undefined" selected>--Select Class--</option>
+                  <option *ngFor="let cocurr_class of cocurricular_classes" [value]="cocurr_class.class_info_key">{{cocurr_class.name}}</option>
+                </select>
+              </div>
+              <!--<div *ngIf="feeruletype.errors && (feeruletype.dirty || feeruletype.touched)" class="alert smallMsg">
+              <div [hidden]="!feeruletype.hasError('required')">
+                  Fee Rule Type is required
+              </div>
+             </div>-->
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+              <div class="input-group required formTextGroup paddedGroup darkText text-center">
+                <span class="textLabelMain">Institution</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="currency"></i></span>
+                <select [(ngModel)]="feeRule.institution_key" name="institution" required #institution="ngModel" class="formTextControl">
+                  <option value="undefined" selected>Select Institution</option>
+                  <option *ngFor="let institution of institutions" [value]="institution.institution_key">{{institution.name}}</option>
+                </select>
+              </div>
+              <div *ngIf="institution.errors && (institution.dirty || institution.touched)" class="alert smallMsg">
+                <div [hidden]="!institution.hasError('required')">
+                        institution is required
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" *ngIf="feeRule.fee_rule_type === 'STANDARD' || feeRule.fee_rule_type === 'CO_CURR'">
+              <div class="input-group required formTextGroup paddedGroup darkText text-center">
+                <span class="textLabelMain">Payment Frequency</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="feetype"></i></span>
+                <select [(ngModel)]="feeRule.payment_frequency" name="feetype" #feetype="ngModel" required class="formTextControl">
+                  <option value="undefined" selected>Select Frequency</option>
+                  <option value="MONTHLY">Monthly</option>
+                  <option value="QUARTERLY">Quarterly</option>
+                  <option value="ANNUAL">Annual</option>
+                  <option value="ONETIME">One Time</option>
+                </select>
+              </div>
+              <!--<div *ngIf="feetype.errors && (feetype.dirty || feetype.touched)" class="alert smallMsg">
+              <div [hidden]="!feetype.hasError('required')">
+                  Payment Frequency is required
+              </div>
+             </div>-->
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="input-group required formTextGroup paddedGroup darkText text-center">
+                <span class="textLabelMain"> Academic Year</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="accyear"></i></span>
+                <select [(ngModel)]="feeRule.academic_year" name="accyear" #accyear="ngModel" (change)="selectedYear()" required class="formTextControl">
+                  <option value="undefined" selected>-Select Acadamic Year-</option>
+                  <option *ngFor="let academic_year of academic_years" [value]="academic_year.code">{{academic_year.name}}</option>
+                </select>
+              </div>
+            </div>
+           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="input-group required formTextGroup paddedGroup darkText text-center">
+                <span class="textLabelMain">Effective Start Date</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="start_date"></i></span>
+                <input [(ngModel)]="feeRule.effective_from_date" type="text" name="startdate" required #startdate="ngModel" [ngClass]="{'error': startdate.invalid && !startdate.pristine}"
+                  pattern="^(((0[1-9]|[12]\d|3[01])/(0[13578]|1[02])/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)/(0[13456789]|1[012])/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])/02/((19|[2-9]\d)\d{2}))|(29/02/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$"
+                 class="formTextControl"/>
+              </div>
+              <div [ngClass]="{'hidden': startdate.valid || startdate.pristine}" class="alert smallMsg">
+                date format (dd/mm/yyyy)
+             </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="input-group required formTextGroup paddedGroup darkText text-center">
+                <span class="textLabelMain">Effective End Date</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="end_date"></i></span>
+                <input [(ngModel)]="feeRule.effective_until_date" type="text" name="enddate" required #enddate="ngModel" [ngClass]="{'error': enddate.invalid && !enddate.pristine}"
+                  pattern="^(((0[1-9]|[12]\d|3[01])/(0[13578]|1[02])/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)/(0[13456789]|1[012])/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])/02/((19|[2-9]\d)\d{2}))|(29/02/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$"
+                 class="formTextControl"/>
+              </div>
+               <div [ngClass]="{'hidden': enddate.valid || enddate.pristine}" class="alert smallMsg">
+                date format (dd/mm/yyyy)
+             </div>
+           </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="input-group required formTextGroup paddedGroup darkText text-center">
+                <span class="textLabelMain">Bill Date, day of month</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="end_date"></i></span>
+                <select [(ngModel)]="feeRule.bill_day_of_month" name="bill_day_of_month" required #bill_day_of_month="ngModel"
+                class="formTextControl">
+                  <option value="undefined" selected>Select day</option>
+                  <option *ngFor="let day of DAYS_OF_MONTH" [ngValue]="day">{{day}}</option>
+                </select>
+              </div>
+              <!--<div *ngIf="bill_day_of_month.errors && (bill_day_of_month.dirty || bill_day_of_month.touched)" class="alert smallMsg">
+            <div [hidden]="!bill_day_of_month.hasError('required')">
+              select a day
+            </div>
+          </div>-->
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="input-group required formTextGroup paddedGroup darkText text-center">
+                <span class="textLabelMain">Payment due Date, day of month</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="end_date"></i></span>
+                <select [(ngModel)]="feeRule.payment_due_day_of_month" type="text" name="payment_due_day_of_month" required #payment_due_day_of_month="ngModel"
+                  class="formTextControl">
+                  <option value="undefined" selected>Select day</option>
+                  <option *ngFor="let day of DAYS_OF_MONTH" [ngValue]="day">{{day}}</option>
+                </select>
+              </div>
+           <!--<div *ngIf="payment_due_day_of_month.errors && (payment_due_day_of_month || payment_due_day_of_month.touched)" class="alert smallMsg">
+           <div [hidden]="!payment_due_day_of_month.hasError('required')">
+              select a day
+           </div>
+           </div>-->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Class Rules section -->
+      <div *ngIf="pageState.type == pageStateType.CLASS_RULE">
+
+        <div *ngIf="feeRule.fee_rule_type === 'TRANSPORT'">
+          <div class="collapsiblePanel active">
+            Fee Item
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+              <div class="input-group formTextGroup paddedGroup darkText text-center">
+                <span class="textLabelMain">Fee Type</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="finedays"></i></span>
+                <select [(ngModel)]="feeRule.transport_configuration.fee_item.code" name="trn_fee_item" #trn_fee_item="ngModel" class="formTextControl">
+                  <option value="undefined" selected>Select Fee Type</option>
+                  <option *ngFor="let fee_type of feeTypes" [value]="fee_type.code">{{fee_type.name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="feeRule.fee_rule_type === 'STANDARD'">
+          <div class="collapsiblePanel active">
+            Classes
+          </div>
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 marginBottom30">
+                <div class="classesItem" *ngFor="let class of classes" [ngClass]="{'active':class.selected}" (click)="addOrRemoveClass(class)">
+                  {{class.name}}
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 marginBottom30">
+                <div class="classesItem" *ngFor="let classRule of feeRule.class_rules">
+                  {{classRule.applied_class}}
+                  <ul>
+                    <li *ngFor="let fee_info of classRule.fee_list">{{fee_info.name}} - {{fee_info.fee_amounts[0].amount}}</li>
+                  </ul>
+                  <span>Total - {{classRule.fee_list | totalFee}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                  <div class="input-group formTextGroup paddedGroup darkText text-center">
+                    <span class="textLabelMain">Class</span>
+                    <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="class"></i></span>
+                    <input [(ngModel)]="ui_class_rule.class_name" readonly="true" type="text" name="finedays{{i}}" #finedays{{i}}="ngModel" class="formTextControl" />
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                  <div class="input-group formTextGroup paddedGroup darkText text-center">
+                    <span class="textLabelMain">Fee Type</span>
+                    <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="finedays"></i></span>
+                    <select [(ngModel)]="ui_class_rule.fee_type_code" name="class_rule" #class_rule="ngModel" class="formTextControl">
+                      <option value="-1" selected>Select Fee Type</option>
+                      <option *ngFor="let fee_type of feeTypes" [value]="fee_type.code">{{fee_type.name}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                  <div class="input-group formTextGroup paddedGroup darkText text-center">
+                    <span class="textLabelMain">Amount</span>
+                    <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="fineamount"></i></span>
+                    <input [(ngModel)]="ui_class_rule.amount" type="text" name="ui_class_rule.amount" #ui_class_rule.amount="ngModel" class="formTextControl" />
+                  </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 paddingTop20">
+                  <i class="icon-plus addRowIcon" (click)="addClassRule()"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fine Rules Section -->
+      <div *ngIf="pageState.type == pageStateType.FINE_RULE">
+        <div class="collapsiblePanel active">
+          Fine Rules
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngFor="let fineRule of feeRule.fine_rules;let lastIndex = last; let i=index">
+              <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                <div class="input-group formTextGroup paddedGroup darkText text-center">
+                  <span class="textLabelMain">Days</span>
+                  <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="finedays"></i></span>
+                  <input [(ngModel)]="feeRule.fine_rules[i].days" type="number" name="finedays{{i}}" #finedays{{i}}="ngModel" class="formTextControl" />
+                </div>
+              </div>
+              <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                <div class="input-group formTextGroup paddedGroup darkText text-center">
+                  <span class="textLabelMain">Amount</span>
+                  <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="fineamount"></i></span>
+                  <input [(ngModel)]="feeRule.fine_rules[i].amount" type="number" name="fineamount{{i}}" #fineamount{{i}}="ngModel" class="formTextControl" />
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 paddingTop20" *ngIf="lastIndex">
+                <i class="icon-plus addRowIcon" (click)="pushFineRuleObj(i)"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row padding20 maxHeight80" *ngIf="pageState.type === pageStateType.CONFIRMATION">
+      <div clas="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="collapsiblePanel">
+          Confirm Details
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+              <div class="input-group required formTextGroup noBorder paddedGroup darkText">
+                <span class="textLabelMain">Name</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="Name"></i></span>
+                <h5 class="labelValue">{{feeRule.name}}</h5>
+              </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+              <div class="input-group required formTextGroup noBorder paddedGroup darkText">
+                <span class="textLabelMain">Description</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="Description"></i></span>
+                <h5 class="labelValue">{{feeRule.description}}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <!-- <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="input-group required formTextGroup noBorder paddedGroup darkText">
+                <span class="textLabelMain">Amount</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="amount"></i></span>
+                <h5 class="labelValue">{{feeRule.amount}}</h5>
+              </div>
+            </div> -->
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+              <div class="input-group required formTextGroup noBorder paddedGroup darkText">
+                <span class="textLabelMain">Institution</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="currency"></i></span>
+                <h5 class="labelValue">{{getInstNameByKey(feeRule.institution_key)}}</h5>
+              </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
+              <div class="input-group required formTextGroup noBorder paddedGroup darkText">
+                <span class="textLabelMain">Academic Year</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="start_date"></i></span>
+                <h5 class="labelValue">{{feeRule.academic_year}} (From {{feeRule.effective_from_date}} To {{feeRule.effective_until_date}})</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+              <div class="input-group required formTextGroup noBorder paddedGroup darkText">
+                <span class="textLabelMain">Payment Frequency</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="feetype"></i></span>
+                <h5 class="labelValue">{{feeRule.payment_frequency}}</h5>
+              </div>
+            </div>
+
+          <!--  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="input-group required formTextGroup noBorder paddedGroup darkText">
+                <span class="textLabelMain">Effective End Date</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="end_date"></i></span>
+                <h5 class="labelValue">{{feeRule.effective_until_date}}</h5>
+              </div>
+            </div>-->
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+              <div class="input-group required formTextGroup noBorder paddedGroup darkText">
+                <span class="textLabelMain">Bill Date, day of month</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="end_date"></i></span>
+                <h5 class="labelValue">{{feeRule.bill_day_of_month}}</h5>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+              <div class="input-group required formTextGroup noBorder paddedGroup darkText">
+                <span class="textLabelMain">Payment due Date, day of month</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="end_date"></i></span>
+                <h5 class="labelValue">{{feeRule.payment_due_day_of_month}}</h5>
+              </div>
+            </div>
+        </div>
+      </div>
+        <div class="collapsiblePanel">
+          Classes
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 marginBottom30">
+              <span *ngFor="let class of classes"  >
+                <div class="classesItem" *ngIf="class.selected" [ngClass]="{'active':class.selected}">{{class.name}}</div>
+              </span>
+            </div> -->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 marginBottom30">
+              <div class="classesItem" *ngFor="let classRule of feeRule.class_rules">
+                {{classRule.applied_class}}
+                <ul>
+                  <li *ngFor="let fee_info of classRule.fee_list">{{fee_info.name}} - {{fee_info.fee_amounts[0].amount}}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="collapsiblePanel">
+          Fine Rules
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 marginBottom30">
+              <span *ngFor="let fineRule of feeRule.fine_rules"  >
+                <div class="fineRuleItem" *ngIf="fineRule.days" >
+                  {{fineRule.index}}) {{fineRule.days}} Days, Fine of ₹{{fineRule.amount}}
+                </div>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row padding10 text-center">
+      <div class="addNewFeeRule">
+        <button type="submit" class="formButton pull-right" *ngIf="pageState.type === pageStateType.CONFIRMATION">{{ isUpdate ? 'Update Fee Rule': 'Add Fee Rule'}}</button>
+        <button type="button" class="formButton greyButton pull-left" *ngIf="pageState.type !== pageStateType.BASIC" (click)="processBack()">Go Back</button>
+        <button type="button" class="formButton pull-right" *ngIf="pageState.type !== pageStateType.CONFIRMATION" (click)="processNext()" [disabled]="!feeRuleForm.valid">Next</button>
+      </div>
+    </div>
+  </form>
+</div>

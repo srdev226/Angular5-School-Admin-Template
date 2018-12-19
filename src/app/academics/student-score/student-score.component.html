@@ -1,0 +1,103 @@
+<simple-notifications [options]="options"></simple-notifications>
+<div class="row rowMain paddedRow">
+  <div class="boxedDiv shadow" >
+    <div class="header">
+      <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+        <h4>Student Score</h4>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12  col-xs-12">
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-6  icon-align">
+          <i class="fa fa-filter" aria-hidden="true"></i>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+          <div class="input-group formTextGroup paddedGroup darkText text-center">
+            <select class="padding" [(ngModel)]="selected_class_info_key" #class_info_key = "ngModel" (ngModelChange)="onClassChange()">
+                <option value="All" selected> --Select Class-- </option>
+                <option *ngFor ="let class_info of getClasses()" [value]="class_info.class_info_key">{{class_info.class_code}}</option>
+              </select>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+          <div class="input-group formTextGroup paddedGroup darkText text-center">
+            <select class="padding" [(ngModel)]="selected_division" #division = "ngModel" (ngModelChange)="onDivisionChange()">
+                <option value="All" selected> --Select Division-- </option>
+                <option *ngFor ="let division of getDivisions()" [value]="division">{{division}}</option>
+              </select>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+          <div class="input-group formTextGroup paddedGroup darkText text-center">
+            <select class="padding" [(ngModel)]="selected_exam_key" #exam = "ngModel" (ngModelChange)="getStudentScore()">
+                <option value="All" selected> --Select Exam-- </option>
+                <option *ngFor ="let exam of getExamsForClass()" [value]="exam.exam_key">{{exam.name}} - {{getSubjectName(exam.subject_code)}}</option>
+              </select>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+          <div class="input-group formTextGroup paddedGroup darkText text-center">
+            <select class="padding" [(ngModel)]="selected_series_code" #series_code = "ngModel" (ngModelChange)="getExamSeriesScore()">
+                <option value="All" selected> --Exam Series-- </option>
+                <option *ngFor ="let exam of exam_series_list" [value]="exam.series_code">{{exam.series_name ? exam.series_name : exam.name}} </option>
+              </select>
+          </div>
+        </div>
+        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 formTextControl icon-align">
+          <i *ngIf="selected_exam_key!=='All' && !isEditing && !has_constituent_subjects" class="icon-pencil" (click)="isEditing=true"></i>
+        </div>
+        <div *ngIf="selected_exam?.max_score" class="col-lg-1 col-md-1 col-sm-12 col-xs-12 nopadding">
+          Maximum Score {{selected_exam.max_score}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="has_constituent_subjects" class="row maxHeight85 subjet-title-div">
+  Constituent Subjects :
+  <div class="subject-div" *ngFor="let sub of constituent_subjects">
+    {{getSubjectName(sub)}}
+  </div>
+</div>
+<div class="row padding10 maxHeight85" *ngIf="selected_exam_key!=='All'">
+  <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12"
+      *ngFor="let student of (students_score_details | studentScoreFilter : class_info_key.value : division.value)">
+      <div *ngIf="!isEditing" class="input-group formControlGroup paddedGroup darkText">
+        <div class ="col-lg-2 col-md-2 col-sm-12 col-xs-12"><span class="textLabelMain">{{student.admission_number}}</span></div>
+        <div class ="col-lg-7 col-md-7 col-sm-12 col-xs-12"><span class="textLabelMain">{{student.full_name}}</span></div>
+        <div class ="col-lg-2 col-md-2 col-sm-12 col-xs-12"><h5>{{student.score}}</h5></div>
+      </div>
+      <div *ngIf="isEditing" class="input-group formControlGroupEdit paddedGroup darkText">
+        <div class ="col-lg-2 col-md-2 col-sm-12 col-xs-12"><span class="textLabelMain">{{student.admission_number}}</span></div>
+        <div class ="col-lg-7 col-md-7 col-sm-12 col-xs-12"><span class="textLabelMain">{{student.full_name}}</span></div>
+        <div class ="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+          <input class="formInputControl" [(ngModel)]="student.score" type="number" placeholder="score" name="score" required #score="ngModel"/>
+        </div>
+      </div>
+  </div>
+</div>
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="selected_exam_key==='All' && selected_series_code !=='All' && selected_division !== 'All'">
+  <table>
+    <tr>
+      <th>No</th>
+      <th>Name</th>
+      <th *ngFor="let score_detail of mark_list[0].marks">{{getSubjectName(score_detail.subject_code)}}</th>
+    </tr>
+    <tr *ngFor="let student_score_details of mark_list let i=index">
+        <td>{{ i + 1}}</td>
+        <td class="name-cell">{{student_score_details.full_name}} ({{student_score_details.admission_number}})</td>
+        <td *ngFor="let mark of student_score_details.marks">
+          {{mark.score}}
+        </td>
+    </tr>
+  </table>
+</div>
+
+<div class="row">
+  <div *ngIf="isEditing || has_constituent_subjects" class="col-lg-8 col-md-8 col-sm-8 col-xs-8 pull-right">
+    <button type="button" class="formButton" (click)="saveScore()">Save</button>
+    <button *ngIf="selected_exam_key!=='All' && isEditing" type="button" class="formButton" (click)="isEditing=false">Cancel</button>
+    <div *ngIf="invalid_score_message.length>0" class="alert smallMsg">
+      {{invalid_score_message}}
+    </div>
+  </div>
+</div>

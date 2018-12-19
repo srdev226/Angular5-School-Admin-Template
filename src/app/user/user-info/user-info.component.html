@@ -1,0 +1,57 @@
+<div class="row rowMain height85Minus padding15">
+  <div class="row padding20 height100">
+      <div class="alert alert-danger" *ngIf="!(this.school.product_configuration && this.school.product_configuration.user_roles)">
+        User roles are not set. Please set user roles before proceeding.
+      </div>
+      <div  *ngIf="(this.school.product_configuration && this.school.product_configuration.user_roles)" class="header">
+        <h4 *ngIf="isEditing">Update User Profile</h4>
+        <h4 *ngIf="!isEditing">Create User Profile</h4>
+      </div>
+
+      <div class="maxHeight85">
+        <form (ngSubmit)="addOrUpdateUser()" #userForm="ngForm" class="marginTop20">
+          <div class="row " *ngIf="(this.school.product_configuration && this.school.product_configuration.user_roles)">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+              <div class="input-group required formTextGroup paddedGroup darkText text-center">
+                <span class="textLabelMain">Full name</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="FullName"></i></span>
+                <input [(ngModel)]="user.full_name" type="text" name="FullName" required #name="ngModel" class="formTextControl"
+                />
+              </div>
+              <div class="input-group required formTextGroup paddedGroup darkText text-center">
+                <span class="textLabelMain">User name</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="UserName"></i></span>
+                <input [(ngModel)]="user.username" type="text" name="UserName" required #name="ngModel" class="formTextControl"
+                />
+              </div>
+              <div class="input-group required formTextGroup paddedGroup darkText text-center">
+                <span class="textLabelMain">Password</span>
+                <span class="input-group-addon" id="basic-addon1"><i class="icon-key" title="Password"></i></span>
+                <input [(ngModel)]="user.password" type="text" name="Password" required #name="ngModel" class="formTextControl"
+                />
+              </div>
+              <div class="input-group required formTextGroup paddedGroup darkText text-center">
+                <span class="textLabelMain">User role</span>
+                <select multiple [(ngModel)]="user_account.user_role_keys" name="user_role_key" class="formTextControl">
+                  <option value="undefined" selected>Select User role</option>
+                  <option *ngFor="let user_role of user_roles" [value]="user_role.user_role_key">
+                    {{user_role.role_name}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+              <button type="button" class="formButton" (click)="goToUserList()">Cancel</button>
+            </div>
+            <div *ngIf="(this.school.product_configuration && this.school.product_configuration.user_roles)" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+              <button type="submit" class="formButton" *ngIf="!isEditing">Add User</button>
+              <button type="submit" class="formButton" *ngIf="isEditing">Update</button>
+            </div>
+          </div>
+        </form>
+      </div>
+  </div>
+</div>

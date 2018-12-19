@@ -1,0 +1,9 @@
+<div id="page-wrapper">
+  <div class="row marginBottom">
+    <app-payment-summary *ngFor='let summary_item of summaryData' [summaryData]="summary_item">
+    </app-payment-summary>
+  </div>
+  <div class="row">
+    <br/>Payment Details
+  </div>
+</div>

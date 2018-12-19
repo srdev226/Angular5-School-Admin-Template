@@ -1,0 +1,29 @@
+<div class="row rowMain height85Minus padding15">
+  <div class="row padding20 height100">
+      <div class="header">
+        <h4>User Roles</h4>
+      </div>
+
+      <div class="row padding20 maxHeight85">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngFor="let role of user_roles">
+          <div class="userRoleListListDiv shadow">
+            <div class="detailsContainer displayInlineBlock">
+              <label class="userRoleListDetail bold">{{role.role_name}}</label>
+            </div>
+            <div class="userRoleListEdit displayInlineBlock">
+              <i class="icon-pencil" (click)="goToEditUserRole(role.user_role_key)"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row padding10 text-center">
+        <ul class="pagination">
+          <div *ngIf="user_roles.length===0" class="message">No user roles added till now.</div>
+        </ul>
+        <div class="addNew">
+          <i class="icon-plus" (click)="gotoAddUserRole()"></i>
+        </div>
+      </div>
+  </div>
+</div>

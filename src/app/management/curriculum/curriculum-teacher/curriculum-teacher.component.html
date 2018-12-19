@@ -1,0 +1,34 @@
+<div container="manage-curriculum-container" *ngIf="!subjectPlan">
+        <p class="class-wise-subject-title">Class wise subject list </p>
+
+        <div class="subject-plan-table" *ngIf="subjectPlanData">
+            <div>
+                <table class="exam-table exam-header">
+                    <tr>
+                        <th class="teacher-curriculum-table-field">Class</th>
+                        <th class="teacher-curriculum-table-field">Subject Name</th>
+                        <th class="teacher-curriculum-table-field">Subject Code</th>
+                        <th class="teacher-curriculum-table-field">Subject Plan</th>
+                    </tr>
+                </table>
+            </div>
+            <div class="table-contents" *ngFor="let item of subjectPlanData">
+                <div class="exam-table exam-row">
+                    <table>
+                        <tr>
+                            <td class="teacher-curriculum-table-field">{{item.class}}</td>
+                            <td class="teacher-curriculum-table-field">{{item.subjectName}}</td>
+                            <td class="teacher-curriculum-table-field">{{item.subjectCode}}</td>
+                            <td>
+                                <a href="javascript:void(0)" class="view-subject-plan" (click)="viewSubjectPlan(item)">
+                                    View Subject Plan
+                                    <img src="/assets/images/view-icon@3x.png"/>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+</div>
+<app-subject-plan *ngIf="subjectPlan" [data]="data" (change)="disableSubjectPlan($event)"></app-subject-plan>

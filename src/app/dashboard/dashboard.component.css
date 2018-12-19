@@ -1,0 +1,9 @@
+.for_chart {
+	height: 450px;
+	overflow: hidden;
+}
+
+.chart-btn-right {
+	float: right;
+	margin: 5px;
+}

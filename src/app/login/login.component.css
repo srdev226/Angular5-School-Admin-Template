@@ -1,0 +1,145 @@
+#login-div{
+    margin-top: 20px;
+    background-color: rgba(0,0,0,0.7);
+    border-radius: 5px;
+}
+#login-div input{
+    display: block;
+}
+
+.backgroundDiv{
+    filter: blur(5px);
+    position: fixed;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-image: url('/assets/images/school.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: -10;
+}
+
+.alert{
+    margin-bottom: 0 !important;
+    background-color: red;
+    color: #fff;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.centered{
+    padding:30px 20px;
+}
+
+body{
+    background-image: none;
+    background-color: #fff;
+}
+html,body{
+    height: 100%;
+}
+
+#header {
+    /*background-color: #1f3559 !important;*/
+    box-shadow: 0 0 1px rgba(57,70,78,.15), 0 20px 55px -8px rgba(57,70,78,.25) !important;
+    }
+
+#login-div{
+    margin: 0 auto;
+    width: 40%;
+    padding: 20px;
+        margin-top: 40px;
+    background-color: rgba(0,0,0,0.7);
+    border-radius: 4px;
+}
+
+#login-div input{
+    display: block;
+}
+
+#register-section{
+    background-color: lightgray;
+    padding: 10px;
+}
+
+#loginHeader{
+    color: #fff;
+    font-weight: 300;
+    text-align: center;
+    display: block;
+}
+
+.loginForm{
+    padding:20px 10px;
+}
+
+.buttonDiv{
+    margin: 0 auto;
+    width:60%;
+}
+
+.buttonDiv button.formButton{
+   width: 49%;
+}
+
+button.formButton{
+    border-radius: 4px;
+    background-color: #3ED783;
+    color:#fff;
+    border:none;
+    height: 40px;
+    cursor: pointer;
+}
+button[disabled].formButton, input[disabled].formButton{
+opacity: 0.6;
+ cursor:not-allowed;
+}
+
+.textCenter{
+    text-align: center;
+}
+
+.linkColor,.linkColor:hover,.linkColor:focus{
+    color:#1b95e0;
+    margin-left: 15px;
+}
+.checkboxDisplay{
+    display: inline-block !important;
+    margin-right: 5px;
+}
+
+.forgotPwdDiv{
+    margin-bottom: 10px;
+}
+
+.loginMsgError{
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    /* background-color: white; */
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.loginMsgError.red{
+    background-color: rgba(255,0,0,0.5);
+    border: 2px solid rgba(255,0,0,0.9);
+}
+
+.loginMsgError.green{
+    background-color: rgba(21, 109, 4, 0.4);
+    border: 2px solid rgba(21, 109, 4,0.9);
+}
+
+.loginMsgSuccess{
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: rgba(21, 109, 4, 0.4);
+    /* background-color: white; */
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+    border: 2px solid rgba(21, 109, 4,0.9);
+}

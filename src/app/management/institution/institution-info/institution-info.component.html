@@ -1,0 +1,25 @@
+<div *gcAccessControl="'MGMNT_INSTITUTION'"  class="instituteListDiv shadow">
+  <div class="instituteLogo displayInlineBlock shadow">
+    <label>{{institution.name | slice:0:1 }}</label>
+  </div>
+  <div class="detailsContainer displayInlineBlock">
+    <label class="instituteDetail" *ngIf="!isEditing">{{institution.name}}</label>
+    <div class="input-group formTextGroup paddedGroup noMarginBottom darkText text-center instituteDetailInput" *ngIf="isEditing">
+      <span class="textLabelMain">Institute Name</span>
+      <span class="input-group-addon" id="basic-addon1">
+        <i class="icon-key" title="Institute Name"></i>
+      </span>
+      <input type="text" [(ngModel)]="institution.name" name="instituteName" #instituteName="ngModel" class="formTextControl instituteDetailInput"
+      />
+    </div>
+  </div>
+  <div class="instituteEdit displayInlineBlock">
+    <span  *gcAccessControl="'MGMNT_INSTITUTION_EDIT'">
+      <i class="icon-pencil" (click)="isEditing = true" *ngIf="!isEditing"></i>
+    </span>
+    <i class="icon-check" (click)="addOrUpdateInstitution()" *ngIf="isEditing"></i>
+  </div>
+</div>
+<div *ngIf="message.length > 0 && isEditing" class="alert textCenter">
+    {{message}}
+</div>
