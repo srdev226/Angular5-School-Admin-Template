@@ -29,7 +29,7 @@
       </ul>
     </div>
 
-    <div class="sel-sec">
+<!--     <div class="sel-sec">
       <div class="pointer dropdown-toggle" data-toggle="dropdown">
         <span class="class-select">All Divisions</span>
         <span class="triangle"></span>
@@ -37,7 +37,7 @@
       <ul *ngIf="selected_class" class="dropdown-menu check-dropdown regular-checkbox cur-default" id="sel-divisions">
         <li *ngFor="let division of selected_class.divisions"><input type="checkbox" class="green-border"/><span>{{"Division " + division.name}}</span></li>
       </ul>
-    </div>
+    </div> -->
 
     <div style="float: right; margin-right: 1.8%;">
       <div class="btn-green" (click)="openModal('group-subjects-modal')">
@@ -294,7 +294,7 @@
                 {{subject.subject_code == null ? '-' : subject.subject_code}}
               </div>
             </div>
-            <div class="modal-row" style="padding-bottom: 8px !important">
+            <div *ngIf="new_subject_class != null" class="modal-row" style="padding-bottom: 8px !important">
               <div class="label">Subject Weightage<span class="required"></span></div>
               <div class="select">
                 <input type="number" [(ngModel)]="subject.subject_weightage" class="modal-input outline-none test-label" placeholder="Enter subject weightage">

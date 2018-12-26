@@ -51,7 +51,7 @@ export class ViewDetailedMarklistComponent implements OnChanges {
       this.selected_class.divisions.forEach(div => {
         if (div.code == this.selected_division) {
           this.selected_class.subjects.forEach(subject => {
-            if (typeof subject.selected != 'undefined' && subject.selected == true)
+            if (this.isConstituentSubject(subject.code, this.selected_class))
               return;
             this.exam_info.push([]);
             this.exam_info[index].push({class: class_code,
@@ -67,11 +67,11 @@ export class ViewDetailedMarklistComponent implements OnChanges {
               subject.constituent_subjects.forEach(cons_sub => {
                 this.exam_info[index].push({class: class_code,
                                   division: div.code,
-                                  subject_name: this.getSubName(cons_sub),
-                                  subject_code: cons_sub,
+                                  subject_name: this.getSubName(cons_sub.code),
+                                  subject_code: cons_sub.code,
                                   has_cons_sub: false});
                 if (i != 0) this.exam_info[index][0].subject_code += ", ";
-                this.exam_info[index][0].subject_code += cons_sub;
+                this.exam_info[index][0].subject_code += cons_sub.code;
                 i ++;
               })
             }
@@ -82,6 +82,19 @@ export class ViewDetailedMarklistComponent implements OnChanges {
       this.getMarks();
       console.log(this.exam_info);
     }
+  }
+
+  isConstituentSubject(code, selected_class = null) {
+    let retval = false;
+    selected_class.subjects.forEach(sub => {
+      if (typeof sub.constituent_subjects == 'undefined' || sub.constituent_subjects.length == 0) {
+        return;
+      }
+      if (typeof sub.constituent_subjects.find(sb => (sb.code == code)) == 'undefined')
+        return;
+      retval = true;
+    });
+    return retval;
   }
 
   getMarks() {

@@ -31,7 +31,8 @@
 
       <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 chartPaneContainer">
        <div *gcAccessControl="'DASH_COLLECTED_BILLS'" class="chartPane shadowBox green for_chart">
-          <div [chart]="due_bills_summary_chart"  style="height: 400px;"></div>
+          <h5 class="chart_title text-center block">Due Bills Summary</h5>
+          <div [chart]="due_bills_summary_chart"></div>
           <!-- <h5 class="chart--header absolute">Bills Collected</h5> -->
           <!-- <div id="chart" class="absolutePosition">
             <svg id="pie-chart">
@@ -86,16 +87,17 @@
       </div>
     </div>
 
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 chartPaneContainer small">
-      <div *gcAccessControl="'DASH_APP_COUNT'" class="chartPane shadowBox green">
-        <div class="application-count-div">
-          <h3 *ngIf="application_count">{{application_count}}</h3>
-          <h3 *ngIf="!application_count">No applcations available</h3>
-          <h4>Applications</h4>
-        </div>
-        <div id="application-pie-chart">
-          <svg id="applications-pie-chart">
-            <defs xmlns="http://www.w3.org/2000/svg">
+    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 chartPaneContainer small">
+      <div *gcAccessControl="'DASH_APP_COUNT'" class="chartPane shadowBox green" style="height: 273px !important;">
+        <div class="applcations_center">
+          <div class="application-count-div">
+            <h3 *ngIf="application_count">{{application_count}}</h3>
+            <h3 *ngIf="!application_count">No applcations available</h3>
+            <h4>Applications</h4>
+          </div>
+          <div id="application-pie-chart">
+            <svg id="applications-pie-chart">
+              <defs xmlns="http://www.w3.org/2000/svg">
               <!-- <linearGradient id="red_black" x1="0%" y1="0%" x2="0%" y2="100%" gradientUnits="userSpaceOnUse">
                 <stop offset="0%" style="stop-color:rgb(255,0,0);stop-opacity:1" />
                 <stop offset="100%" style="stop-color:rgb(255,255,0);stop-opacity:1" />
@@ -125,65 +127,118 @@
           </svg>
         </div>
       </div>
+      </div>
     </div>
 
-    <div *gcAccessControl="'DASH_DUE_BILLS'" class="col-lg-4 col-md-4 col-sm-12 col-xs-12 chartPaneContainer small">
-      <div class="chartPane shadowBox green padded">
-        <h5 class="chart--header text-center block">Due Bills</h5>
-        <div *ngIf="current_month_data">
-          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" *ngFor="let data of current_month_data[0]?.overdue_students_list;let i =index"
-            [ngClass]="{'hidden':i>5}">
-            <div class="due-bill-div">
-              {{data.full_name}}
-              <a>PAY</a>
+    <div *gcAccessControl="'DASH_DUE_BILLS'" class="col-lg-4 col-md-6 col-sm-12 col-xs-12 chartPaneContainer small">
+      <div *ngIf="studentData" class="chartPane shadowBox green padded" style="height: auto !important;">
+        <h5 class="chart_title text-center block">Students</h5>
+        <div [chart]="student_chat"></div>
+<!--         <div *ngIf="current_month_data">
+  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" *ngFor="let data of current_month_data[0]?.overdue_students_list;let i =index"
+    [ngClass]="{'hidden':i>5}">
+    <div class="due-bill-div">
+      {{data.full_name}}
+      <a>PAY</a>
+    </div>
+  </div>
+</div>
+<div *ngIf="!current_month_data" class="application-count-div">
+  <h3>No data available</h3>
+</div> -->
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 chartPaneContainer small">
+      <div *gcAccessControl="'DASH_SCHOOL_DETAIL'" class="chartPane shadowBox green padded text-right" style="height: auto !important;">
+      <h5 class="chart_title text-center block">Employeers</h5>
+      <div [chart]='employeer_chart'></div>
+<!--<h2 class="margin-top-10 greentext fontweight400 school-name-text-h2">{{school.name}}</h2>
+<div class="school-details-info">
+  <h5>{{school.address}}</h5>
+  <i class="fa fa-map-marker" aria-hidden="true"></i>
+</div>
+<div class="school-details-info">
+  <h5>{{school.school_information.phone}}</h5>
+  <i class="fa fa-phone" aria-hidden="true"></i>
+</div>
+<div class="school-details-info">
+  <h5>{{school.school_information.email}}</h5>
+  <i class="fa fa-envelope-o" aria-hidden="true"></i>
+</div> -->
+      </div>
+    </div>
+
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 chartPaneContainer">
+      <div *gcAccessControl="'DASH_OVERDUE_BILLS'" class="chartPane shadowBox green text-center">
+        <div class="curriculum-sub-container">
+          <h5 class="Curriculum-Status ">Fee Due Bills</h5>
+          <div class="curriculum-status-graph">
+            <div class="curriculum-status-graph-container row">
+              <div class="graph-section" *ngFor="let item of testGraphData">
+                <p class="graph-section-title">{{item.title}}</p>
+                <div class="curriculum-graph-sections">
+                  <div class="curriculum-graph tool-tip" *ngFor="let graph of item.value">
+                    <div class="tooltip-content">
+                      <p class="tooltip-title">Class Xl-B</p>
+                      <div class="curriculum-status-section" *ngFor="let item of statusLevelData">
+                        <div [ngStyle]="{'background': item.background}" class="status-level-graph"></div>
+                        <p class="tooltip-graph-name">{{item.title}}</p>
+                        <a href="javascript:void(0)" class="view-subject-plan" (click)="viewSubjectPlan(item)">View Subject Plan</a>
+                      </div>
+                    </div>
+                    <div *ngFor="let section of graph.values"
+                    [ngStyle]="graph.status ? {'height': section.value + '%', 'background': section.background, 'width': '100%'} : {}">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="graph-section">
+              <div style="width: 89px;"></div>
+              <div class="graph-section-order" *ngFor="let item of orderData">
+                {{item}}
+              </div>
             </div>
           </div>
+
+          <div class="curriculum-status-level">
+            <div class="curriculum-status-section" *ngFor="let item of statusLevelData">
+              <div [ngStyle]="{'background': item.background}" class="status-level-graph"></div>
+              <p class="status-level-name">{{item.title}}</p>
+            </div>
+            <p class="status-level-title">Status Level</p>
+          </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+<!--     <div *ngIf="studentData" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 relative" style="margin-left:-20px;">
+    <i class="fa fa-angle-left navigation-icon left" aria-hidden="true" *ngIf="classindex>0" (click)="classindex = classindex - 1"></i>
+    <i class="fa fa-angle-right navigation-icon right" aria-hidden="true" *ngIf="studentData.class_student_data.length > (classindex * 5 + 5) "
+      (click)="classindex = classindex + 1"></i>
+    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 chartPaneContainer noheight no-left-padding">
+      <div *gcAccessControl="'DASH_TOTAL'" class="chartPane shadowBox green padded text-center">
+        <h3 class="block">STUDENTS</h3>
+        <h1 class="colored-text">{{studentData.total_girls_count + studentData.total_boys_count}}</h1>
+<angular-d3-donut [id]="donutChartId" [spreadSlice]=true width="400" height="320" [middleText]="studentData.total_girls_count+studentData.total_boys_count" [middleTextFontSize]="'2.5em'" [middleTextColor]="'#3ED783'" [data]="donutChartData"></angular-d3-donut>
         <div *ngIf="!current_month_data" class="application-count-div">
           <h3>No data available</h3>
-        </div>
+      </div>
       </div>
     </div>
 
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 chartPaneContainer small">
-      <div *gcAccessControl="'DASH_SCHOOL_DETAIL'" class="chartPane shadowBox green padded text-right">
-        <h2 class="margin-top-10 greentext fontweight400 school-name-text-h2">{{school.name}}</h2>
-        <div class="school-details-info">
-          <h5>{{school.address}}</h5>
-          <i class="fa fa-map-marker" aria-hidden="true"></i>
-        </div>
-        <div class="school-details-info">
-          <h5>{{school.school_information.phone}}</h5>
-          <i class="fa fa-phone" aria-hidden="true"></i>
-        </div>
-        <div class="school-details-info">
-          <h5>{{school.school_information.email}}</h5>
-          <i class="fa fa-envelope-o" aria-hidden="true"></i>
+    <div *ngFor="let class of studentData.class_student_data;let i=index">
+      <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 chartPaneContainer noheight" *ngIf="i>=5*classindex && i< 5*classindex + 5">
+        <div class="chartPane shadowBox green padded text-center">
+          <h3 class="block">{{class.class_name + ""+class.division_name}}</h3>
+          <h1 class="colored-text">{{class.boys_count+class.girls_count }}</h1>
         </div>
       </div>
     </div>
-    <div *ngIf="studentData" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 relative" style="margin-left:-20px;">
-        <!-- <i class="fa fa-angle-left navigation-icon left" aria-hidden="true" *ngIf="classindex>0" (click)="classindex = classindex - 1"></i>
-        <i class="fa fa-angle-right navigation-icon right" aria-hidden="true" *ngIf="studentData.class_student_data.length > (classindex * 5 + 5) "
-          (click)="classindex = classindex + 1"></i> -->
-        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 chartPaneContainer noheight no-left-padding">
-          <div *gcAccessControl="'DASH_TOTAL'" class="chartPane shadowBox green padded text-center">
-            <h3 class="block">STUDENTS</h3>
-            <!-- <h1 class="colored-text">{{studentData.total_girls_count + studentData.total_boys_count}}</h1> -->
-            <angular-d3-donut [id]="donutChartId" [spreadSlice]=true width="400" height="320" [middleText]="studentData.total_girls_count+studentData.total_boys_count" [middleTextFontSize]="'2.5em'" [middleTextColor]="'#3ED783'" [data]="donutChartData"></angular-d3-donut>
-          </div>
-        </div>
-        <!-- <div *ngFor="let class of studentData.class_student_data;let i=index">
-          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 chartPaneContainer noheight" *ngIf="i>=5*classindex && i< 5*classindex + 5">
-            <div class="chartPane shadowBox green padded text-center">
-              <h3 class="block">{{class.class_name + ""+class.division_name}}</h3>
-              <h1 class="colored-text">{{class.boys_count+class.girls_count }}</h1>
-            </div>
-          </div>
-        </div> -->
-      </div>
-    </div>
+  </div>
+</div> -->
     <!-- <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 chartPaneContainer noheight">
       <div class="chartPane shadowBox green padded text-center">
         <h3 class="block">8A</h3>

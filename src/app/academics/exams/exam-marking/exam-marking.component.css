@@ -61,11 +61,11 @@
 }
 
 .sub-code {
-	width: calc(12% + 50px);
+	width: calc(25% + 50px);
 }
 
 .mark-stud {
-    width: calc(64% - 150px);
+    width: calc(51% - 150px);
 }
 
 .mark-stud span{
@@ -260,4 +260,18 @@ th.class-name .dropdown-menu {
 .class-box:hover {
     opacity: 1;
     border: 1px solid #f0f0f0;
+}
+
+.basic-cons-sub {
+    background-color: #ffffff;
+    padding: 0px 0px !important;
+    border-top: 1px solid #f2f2f2!important;
+    margin-top: 0px !important;
+}
+
+.basic-cons-sub tr td {
+    font-size: 12px !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    
 }

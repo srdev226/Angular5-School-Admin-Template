@@ -1,0 +1,102 @@
+<div class="container-fluid content-margin">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" *ngIf="!is_details_loaded">
+    <div class="loader" id="loader-1"></div>
+  </div>
+  <div *ngIf="is_details_loaded" class="row height100 paddedRow">
+    <div class="boxedDiv calender">
+      <div class="year-box">
+        <div class="col-xs-2 col-sm-3 col-md-4 col-lg-4"></div>
+      	<div class="col-xs-8 col-sm-6 col-md-4 col-lg-4" style="margin-left: 15px;">
+          <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="text-align: right; padding: 9px 0px !important;"><span class="arrow-left" (click)="previousYear()"></span></div>
+          <div *ngIf="arrow_clicked" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 font-size-16" style="margin-top: 3px">
+            <div @fade>{{year_id == 0 ? '' : year_range[year_id - 1].year}}</div>
+          </div>
+          <div *ngIf="arrow_clicked" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 cur-year font-size-20 font-weight-500" style="margin-top: -1px;"> 
+            <div @fade>{{year_range[year_id].year}}</div>
+          </div>
+          <div *ngIf="arrow_clicked" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 font-size-16" style="margin-top: 3px">
+            <div @fade>{{year_id == year_range.length - 1 ? '' : year_range[year_id + 1].year}}</div>
+          </div>
+          <div *ngIf="!arrow_clicked" class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="margin-top: 3px"></div>
+          <div *ngIf="!arrow_clicked" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 cur-year" style="margin-top: -1px"></div>
+          <div *ngIf="!arrow_clicked" class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="margin-top: 3px"></div>
+          <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="text-align: left; padding: 9px 0px !important;"><span class="arrow-right" (click)="nextYear()"></span></div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 font-size-18">
+        <div class="prev-month">
+          <span class="arrow-left" (click)="previousMonth()"></span>
+          <span style="margin-left: 35px; margin-top: 2px">Previous Month</span>
+        </div>
+        <div class="next-month">
+          <span style="margin-left: -127px; margin-right: 10px; margin-top: 2px;">Next Month</span>
+          <span class="arrow-right" (click)="nextMonth()"></span>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 separate-line back-clr-grey"  ></div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 calender-content">
+      	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 font-size-18 font-weight-normal">Select events to view : </div>
+      	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cur-default">
+      		<div class="school-events">School Events</div>
+      		<div class="all-class-event">All Class Events</div>
+      		<div class="holidays">Holidays</div>
+      	</div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 daily-calender">
+          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 first">
+            <table>
+              <thead class="font-size-18 font-weight-500">
+                <th>
+                  {{months[pre_month - 1] + ' ' + year_range[pre_year_id].year}}
+                </th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of daysInMonth(pre_month, year_range[year_id].year); let i = index">
+                  <td>
+                    <div class="one-day cur-default">
+                      <div class="date-row">
+                        <div class="font-size-16 font-weight-500">{{i + 1}}</div>
+                        <div class="font-size-14 font-weight-normal">Fri</div>
+                      </div>
+                      <div class="content">
+                        <div class="add-event font-size-14 font-weight-normal">
+                          Add Event
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 second">
+            <table>
+              <thead class="font-size-18 font-weight-500">
+                <th>
+                  {{months[cur_month - 1] + ' ' + year_range[year_id].year}}
+                </th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of daysInMonth(cur_month, year_range[year_id].year); let i = index">
+                  <td>
+                    <div class="one-day cur-default">
+                      <div class="date-row">
+                        <div class="font-size-16 font-weight-500">{{i + 1}}</div>
+                        <div class="font-size-14 font-weight-normal">Fri</div>
+                      </div>
+                      <div class="content">
+                        <div class="add-event font-size-14 font-weight-normal">
+                          Add Event
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

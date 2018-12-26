@@ -124,24 +124,24 @@ export const mainMenu = [
 	},
 	{
 		name: 'PROFILE MANAGEMENT',
-		url: '/manage',
+		url: '/manage/manage-subjects',
 		access: 'FEE',
 		children: [
 			{
 				name: 'Employees',
 				url: '/employee',
-				access: 'EMPLOYEE',
+				access: 'MGMNT_INSTITUTION',
 				children: [],
 			},
 			{
 				name: 'Students',
-				url: '/manage',
+				url: '/manage/manage-subjects',
 				access: 'FEE_REPORTS',
 				children: [],
 			},
 			{
 				name: 'Parents & Guardians',
-				url: '/manage',
+				url: '/manage/manage-subjects',
 				access: 'APPL',
 				children: [],
 			},
@@ -149,12 +149,12 @@ export const mainMenu = [
 	},
 	{
 		name: 'ACCOUNT MANAGEMENT',
-		url: '/manage',
+		url: '/manage/manage-subjects',
 		access: 'MGMNT',
 		children: [
 			{
 				name: 'School Information',
-				url: '/manage',
+				url: '/manage/manage-subjects',
 				access: 'MGMNT_SCHOOL',
 				children: [],
 			},
@@ -185,15 +185,21 @@ export const mainMenu = [
 			{
 				name: 'Manage Subjects',
 				url: '/manage/manage-subjects',
-				access: 'EMPLOYEE',
+				access: 'MGMNT_MANAGEMENT',
 				children: [],
 			},	{
 				name: 'Curriculum',
 				url: '/manage/manage-curriculum',
-				access: 'EMPLOYEE',
+				access: 'MGMNT_MANAGEMENT_EDIT',
 				children: [],
 			}
 		]
+	},
+	{
+		name: 'CALENDER',
+		url: '/calender',
+		access: 'CALNDR',
+		children: []
 	}
 ];
 

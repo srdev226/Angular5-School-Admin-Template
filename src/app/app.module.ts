@@ -34,6 +34,7 @@ import { ManagementComponent } from './management/management.component';
 import { InstitutionComponent } from './management/institution/institution.component';
 import { SchoolManagementComponent } from './management/school-management/school-management.component';
 import { ManagementRoutingModule } from './management/management-routing.module';
+import { CalenderRoutingModule } from './calender/calender-routing.module';
 import { SchoolManagementService } from './management/school-management/school-management.service';
 import { InstitutionInfoComponent } from './management/institution/institution-info/institution-info.component';
 import { InstitutionService } from './management/institution/institution.service';
@@ -109,7 +110,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { NgbDatepickerModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DlDateTimePickerDateModule } from 'angular-bootstrap-datetimepicker';
 
-import { DoughnutChartComponent, PieChartComponent, BarChartComponent } from 'angular-d3-charts';
+// import { DoughnutChartComponent, PieChartComponent, BarChartComponent } from 'angular-d3-charts';
 import { ChartModule ,HIGHCHARTS_MODULES} from 'angular-highcharts';
 import * as highstock from 'highcharts/modules/stock.src';
 import * as more from 'highcharts/highcharts-more.src';
@@ -119,6 +120,7 @@ import * as exporting from 'highcharts/modules/exporting.src';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { CalenderComponent } from './calender/calender.component';
 
 @NgModule({
   declarations: [
@@ -165,13 +167,14 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     FeeReceiptListComponent,
     TravelersComponent,
     ModalComponent,
-    DoughnutChartComponent,
-    PieChartComponent,
-    BarChartComponent,
+    // DoughnutChartComponent,
+    // PieChartComponent,
+    // BarChartComponent,
     CurriculumComponent,
     SubjectPlanComponent,
     CurriculumTeacherComponent,
-    EditSessionPlanComponent
+    EditSessionPlanComponent,
+    CalenderComponent
   ],
   imports: [
     AgmCoreModule.forRoot({
@@ -184,6 +187,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     HttpModule,
     FeeRoutingModule,
     ManagementRoutingModule,
+    CalenderRoutingModule,
     AppRoutingModule,
     NgxChartsModule,
     AccessControlModule,

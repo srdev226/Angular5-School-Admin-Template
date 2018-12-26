@@ -1,0 +1,188 @@
+.calender {
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #525e66;
+}
+
+.school-events {
+  background-color: rgba(122, 201, 67, 0.5);
+}
+
+.all-class-event {
+  background-color: #edce11;
+}
+
+.holidays {
+  background-color: #f28e73;
+}
+
+.all-class-event,
+.school-events,
+.holidays {
+  height: 29px;
+  opacity: 0.8;
+  font-style: 16px;
+  padding: 4px 20px;
+  display: inline-block;
+}
+
+.all-class-event:hover,
+.school-events:hover,
+.holidays:hover {
+	opacity: 1;
+}
+
+.calender-content {
+  padding-left: 0px !important;
+}
+
+.calender-content > div {
+  margin: 6px 0px;
+}
+
+.calender-content table {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  background-color: #ffffff;
+}
+
+.calender-content thead th{
+  padding-top: 11px;
+  padding-bottom: 9px;
+  text-align: center;
+  background-color: #f2f2f2;
+}
+
+.calender-content table tr td {
+  padding: 5px 2% 5px 4%;
+}
+
+.calender-content table tr td .one-day:hover {
+  background-color: #e3e3e3;
+}
+
+.calender-content table tr td .one-day .date-row {
+  width: 55px;
+  padding: 5px;
+}
+
+.calender-content table tr td .one-day .date-row > div {
+  display: inline-block;
+}
+
+.calender-content table tr td .one-day > div {
+  display: inline-block;
+}
+
+.calender-content table tr td .one-day .content {
+  padding: 0px 5px !important;
+}
+
+.calender-content table tr td .one-day .content .add-event {
+  padding: 5px;
+  width: 110px;
+  background: url(assets/images/edit.png) no-repeat calc(100% - 13px) center;
+  background-size: 19px;
+  opacity: 0;
+  color: #268ff0;
+}
+
+.calender-content table tr td .one-day:hover .content .add-event {
+  opacity: 1;
+}
+
+.arrow-left {
+  width: 24px;
+  height: 24px;
+  border: solid 1px #ababab;
+  border-radius: 4px;
+  background: url(assets/images/dropdown-left@2x.png) no-repeat calc(100% - 7px) center !important;
+  background-size: 6px !important;
+  position: absolute;
+  opacity: 0.8;
+  display: inline-block;
+}
+
+.arrow-right {
+  width: 24px;
+  height: 24px;
+  border: solid 1px #ababab;
+  border-radius: 4px;
+  background: url(assets/images/dropdown-right@2x.png) no-repeat calc(100% - 7px) center #d8d8d8 !important;
+  background-size: 6px !important;
+  position: absolute;
+  opacity: 0.8;
+  display: inline-block;
+}
+
+.arrow-left:hover,
+.arrow-right:hover {
+  opacity: 1;
+}
+
+.year-box .arrow-left,
+.year-box .arrow-right {
+  position: unset !important;
+}
+
+.arrow-left:active {
+  background: url(assets/images/dropdown-left@2x.png) no-repeat calc(100% - 7px) center #f2f2f2 !important;
+  background-size: 6px !important;
+}
+
+.arrow-right:active {
+  background: url(assets/images/dropdown-right@2x.png) no-repeat calc(100% - 7px) center #c6c6c6 !important;
+  background-size: 6px !important;
+}
+
+.year-box {
+  text-align: center;
+}
+
+.year-box > div > div {
+  height: 42px;
+  padding: 9px;
+  text-align: center;
+}
+
+.year-box .cur-year {
+  padding: 8px;
+  background-color: #e3e3e3;
+}
+
+.prev-month,
+.next-month,
+.prev-month > span,
+.next-month > span {
+  display: inline-block;
+}
+
+.next-month {
+  float: right;
+}
+
+.separate-line {
+  width: calc(100% - 30px) !important;
+  margin-left: 15px;
+  margin-top: 23px !important;
+}
+
+.daily-calender {
+  padding-right: 0px;
+}
+
+.daily-calender .first {
+  padding-right: 10px;
+  padding-left: 0px;
+  margin-top: 6px;
+}
+
+.daily-calender .second {
+  padding-left: 10px;
+  padding-right: 0px;
+  margin-top: 6px;
+}

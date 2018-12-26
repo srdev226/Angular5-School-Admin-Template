@@ -14,8 +14,11 @@ import { StockChart } from 'angular-highcharts';
 import { FeeReportService } from '../fee/fee-report/fee-report.service';
 import { FeeReport } from '../fee/fee-report/fee-report';
 
-
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+
+import { orderData, testGraphData, statusLevelData, subjectPlanData, years, classes} from './testData';
+
+import { EmployeeService } from '../employees/employee.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -39,9 +42,20 @@ export class DashboardComponent implements OnInit {
   public area_chart2: any;
   public due_bills_summary_chart: any;
   public modalRef: BsModalRef;
+  public student_chat : any;
+  public employeer_chart: any;
+
+
+  public orderData = orderData;
+  public testGraphData = testGraphData;
+  public statusLevelData = statusLevelData;
+  public subjectPlanData: any[];
+  public years = years;
+  public classes = classes;
 
   constructor(d3Service: D3Service, public schoolDataService: SchoolDataService, private studentService: StudentService,
-    private feeBillService: FeeBillService, private admissionService: AdmissionService, public feeReportService: FeeReportService, private modalService: BsModalService) {
+    private feeBillService: FeeBillService, private admissionService: AdmissionService, public feeReportService: FeeReportService,
+    private modalService: BsModalService, public employeeservice: EmployeeService) {
     this.d3 = d3Service.getD3();
   }
 
@@ -51,23 +65,211 @@ export class DashboardComponent implements OnInit {
 
   //getSummaryBoxDetails
   ngOnInit() {
+
+    this.employeeservice.getEmployeeList("1e4d12bc2b58050ff084f8da").then(data => {
+
+      var employeer_data = [];
+
+      for (var i = 0; i < data.length; i++) {
+
+          if(employeer_data[data[i].type_code] != undefined ){
+
+            employeer_data[data[i].type_code] = employeer_data[data[i].type_code]+1;
+
+          }else {
+
+            employeer_data[data[i].type_code] = 1;
+          }
+      }
+
+      var employeer_series_data = [];
+      var employeer_key = Object.keys(employeer_data);
+ 
+      for (var i = 0; i < employeer_key.length ; i++) {
+
+          var employeer_series = { name: '', y: 0 };
+          employeer_series.name = employeer_key[i]+ ' '+employeer_data[employeer_key[i]];
+          employeer_series.y = employeer_data[employeer_key[i]];
+          employeer_series_data.push(employeer_series);
+      }
+
+
+      this.employeer_chart = new Chart({
+        chart: {
+          type: 'pie',
+          height:'270px',
+          spacingLeft: -150,
+          spacingBottom: 0,
+          events: {
+            load: function(event) {
+              var chart = this,
+              points = chart.series[0].points,
+              len = points.length,
+              total = 0,
+              i = 0;
+
+              for (; i < len; i++) {
+                total += points[i].y;
+              }
+              chart.setTitle({
+                useHTML:true,
+                text: '<h2 style="margin: 7px 0 !important">' + total +'</h2>',
+                align: 'center',
+                verticalAlign: 'middle',
+                y: -10,
+                style: {
+                  fontWeight: 'bold'
+                },
+              });
+            }
+          }
+        },
+        tooltip: {
+          formatter: function() {
+            return '<b>' + this.point.name + '</b>';
+          }
+        },
+        legend: {
+          useHTML:true,
+          enabled: true,
+          floating: true,
+          borderWidth: 0,
+          align: 'right',
+          layout: 'vertical',
+          verticalAlign: 'middle',
+          labelFormatter: function() {
+            var html = '<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">';
+            html += ' '+ this.name;
+            return html;
+          }
+        },
+        yAxis: {
+          title: {
+            text: ''
+          }
+        },
+        plotOptions: {
+          pie: {
+            shadow: false,
+            showInLegend: true,
+            cursor: 'pointer',
+            dataLabels: {
+              enabled: false
+            }
+          }
+        },
+        series: [{
+          name: 'Browsers',
+          data: employeer_series_data,
+          size: '60%',
+          innerSize: '65%',
+        }]
+      });
+
+
+
+    })
+
     this.classindex = 0;
     this.school = this.schoolDataService.getSchool();
     this.studentService.getSchoolStudentData(this.school.school_id)
-      .then(studentData => {
-        this.studentData = studentData;
-        this.donutChartData = [{
-          id: 0,
-          label: 'Girls ' + studentData.total_girls_count,
-          value: studentData.total_girls_count,
-          color: '#ffb4c1f7'
-        }, {
-          id: 1,
-          label: 'Boys ' + studentData.total_boys_count,
-          value: studentData.total_boys_count,
-          color: '#6cc8da'
-        }];
+    .then(studentData => {
+
+      this.student_chat = new Chart({
+        chart: {
+          renderTo: 'container',
+          type: 'pie',
+          height:'270px',
+          spacingLeft: -150,
+          spacingBottom: 0,
+          events: {
+            load: function(event) {
+              var chart = this,
+              points = chart.series[0].points,
+              len = points.length,
+              total = 0,
+              i = 0;
+
+              for (; i < len; i++) {
+                total += points[i].y;
+              }
+              chart.setTitle({
+                useHTML:true,
+                text: '<h2 style="margin:7px 0 !important">' + total +'</h2>',
+                align: 'center',
+                verticalAlign: 'middle',
+                y: -10,
+                style: {
+                  fontWeight: 'bold'
+                },
+              });
+            }
+          }
+        },
+        tooltip: {
+          formatter: function() {
+            return '<b>' + this.point.name + '</b>';
+          }
+        },
+        legend: {
+          useHTML:true,
+          enabled: true,
+          floating: true,
+          borderWidth: 0,
+          align: 'right',
+          layout: 'vertical',
+          verticalAlign: 'middle',
+          labelFormatter: function() {
+            var html = '<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">';
+            html += ' '+ this.name;
+            return html;
+          }
+        },
+        yAxis: {
+          title: {
+            text: ''
+          }
+        },
+        plotOptions: {
+          pie: {
+            shadow: false,
+            showInLegend: true,
+            cursor: 'pointer',
+            dataLabels: {
+              enabled: false
+            }
+          }
+        },
+        series: [{
+          name: 'Browsers',
+          data: [{
+            name: '<i class="fas fa-female"></i> Girls ' + studentData.total_girls_count,
+            y: studentData.total_girls_count,
+            color: '#ffb4c1f7'
+          }, {
+            name: '<i class="fas fa-male"></i> Boys ' + studentData.total_boys_count,
+            y: studentData.total_boys_count,
+            color: '#6cc8da'
+          }],
+          size: '60%',
+          innerSize: '65%',
+        }]
       });
+
+
+      this.studentData = studentData;
+      this.donutChartData = [{
+        id: 0,
+        label: 'Girls ' + studentData.total_girls_count,
+        value: studentData.total_girls_count,
+        color: '#ffb4c1f7'
+      }, {
+        id: 1,
+        label: 'Boys ' + studentData.total_boys_count,
+        value: studentData.total_boys_count,
+        color: '#6cc8da'
+      }];
+    });
 
     // this.feeBillService.getBillCollectionData(this.school.school_id)
     //   .then(feeBillData => {
@@ -89,10 +291,16 @@ export class DashboardComponent implements OnInit {
           plotBorderWidth: null,
           plotShadow: false,
           type: 'pie',
-          height: '400px',
+          height: '320px',
+          spacingLeft: -200,
+          spacingBottom: 0,
         },
         title: {
-          text: 'Due Bills Summary'
+          text: '.',
+          style :{
+            color:'transparent',
+            fill: 'transparent'
+          }
         },
         tooltip: {
           pointFormat: ''
@@ -249,7 +457,7 @@ export class DashboardComponent implements OnInit {
     this.area_chart = new Chart({
           chart: {
             type: 'area',
-            height: '400px',
+            height: '320px',
           },
           navigation: {
             buttonOptions: {
@@ -302,7 +510,8 @@ export class DashboardComponent implements OnInit {
 
     this.area_chart2 = new Chart({
           chart: {
-            type: 'area'
+            type: 'area',
+            height: '500px'
           },
           title: {
             text: 'Daily Collection Fee'
@@ -344,6 +553,78 @@ export class DashboardComponent implements OnInit {
         });
     });
 
+    this.testGraphData = [
+    {
+      title: 'Division B',
+      value: [
+      {
+        status: true,
+        values: [
+        {
+          value: `${this.count(0, 30)}`,
+          background: '#d05f50',
+        }, {
+          value: `${this.count(0, 30)}`,
+          background: '#ff9222',
+        }, {
+          value: `${this.count(30, 30)}`,
+          background : '#bce4a1'
+        }
+
+        ]
+      }, {
+        status: true,
+        values: [
+        {
+          value: `${this.count(1, 30)}`,
+          background: '#d05f50',
+        }, {
+          value: `${this.count(0, 30)}`,
+          background: '#ff9222',
+        }, {
+          value: `${this.count(29, 30)}`,
+          background: '#bce4a1',
+        },
+        ]
+      }
+      ]
+    },
+    {
+      title: 'Division A',
+      value: [
+      {
+        status: true,
+        values: [
+        {
+          value: `${this.count(5, 30)}`,
+          background: '#d05f50',
+        }, {
+          value: `${this.count(2, 30)}`,
+          background: '#ff9222',
+        }, {
+          value : `${this.count(23, 30)}`,
+          background : '#bce4a1'
+        }
+
+        ]
+      }, {
+        status: true,
+        values: [
+        {
+          value: `${this.count(10, 27)}`,
+          background: '#d05f50',
+        }, {
+          value: `${this.count(2, 27)}`,
+          background: '#ff9222',
+        }, {
+          value: `${this.count(15, 27)}`,
+          background: '#bce4a1',
+        },
+        ]
+      }
+      ]
+    }
+    ]
 
     this.admissionService.getSummaryBoxDetails(this.school.school_id)
       .then(response => {
@@ -356,6 +637,10 @@ export class DashboardComponent implements OnInit {
       }).catch( response => {
         console.log("Application Data could not be loaded")
       })
+  }
+
+  count(x, y) {
+    return x/y*100;
   }
 
   initOverdueBillsChart = function (feeBillData) {

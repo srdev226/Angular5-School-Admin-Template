@@ -38,10 +38,15 @@
 			  </th>
 			  <th class="test-mark">
 			  	<div>
+			  		Final Mark
+			  	</div>	
+			  </th>
+			  <th class="test-mark total">
+			  	<div>
 			  		TOTAL
 			  	</div>	
 			  </th>
-			  <th class="test-mark">
+			  <th class="test-mark grade">
 			  	<div>
 			  		GRADE
 			  	</div>	
@@ -60,17 +65,23 @@
 			  <td class="cons-sub">{{subject.cons_sub_name}}</td>
 			  <td *ngFor="let score of subject.scores; let k = index" class="test-mark">
 			  	<div>
-			  		<input [(ngModel)]="score.score" placeholder="XX" (change)="validate(i, j, k)" [disabled]="!editable || !exam_series[k].results_publish" class="test-label green-border" type="number">
+			  		<input *ngIf="score.exam_key != null" [(ngModel)]="score.score" placeholder="XX" (change)="validate(i, j, k)" [disabled]="!editable || !exam_series[k].results_publish" class="test-label green-border" type="number">
+						<input *ngIf="score.exam_key == null" [(ngModel)]="score.score" placeholder="XX" (change)="validate(i, j, k)" [disabled]="!editable || !exam_series[k].results_publish" class="test-label green-border" type="number" (click)="openModal('edit-mark-overlay', i, j)">
 			  	</div>
 			  </td>
-			  <td *ngIf="j == 0" class="test-mark" [attr.rowspan] ="subject.num_of_cons">
+			  <td class="test-mark">
 			  	<div>
-			  		19
+			  		<input [(ngModel)]="subject.final_mark" placeholder="XX" [disabled]="true" class="test-label green-border" type="number">
 			  	</div>	
 			  </td>
-			  <td *ngIf="j == 0" class="test-mark" [attr.rowspan] ="subject.num_of_cons">
+			  <td *ngIf="j == 0" class="test-mark total" [attr.rowspan] ="subject.num_of_cons">
 			  	<div>
-			  		A+
+			  		{{getTotalMarks(i)}}
+			  	</div>	
+			  </td>
+			  <td *ngIf="j == 0" class="test-mark grade" [attr.rowspan] ="subject.num_of_cons">
+			  	<div>
+			  		{{getGrade(i)}}
 			  	</div>	
 			  </td>
 			</tr>
@@ -81,12 +92,51 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <div class="modal-title btn-back cur-default" id="myModalLabel" data-dismiss="modal" aria-label="Close" (click)="viewMarklistBack()">
-            <p class="underline-blue">Back</p>
-          </div>
+        	<p class="modal-title" id="myModalLabel">ADD EXAMS</p>
+          <button class="btn-done pointer" id="myModalLabel" data-dismiss="modal" aria-label="Close" (click)="editConstitionSUbjectDone()">DONE</button>
         </div>
         <div class="modal-body">
+			<table class="mark-table">
+				<thead>
+					<tr>
+					  <th class="subject">Student Name</th>
+					  <th class="cons-sub"></th>
+					  <th *ngFor="let exam of exam_series" class="test-mark">
+					  	<div>
+					  		{{exam.name}}
+					  	</div>
+					  </th>
+					  <th class="test-mark">
+					  	<div>
+					  		Final Mark
+					  	</div>	
+					  </th>
+					</tr>
+				</thead>
 
+				<tbody *ngIf="selected_index != -1 && selected_cons_ind != -1">
+					<tr>
+						<td colspan="100" class="line">
+							<div class="green-line"></div>
+						</td>
+					</tr>
+					<tr *ngFor="let subject of student_scores[selected_index][selected_cons_ind].scores[0].cons_sub; let i = index">
+					  <td *ngIf="i == 0" class="subject">{{student_scores[selected_index][selected_cons_ind].cons_sub_name}}</td>
+					  <td *ngIf="i != 0" class="subject"></td>
+					  <td class="cons-sub">{{student_scores[selected_index][selected_cons_ind].scores[0].cons_sub[i].sub_name}}</td>
+					  <td *ngFor="let score of let subject of student_scores[selected_index][selected_cons_ind].scores; let k = index" class="test-mark">
+					  	<div>
+					  		<input [(ngModel)]="score.cons_sub[i].score" placeholder="XX" (change)="validate(selected_index, selected_cons_ind, k, i)" [disabled]="!editable || !exam_series[k].results_publish" class="test-label green-border" type="number">
+					  	</div>
+					  </td>
+					  <td *ngIf="i == 0" class="test-mark" [attr.rowspan] ="student_scores[selected_index][selected_cons_ind].scores[0].cons_sub.length">
+					  	<div>
+					  		<input [(ngModel)]="student_scores[selected_index][selected_cons_ind].final_mark" placeholder="XX" [disabled]="true" class="test-label green-border" type="number">
+					  	</div>	
+					  </td>
+					</tr>
+				</tbody>
+			</table>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 .aca-marklist {
 	color: #525e66;
-	padding: 0 calc(25% - 140px);
+	padding: 0 calc(25% - 180px);
 	font-family: Roboto;
 	font-size: 14px;
 	font-weight: normal;
@@ -133,11 +133,19 @@
 }
 
 .mark-table thead tr th {
-	padding: 10px 29px 10px 17px;
+  padding: 16px 2% 16px;
 }
 
 .mark-table tbody tr td {
-	padding: 16px 29px 16px 17px;
+  padding: 16px 2% 16px;
+}
+
+.mark-table thead tr th.test-mark {
+	padding: 16px 0% 16px 0%;
+}
+
+.mark-table tbody tr td.test-mark {
+	padding: 16px 0% 16px 0%;
 }
 
 .footer-table tr.class-avg td{
@@ -180,11 +188,34 @@
 	width: 10% !important;
 }
 
+td.test-mark {
+  padding-right: calc(4% - 19px) !important;
+  padding-left: unset !important;
+}
+
+th.test-mark {
+  padding-right: calc(4% - 13px) !important;
+  padding-left: unset !important;
+}
+
 .test-mark div {
-	width: 105px;
-	width: unset;
-	float: right;
-	text-align: right;
+  width: unset;
+  min-width: 55px;
+  text-align: right;
+}
+
+.test-mark.grade div {
+  text-align: left !important;
+}
+
+th.test-mark.grade {
+  padding-left: calc(4% - 19px) !important;
+  padding-right: unset !important;
+}
+
+td.test-mark.grade {
+  padding-left: calc(4% - 13px) !important;
+  padding-right: unset !important;
 }
 
 .aca-marklist ul li{
@@ -204,13 +235,14 @@
 .test-mark input {
   width: 40px;
   text-align: center;
-  padding: 4px;
+  padding: 3px;
   border: solid 1px #dedede;
   height: 25px;
 }
 
 .test-mark input:disabled {
   background: unset;
+  padding: 4px;
   border: unset;
 }
 
@@ -265,3 +297,6 @@
   display: inline-block;
 }
 
+input.test-label {
+  margin-left: 0px !important;
+}

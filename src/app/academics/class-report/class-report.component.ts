@@ -118,8 +118,8 @@ export class ClassReportComponent implements OnInit {
   }
 
   viewOverlayBack(name) {
-    // this.ngOnInit();
-    //this.closeModal();
+    if (name == 'view-student-marklist' || name == 'view-detailed-marklist')
+      setTimeout(() => {(<any>$('#edit-mark-overlay')).remove()}, 300);
   }
 
   selectExam(index) {

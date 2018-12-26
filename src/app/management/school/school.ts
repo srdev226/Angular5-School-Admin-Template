@@ -28,6 +28,7 @@ export class AcademicConfiguration{
   exam_configuration: ExamConfiguration;
   subject_types: SubjectType[];
   subjects: Subject[];
+  code: string;
 }
 
 export class ExamConfiguration{
@@ -35,6 +36,7 @@ export class ExamConfiguration{
   exam_types : ExamType[];
   exam_status : ExamStatus[];
   exam_series : ExamSeries[];
+  report_configurations: ReportConfiguration[];
 }
 
 export class SubjectType{
@@ -217,4 +219,29 @@ export class Affiliation {
     number: string;
     type: string;
     board: string;
+}
+
+export class ReportConfiguration {
+  classes: ClassKey[];
+  grade_configuration: GradeConfiguration;
+  exam_weightage_configuration: ExamWeightageConfiguration[];
+}
+
+export class ClassKey {
+  class_key: string;
+}
+
+export class GradeConfiguration {
+  percentage_rules: PercentageRule[]; 
+}
+
+export class PercentageRule {
+  from_percent: number;
+  to_percent: number;
+  grade: string;
+}
+
+export class ExamWeightageConfiguration {
+  weightage: number;
+  exam_series_code: string;
 }

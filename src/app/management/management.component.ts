@@ -10,7 +10,7 @@ export class ManagementComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    this.router.navigate(['/manage/school']);
+    this.router.navigate(['/manage']);
   }
 
 }

@@ -6,7 +6,7 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
 import { AccessControlModule } from '../security/access-control/access-control.module';
 import { GCCommonModule } from '../common/gccommon.module';
 import { StudentModule } from '../student/student.module';
-  
+
 import { AcademicsComponent } from './academics.component';
 import { AcademicsRoutingModule } from './academics-routing.module';
 import { ClassesComponent } from './classes/classes.component';
@@ -23,7 +23,7 @@ import { ExamInfoComponent } from './exams/exam-info/exam-info.component';
 import { ExamService } from './exams/exam.service';
 import { ExamDataService } from './exams/exam-data.service';
 import { ExamHttpClient } from './exams/exam-http-client';
-import { SearchExam } from './exams/exam-list/exam-list.component';
+// import { SearchExam } from './exams/exam-list/exam-list.component';
 import { ExamListComponent, ExamFilter } from './exams/exam-list/exam-list.component';
 import { StudentScoreComponent } from './student-score/student-score.component';
 import { StudentScoreFilter } from './student-score/student-score.component';
@@ -54,8 +54,8 @@ import { ReportCardConfigurationComponent } from './class-report/report-card-con
     DlDateTimePickerDateModule,
     NgbTimepickerModule,
   ],
-  declarations: [AcademicsComponent, ClassesComponent, PromotionsComponent, AttendenceComponent, SearchExam,
-    AttendanceReportComponent, ExamsComponent, ExamInfoComponent, ExamListComponent, ExamScheduleComponent, ExamMarkingComponent, 
+  declarations: [AcademicsComponent, ClassesComponent, PromotionsComponent, AttendenceComponent,
+    AttendanceReportComponent, ExamsComponent, ExamInfoComponent, ExamListComponent, ExamScheduleComponent, ExamMarkingComponent,
     StudentScoreComponent, StudentScoreFilter, MarkStudentsComponent, ClassReportComponent, ViewDetailedMarklistComponent, ViewStudentMarkListComponent, ReportCardConfigurationComponent],
   providers: [ExamFilter, ClassInfoHttpClient, ClassInfoService, ClassesDataService, ExamDataService, AttendanceService,
     AttendanceHttpClient, ExamService, ExamHttpClient, StudentScoreService, StudentScoreHttpClient

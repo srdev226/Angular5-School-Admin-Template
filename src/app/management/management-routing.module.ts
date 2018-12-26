@@ -17,7 +17,7 @@ const managementRoutes: Routes = [
     path: 'manage',
     component: ManagementComponent,
     children: [
-      { path: '', component: SchoolComponent},
+      { path: '', component: ManageSubjectsComponent},
       { path: 'school', component: SchoolComponent},
       { path: 'institution', component: InstitutionComponent},
       { path: 'school-management', component: SchoolManagementComponent},
@@ -25,7 +25,6 @@ const managementRoutes: Routes = [
       { path: 'fee-rule/list', component: FeeRuleListComponent },
       { path: 'fee-rule/create', component: FeeRuleInfoComponent },
       { path: 'fee-rule/edit/:fee_rule_key', component: FeeRuleInfoComponent },
-      
       { path: 'manage-subjects', component: ManageSubjectsComponent },
       { path: 'manage-curriculum', component: CurriculumComponent }
     ]

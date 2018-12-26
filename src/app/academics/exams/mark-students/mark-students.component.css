@@ -232,3 +232,10 @@ th.class-name .dropdown-menu {
     font-weight: normal !important;
     font-style: normal !important; 
 }
+
+th .test-label {
+    width: 105px !important;
+    text-align: center;
+    margin: unset !important;
+    margin-left: -10px !important;
+}

@@ -1,144 +1,245 @@
-
-<div class="config-contents">
-	<div class="btn-back cur-default" (click)="viewOverlayBack()">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" *ngIf="!is_details_loaded">
+  <div class="loader" id="loader-1"></div>
+ </div>
+<div *ngIf="is_details_loaded" class="config-contents">
+	<div *ngIf="is_editing" class="btn-back cur-default" (click)="editBack()">
 	  <p class="blue-link">Back</p>
 	</div>
-	<button class="btn-done pointer" (click)="viewOverlayBack()">DONE</button>
-	<div class="config-body">
-		<div *ngFor="let config of all_configurations; let i = index" class="config-for-class">
-			<div class="config-row">
-				<div class="class-box col-xs-12 col-sm-12 col-md-10 col-lg-8" style="padding:unset !important;">
-					<div class="row-label col-xs-4 col-sm-4 col-md-4 col-lg-4">CONFIGURATION FOR CLASS</div>
-					<div class="row-input col-xs-4 col-sm-4 col-md-3 col-lg-3">
-				    <div class="dropdown-toggle cur-default input-focus" data-toggle="dropdown">
-	            {{config.academic_year.name}}
-	          </div>
-	          <ul class="dropdown-menu check-dropdown regular-checkbox cur-default">
-	            <li *ngFor="let academic_year of academic_years" (click)="selectYear(academic_year)">{{academic_year.name}}</li>
-	          </ul>
+	<div *ngIf="!is_editing" class="btn-back cur-default" (click)="viewOverlayBack()">
+	  <p class="blue-link">Back</p>
+	</div>
+	<button *ngIf="is_editing" class="btn-done pointer" (click)="editBack()">DONE</button>
+	<div class="config-body" [ngClass]="{'is_viewing': !is_editing}">
+		<div *ngIf="!is_editing" class="add-another-config">
+	    <div class="add-configuration" (click)="openModal('add-configuration-modal')">
+	      <div class="btn-add-configuration pointer" (click)="addAnotherConfiguration()">
+	        <img alt="+" src="assets/images/add@2x.png" height="24px" width="24px">
+	      </div>
+	      <div class="add-a-configuration">
+	        Add Another Configuration
+	      </div>
+	    </div>
+	  </div>
+		<div *ngFor="let config of all_configurations; let i = index">
+			<div *ngIf="(is_editing && i == editing_config_id) || !is_editing" class="config-for-class">
+				<!-- Configuration For Class -->
+				<div class="config-row">
+					<div *ngIf="!is_editing" class="edit-configuration underline-blue font-size-16 cur-default" (click)="editConfiguration(i)">Edit Configuration</div>
+					<div class="class-box col-xs-12 col-sm-12 col-md-10 col-lg-9" style="padding:unset !important;">
+						<div class="row-label col-xs-3 col-sm-4 col-md-4 col-lg-4">CONFIGURATION FOR CLASS</div>
+						<div *ngIf="is_editing" class="row-input col-xs-3 col-sm-2 col-md-2 col-lg-2">
+					    <div class="dropdown-toggle cur-default input-focus" data-toggle="dropdown">
+		            {{config.academic_year}}
+		          </div>
+		          <ul class="dropdown-menu regular-checkbox cur-default">
+		            <li *ngFor="let academic_year of academic_years" (click)="selectYear(i, academic_year.code)">{{academic_year.name}}</li>
+		          </ul>
+						</div>
+						<div *ngIf="is_editing" class="row-input col-xs-6 col-sm-6 col-md-6 col-lg-6">
+					    <div class="dropdown-toggle cur-default" [ngClass]="{'input-focus': getSelectedClassesCodes(i) != 'Select Class'}" data-toggle="dropdown">
+		          	{{getSelectedClassesCodes(i)}}
+		          </div>
+		          <ul class="dropdown-menu check-dropdown regular-checkbox cur-default">
+		            <li *ngFor="let class of config.classes; let j = index"><input type="checkbox" (change)="toggleClassSelection(i, j)" [checked]="class.is_selected"/><span>{{'Class ' + class.class_info.name}}</span></li>
+		          </ul>
+						</div>
 					</div>
 
-					<div class="row-input col-xs-4 col-sm-4 col-md-5 col-lg-5">
-				    <div class="dropdown-toggle cur-default" [ngClass]="{'input-focus': getSelectedClassesCodes(i) != 'Select Class'}" data-toggle="dropdown">
-	          	{{getSelectedClassesCodes(i)}}
-	          </div>
-	          <ul class="dropdown-menu check-dropdown regular-checkbox cur-default">
-	            <li *ngFor="let class of config.classes; let j = index"><input type="checkbox" (change)="toggleClassSelection(i, j)" [checked]="class.is_selected"/><span>{{'Class ' + class.class_info.name}}</span></li>
-	          </ul>
-					</div>
-				</div>
-			</div>
-
-			<div class="config-row">
-				<div class="row-label">SET GRADE RULES</div>
-				<div class="col-xs-6 col-sm-6 col-md-5 col-lg-4">
-					<div class="rules-title font-size-14 font-weight-500">
-						<div class="pcnt-range col-xs-7 col-sm-7 col-md-7 col-lg-7">Percentage Range</div>
-						<div class="letter-grade col-xs-5 col-sm-5 col-md-5 col-lg-5">
-							<div class="col-xs-12 col-sm-12 col-md-11 col-lg-10 float-right">
-								Letter Grade
-							</div>
-						</div>
-					</div>
-					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 separate-line back-clr-green"></div>
-					<div class="rules-row font-size-16 font-weight-normal">
-						<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
-							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-								<div class="static-box pcnt">90.1</div>
-							</div>
-							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 font-size-14 font-weight-500" style="text-align: center; line-height: 2.5;">to</div>
-							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-								<div class="static-box pcnt">100</div>
-							</div>
-						</div>
-						<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-							<div class="col-xs-12 col-sm-12 col-md-11 col-lg-10 float-right">
-								<div class="static-box">O [Outstanding]</div>
-							</div>
-						</div>
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 separate-line back-clr-grey"></div>
-					</div>
-				</div>
-
-				<div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
-
-				<div class="col-xs-6 col-sm-6 col-md-5 col-lg-4">
-					<div class="rules-title font-size-14 font-weight-500">
-						<div class="pcnt-range col-xs-7 col-sm-7 col-md-7 col-lg-7">Percentage Range</div>
-						<div class="letter-grade col-xs-5 col-sm-5 col-md-5 col-lg-5">
-							<div class="col-xs-12 col-sm-12 col-md-11 col-lg-10 float-right">
-								Letter Grade
-							</div>
-						</div>
-					</div>
-					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 separate-line back-clr-green"></div>
-					<div class="rules-row font-size-16 font-weight-normal">
-						<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
-							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-								<div class="static-box pcnt">90.1</div>
-							</div>
-							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 font-size-14 font-weight-500" style="text-align: center; line-height: 2.5;">to</div>
-							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-								<div class="static-box pcnt">100</div>
-							</div>
-						</div>
-						<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-							<div class="col-xs-12 col-sm-12 col-md-11 col-lg-10 float-right">
-								<div class="static-box">O [Outstanding]</div>
-							</div>
-						</div>
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 separate-line back-clr-grey"></div>
-					</div>
-				</div>
-			</div>
-
-			<div class="config-row">
-				<div class="row-label">MARK DISTRIBUTION</div>
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
-					<div class="rules-title font-size-14 font-weight-500">
-						<div class="pcnt-range col-xs-5 col-sm-5 col-md-4 col-lg-4">Exam</div>
-						<div class="letter-grade col-xs-7 col-sm-7 col-md-8 col-lg-8">
-							Percentage Weightage
-						</div>
-					</div>
-					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 separate-line back-clr-green"></div>
-					<div class="rules-row font-size-14 font-weight-normal">
-						<div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
-							<div class="col-xs-10 col-sm-8 col-md-7 col-lg-6">
-								<div class="static-box">Term 1</div>
-							</div>
-						</div>
-						<div class="col-xs-7 col-sm-7 col-md-8 col-lg-8">
-							<div class="col-xs-5 col-sm-4 col-md-3 col-lg-3">
-								<div class="col-xs-9 col-sm-9 col-md-8 col-lg-7 font-weight-500">
-									<div class="static-box pcnt">100</div>
+					<div *ngIf="getSelectedClassesCodes(i) != 'Select Class'" class="selected-class-box col-xs-12 col-sm-12 col-md-10 col-lg-9 font-size-14">
+						<div *ngFor="let class of config.classes; let j = index">
+							<div *ngIf="class.is_selected" class="class-box-row">
+								<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="padding: 6px 1% !important;">{{"Class " + class.class_info.name}}</div>
+								<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+									<div *ngFor="let division of class.class_info.divisions;" class="class-div-box col-xs-12 col-sm-12 col-md-12 col-lg-12">
+										{{"Class " + class.class_info.name + division.name}}
+										<span *ngIf="is_editing" class="pointer" (click)="deleteClass(i, j)"><img src="assets/images/shape@2x.png" height="13px" width="13px"></span>
+									</div>
 								</div>
 							</div>
-							<div class="col-xs-7 col-sm-8 col-md-9 col-lg-9 pointer underline-blue">
-								Remove Exam
-							</div>
 						</div>
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 separate-line back-clr-grey"></div>
 					</div>
 				</div>
-			</div>
+				<!-- End Configuration For Class -->
 
-			<div class="config-row">
-				<button type="button" class="btn btn-primary" (click)="saveConfiguration()">SAVE CONFIGURATION</button>
-			  <button type="button" class="btn btn-default" (click)="cancelChanges()">CANCEL CHANGES</button>
+				<!-- Set Grade Rules -->
+				<div class="config-row">
+					<div class="row-label">SET GRADE RULES</div>
+					<div class="col-xs-6 col-sm-6 col-md-5 col-lg-4">
+						<div class="rules-title font-size-14 font-weight-500">
+							<div class="pcnt-range col-xs-7 col-sm-7 col-md-7 col-lg-7">Percentage Range</div>
+							<div class="letter-grade col-xs-5 col-sm-5 col-md-5 col-lg-5">
+								<div class="col-xs-12 col-sm-12 col-md-11 col-lg-10 float-right">
+									Letter Grade
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 separate-line back-clr-green"></div>
+						<div *ngFor="let grade_rule of getColumnForGradeRules(i, 1)" class="rules-row font-size-16 font-weight-normal">
+							<div *ngIf="is_editing" class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+								<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+									<input [(ngModel)]="grade_rule.percentage_from" (change)="onChangePercentageFrom(i)" [disabled]="!is_editing" type="number" placeholder="Enter" class="static-box pcnt test-label green-border">
+									<span class="percentage">%</span>
+								</div>
+								<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 font-size-14 font-weight-500" style="text-align: center; line-height: 2.5;">to</div>
+								<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+									<input [(ngModel)]="grade_rule.percentage_to" type="number" disabled placeholder="Enter" class="static-box pcnt test-label green-border">
+									<span class="percentage">%</span>
+								</div>
+							</div>
+							<div *ngIf="!is_editing" class="col-xs-7 col-sm-7 col-md-7 col-lg-7 pcnt-box font-size-16">
+								{{(grade_rule.percentage_from == 0 ? 'Below ' : (grade_rule.percentage_from + ' - ')) + grade_rule.percentage_to + ' %'}}
+							</div>
+							<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+								<div class="col-xs-12 col-sm-12 col-md-11 col-lg-10 float-right">
+									<input [(ngModel)]="grade_rule.letter_grade" [disabled]="!is_editing" placeholder="Enter letter grades" class="static-box green-border">
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 separate-line back-clr-grey"></div>
+						</div>
+
+						<div *ngIf="config.grade_rules.length < 4 && is_editing" class="rules-row font-size-16 font-weight-normal">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 underline-blue cur-default font-size-14" (click)="addAnotherRule(i)">
+									+ Add another row
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 separate-line back-clr-grey"></div>
+						</div>
+					</div>
+
+					<div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
+
+					<div *ngIf="config.grade_rules.length >= 4" class="col-xs-6 col-sm-6 col-md-5 col-lg-4">
+						<div class="rules-title font-size-14 font-weight-500">
+							<div class="pcnt-range col-xs-7 col-sm-7 col-md-7 col-lg-7">Percentage Range</div>
+							<div class="letter-grade col-xs-5 col-sm-5 col-md-5 col-lg-5">
+								<div class="col-xs-12 col-sm-12 col-md-11 col-lg-10 float-right">
+									Letter Grade
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 separate-line back-clr-green"></div>
+						<div *ngFor="let grade_rule of getColumnForGradeRules(i, 2)" class="rules-row font-size-16 font-weight-normal">
+							<div *ngIf="is_editing" class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+								<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+									<input [(ngModel)]="grade_rule.percentage_from" [disabled]="!is_editing" (change)="onChangePercentageFrom(i)" type="number" placeholder="Enter" class="static-box pcnt test-label green-border">
+									<span class="percentage">%</span>
+								</div>
+								<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 font-size-14 font-weight-500" style="text-align: center; line-height: 2.5;">to</div>
+								<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+									<input [(ngModel)]="grade_rule.percentage_to" type="number" disabled placeholder="Enter" class="static-box pcnt test-label green-border">
+									<span class="percentage">%</span>
+								</div>
+							</div>
+							<div *ngIf="!is_editing" class="col-xs-7 col-sm-7 col-md-7 col-lg-7 pcnt-box font-size-16">
+								{{grade_rule.percentage_from + ' - ' + grade_rule.percentage_to + '%'}}
+							</div>
+							<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+								<div class="col-xs-12 col-sm-12 col-md-11 col-lg-10 float-right">
+									<input [(ngModel)]="grade_rule.letter_grade" [disabled]="!is_editing" placeholder="Enter letter grades" class="static-box green-border">
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 separate-line back-clr-grey"></div>
+						</div>
+						<div *ngIf="config.grade_rules.length >= 4 && is_editing" class="rules-row font-size-16 font-weight-normal">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 underline-blue cur-default font-size-14" (click)="addAnotherRule(i)">
+									+ Add another row
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 separate-line back-clr-grey"></div>
+						</div>
+					</div>
+				</div>
+				<!-- End Set Grade Rules-->
+
+				<!-- Mark Distribution -->
+				<div class="config-row mark-distribution">
+					<div class="row-label">MARK DISTRIBUTION</div>
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
+						<div class="rules-title font-size-14 font-weight-500">
+							<div class="pcnt-range col-xs-5 col-sm-5 col-md-4 col-lg-4">Exam</div>
+							<div class="letter-grade col-xs-7 col-sm-7 col-md-8 col-lg-8">
+								Percentage Weightage
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 separate-line back-clr-green"></div>
+						<!-- Exam Rows -->
+						<div *ngFor="let mark_dist of config.mark_distribution; let j = index" class="rules-row font-size-14 font-weight-normal">
+							<div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+								<div *ngIf="is_editing" class="col-xs-10 col-sm-8 col-md-7 col-lg-6">
+									<div class="dropdown-toggle cur-default" [ngClass]="{'input-focus': getExamTxt(mark_dist.exam) != 'Select Exam'}" data-toggle="dropdown">
+				          	{{getExamTxt(mark_dist.exam)}}
+	      					</div>
+				          <ul class="dropdown-menu regular-checkbox cur-default">
+				            <li *ngFor="let exam of all_exams" (click)="onSelectExamName(i, j, exam)">{{exam.name}}</li>
+				          </ul>
+								</div>
+								<div *ngIf="!is_editing" class="col-xs-10 col-sm-8 col-md-7 col-lg-6">
+									<div class="dropdown-toggle cur-default" [ngClass]="{'input-focus': getExamTxt(mark_dist.exam) != 'Select Exam'}">
+				          	{{getExamTxt(mark_dist.exam)}}
+	      					</div>
+	      				</div>
+							</div>
+							<div class="col-xs-7 col-sm-7 col-md-8 col-lg-8">
+								<div class="col-xs-5 col-sm-4 col-md-3 col-lg-3">
+									<div class="col-xs-9 col-sm-9 col-md-8 col-lg-7">
+										<input [(ngModel)]="mark_dist.percentage_weightage" [disabled]="!is_editing" (change)="onChangePercentageWeightage(i, j)" type="number" placeholder="Enter" class="static-box pcnt test-label green-border">
+										<span class="percentage">%</span>
+									</div>
+								</div>
+								<div *ngIf="is_editing" class="col-xs-7 col-sm-8 col-md-9 col-lg-9 pointer underline-blue" (click)="removeExam(i, j)">
+									Remove Exam
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 separate-line back-clr-grey"></div>
+						</div>
+						<!-- End Exam Rows -->
+
+						<!-- Add Exam -->
+						<div *ngIf="is_editing" class="rules-row font-size-14 font-weight-normal">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 underline-blue cur-default font-size-14">
+								<div (click)="AddExam(i)" style="width: 150px">+ Add Exam</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 separate-line back-clr-grey"></div>
+						</div>
+						<!-- End Add Exam -->
+
+						<!-- Final Score -->
+						<div class="rules-row font-size-16 font-weight-500">
+							<div class="col-xs-5 col-sm-5 col-md-4 col-lg-4">
+								<div class="col-xs-10 col-sm-8 col-md-7 col-lg-6">
+									<div class="static-box">Final Score</div>
+								</div>
+							</div>
+							<div class="col-xs-7 col-sm-7 col-md-8 col-lg-8" style="padding: 7px 5px !important;">
+								<div>
+									{{getSumOfPcntWeightageOfExams(i)}}
+								</div>
+							</div>
+						</div>
+						<!-- End Final Score -->
+					</div>
+				</div>
+				<!-- End Mark Distribution -->
+
+				<!-- Footer -->
+				<div *ngIf="is_editing && is_changed" class="config-row">
+					<button type="button" class="btn btn-primary" (click)="saveConfiguration(i)">SAVE CONFIGURATION</button>
+					<button *ngIf="is_new" type="button" class="btn btn-default" (click)="cancel(i, 1)">CANCEL</button>
+				  <button *ngIf="!is_new" type="button" class="btn btn-default" (click)="cancel(i, 2)">CANCEL CHANGES</button>
+				</div>
+				<!-- End Footer -->
 			</div>
 		</div>
 	</div>
+<div>
+<!-- Warning Modal -->
+<div id="warning-modal" class="modal fade regular-modal small-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+	    <div class="modal-header">
+	      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	      <p class="modal-title" id="myModalLabel">WARNING</p>
+	    </div>
 
-	<!-- Warning Modal -->
-	<div id="warning-modal" class="modal fade regular-modal small-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-		  <div class="modal-content">
-		    <div class="modal-header">
-		      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		      <p class="modal-title" id="myModalLabel">WARNING</p>
-		    </div>
-
+	    <div *ngIf="cancel_type == 0">
 		    <div class="modal-body">
 		      Are you sure you want to exit without saving changes?
 		    </div>
@@ -148,7 +249,29 @@
 		      <button type="button" class="btn btn-default back-grey" data-dismiss="modal" (click)="closeWithoutSaving()">Exit without saving</button>
 		    </div>
 		  </div>
-		</div>
+
+		  <div *ngIf="cancel_type == 1">
+		    <div class="modal-body">
+		      Are you sure you want to cancel?
+		    </div>
+
+		    <div class="modal-footer">
+		    	<button type="button" class="btn btn-primary" data-dismiss="modal" (click)="cancelChanges()">Yes, Cancel</button>
+		      <button type="button" class="btn btn-default back-grey" data-dismiss="modal">No, Don't delete</button>
+		    </div>
+		  </div>
+
+		  <div *ngIf="cancel_type == 2">
+		    <div class="modal-body">
+		      Are you sure you want to cancel changes?
+		    </div>
+
+		    <div class="modal-footer">
+		    	<button type="button" class="btn btn-primary" data-dismiss="modal" (click)="cancelChanges()">Yes, Cancel changes</button>
+		      <button type="button" class="btn btn-default back-grey" data-dismiss="modal">No</button>
+		    </div>
+		  </div>
+	  </div>
 	</div>
-	<!-- End Modal -->
-<div>
+</div>
+<!-- End Modal -->

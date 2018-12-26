@@ -57,12 +57,13 @@ export class ClassesComponent implements OnInit {
               private employeeService: EmployeeService,
               public toastr: ToastsManager,
               private studentService: StudentService,
-              vcr: ViewContainerRef
+              private vcr: ViewContainerRef
               ) {
                 this.toastr.setRootViewContainerRef(vcr);
               }
 
   ngOnInit() {
+    this.toastr.setRootViewContainerRef(this.vcr);
     this.selected_subject = null;
     this.selected_subject_type = null;
     this.academic_years = this.schoolDataService.getSchool().academic_years;
@@ -362,8 +363,8 @@ export class ClassesComponent implements OnInit {
     if (!this.class_info.class_code) retval = 'Class';
     else if (this.class_info.academic_year == "Select Academic Year") retval = 'Academic year';
     else if (this.divisions.length == 0) retval = 'Division';
-    else if (this.class_info.subjects.length == 0) retval = 'Subject';
-    if (retval != 'true'){
+    // else if (this.class_info.subjects.length == 0) retval = 'Subject';
+    if (retval != 'true') {
       this.showNotification('error', retval + ' is required!');
     }
     return retval=='true' ? true : false;
@@ -394,11 +395,17 @@ export class ClassesComponent implements OnInit {
     this.class_info.divisions=[]
     let divs: string[] = this.divisions.split(',');
     for(let i = 0; i < divs.length; i ++) {
-      let div  = new Division();
-      div.name = divs[i];
-      div.code = divs[i];
-      div.class_teacher_employee_key = this.class_teachers[i].employee_key;
-      this.class_info.divisions.push(div);
+      if (this.class_teachers[i].employee_key == null)
+        this.class_info.divisions.push(<any>{
+          name: divs[i],
+          code: divs[i],
+        });
+      else
+        this.class_info.divisions.push(<any>{
+          name: divs[i],
+          code: divs[i],
+          class_teacher_employee_key: this.class_teachers[i].employee_key
+        });
     }
     this.class_info.school_key = this.school.school_id;
     this.class_info.name = this.class_info.class_code;
@@ -421,11 +428,17 @@ export class ClassesComponent implements OnInit {
     this.class_info.divisions = [];
     let divs: string[] = this.divisions.split(',');
     for(let i = 0; i < divs.length; i ++) {
-      let div  = new Division();
-      div.name = divs[i];
-      div.code = divs[i];
-      div.class_teacher_employee_key = this.class_teachers[i].employee_key;
-      this.class_info.divisions.push(div);
+      if (this.class_teachers[i].employee_key == null)
+        this.class_info.divisions.push(<any>{
+          name: divs[i],
+          code: divs[i],
+        });
+      else
+        this.class_info.divisions.push(<any>{
+          name: divs[i],
+          code: divs[i],
+          class_teacher_employee_key: this.class_teachers[i].employee_key
+        });
     }
     this.class_info.school_key = this.school.school_id;
     this.class_info.name = this.class_info.class_code;

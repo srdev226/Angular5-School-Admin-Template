@@ -1624,10 +1624,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 
 .application-count-div{
   padding-left: 40px;
-margin-top: 30px;
-    display: inline-block;
-    vertical-align: middle;
-    text-align: center;
+  margin-top: 15px;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
 }
 
 .application-count-div h3{
@@ -2543,6 +2543,7 @@ ngui-map{
     color: #268ff0;
 }
 
+.config-row ::-webkit-input-placeholder,
 .modal-row ::-webkit-input-placeholder {
     opacity: 0.7;
     font-family: Roboto;
@@ -2551,6 +2552,7 @@ ngui-map{
     color: #525e66;
 }
 
+.config-row ::-webkit-input-placeholder,
 .modal-row :-ms-input-placeholder {
     opacity: 0.7;
     font-family: Roboto;
@@ -2558,6 +2560,7 @@ ngui-map{
     font-style: italic;
     color: #525e66;
 }
+.config-row ::-webkit-input-placeholder,
 .modal-row :-moz-placeholder {
     opacity: 0.7;
     font-family: Roboto;
@@ -2565,6 +2568,7 @@ ngui-map{
     font-style: italic;
     color: #525e66;
 }
+.config-row ::-webkit-input-placeholder,
 .modal-row ::-moz-placeholder {
     opacity: 0.7;
     font-family: Roboto;
@@ -2922,6 +2926,10 @@ input.test-label::-webkit-inner-spin-button {
   font-style: normal;
 }
 
+.font-size-20 {
+  font-size: 20px !important;
+}
+
 .font-size-18 {
   font-size: 18px !important;
 }
@@ -2986,4 +2994,32 @@ input.test-label::-webkit-inner-spin-button {
   background-size: 19px;
   background-color: #e3e3e3;
   font-weight: 500;
+}
+
+.btn-done {
+  position: absolute;
+  z-index: 100;
+  width: 120px;
+  height: 40px;
+  border-radius: 4px;
+  border: 0px solid;
+  background-color: #7ac943;
+  padding: 10px;
+  top: 11px;
+  margin-left: calc(90% - 120px);
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  color: #ffffff;
+  opacity: 0.8;
+}
+
+.btn-done:hover {
+  opacity: 1;
+}
+
+#edit-mark-overlay .modal-body {
+  padding-left: 8% !important;
+  padding-right: 8% !important;
+  color: #525e66;
 }

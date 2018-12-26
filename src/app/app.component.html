@@ -49,7 +49,7 @@
           <div class="profile-usermenu">
             <ul class="nav" id="sidebar-menu">
               <li *ngFor="let menu of mainMenu">
-                <div *gcAccessControl="menu.access" data-toggle="collapse" [attr.data-target]="'#' + menu.access" aria-expanded="true" data-parent="#sidebar-menu">
+                <div data-toggle="collapse" [attr.data-target]="'#' + menu.access" aria-expanded="true" data-parent="#sidebar-menu">
                   <a [routerLink]="[menu.url]" [routerLinkActive]="['active']" [ngClass]="{'menu-select': isMenuSelected(menu.access), 'smenu-select': isSmenuSelected(menu.access)}" (click)="onMenuSelect(menu.access, menu.name)">
                     {{menu.name}}
                     <span *ngIf="menu.children.length > 0" class="arrow"></span>
@@ -58,7 +58,7 @@
 
                 <ul *ngIf="menu.children.length" class="nav submenu collapse in" id="{{menu.access}}" aria-expanded="true">
                   <li *ngFor="let smenu of menu.children" role="presentation">
-                    <div *gcAccessControl="smenu.access" data-toggle="collapse" [attr.data-target]="'#' + smenu.access" data-parent="#sidebar-menu">
+                    <div data-toggle="collapse" [attr.data-target]="'#' + smenu.access" data-parent="#sidebar-menu">
                       <a [routerLink]="[smenu.url]" [routerLinkActive]="['active']"
                          [ngClass]="{'menu-select': isMenuSelected(smenu.access), 'smenu-select': isSmenuSelected(smenu.access)}" (click)="onMenuSelect(smenu.access, smenu.name)">
                         {{smenu.name}}
@@ -68,7 +68,7 @@
 
                     <ul *ngIf="smenu.children.length" class="nav collapse submenu" id="{{smenu.access}}">
                       <li *ngFor="let ssmenu of smenu.children" role="presentation">
-                        <a *gcAccessControl="ssmenu.access" [routerLink]="[ssmenu.url]" [routerLinkActive]="['active']" [ngClass]="{'menu-select': isMenuSelected(ssmenu.access)}" (click)="onMenuSelect(ssmenu.access, ssmenu.name)">
+                        <a [routerLink]="[ssmenu.url]" [routerLinkActive]="['active']" [ngClass]="{'menu-select': isMenuSelected(ssmenu.access)}" (click)="onMenuSelect(ssmenu.access, ssmenu.name)">
                           {{ssmenu.name}}
                         </a>
                       </li>

@@ -46,14 +46,14 @@
         <div *ngIf="exam_info.checked">
           <div *ngFor="let class of exam_info.exam_info; let j = index">
             <div *ngFor="let subject of class; let k = index">
-              <div class="exam-table exam-row" [ngClass]="{'sub-header': subject.has_cons_sub, 'sub-row': !subject.has_cons_sub, 'margin-top15': !k}">
+              <div class="exam-table exam-row" [ngClass]="{'sub-header': subject.has_cons_sub, 'sub-row': !subject.has_cons_sub, 'margin-top15': !k, 'basic-cons-sub': subject.is_cons_sub}">
                 <table>
                   <tr>
                     <td class="class-name">{{"Class " + subject.class + " " + subject.division}}</td>
                     <td class="sub-name">{{subject.subject_name}}</td>
                     <td class="sub-code">{{subject.subject_code}}</td>
                     <td class="mark-stud">
-                      <span *ngIf="!subject.has_cons_sub" class="pointer underline-blue" (click)="markStudents(subject.class, subject.subject_code, subject.division)">Mark Students</span>
+                      <span *ngIf="!subject.has_cons_sub && !subject.is_cons_parent_sub" class="pointer underline-blue" (click)="markStudents(subject.class, subject.subject_code, subject.division)">Mark Students</span>
                     </td>
                   </tr>
                 </table>

@@ -31,7 +31,7 @@ export class ManageSubjectsComponent implements OnInit {
   groupable_subjects: any;
   addable_subjects: any;
   group_subjects: any;
-  new_subject_year: string;
+  new_subject_year: string;  
   new_subjects: any;
   selected_subject_id: number;
   selected_constituent_subject_id: number;
@@ -56,7 +56,7 @@ export class ManageSubjectsComponent implements OnInit {
     this.is_details_loaded = false;
   	this.school = this.schoolDataService.getSchool();
     this.academic_years = this.school.academic_years;
-    this.selected_academic_year = this.new_subject_year = this.academic_years[this.academic_years.length - 1].code;
+    this.selected_academic_year = this.new_subject_year = this.schoolDataService.getCurrentAcademicYear().code;
     this.sel_aca_year_name = this.selected_academic_year;
     this.selected_class = null;
     this.classInfoService.getClassInfoList(this.school.school_id).then(resp => {
@@ -109,11 +109,15 @@ export class ManageSubjectsComponent implements OnInit {
         }
       })
     }
-    this.school.academic_configuration.subjects.forEach(subject => {
-      let found = this.selected_class.subjects.find(sub => (sub.code == subject.code));
-      if (typeof found != 'undefined' || found) return;
-      this.group_subjects.push(subject);
-    });
+    // this.school.academic_configuration.subjects.forEach(subject => {
+    //   let found = this.selected_class.subjects.find(sub => (sub.code == subject.code));
+    //   if (typeof found != 'undefined' || found) return;
+    //   this.group_subjects.push(subject);
+    // });
+    this.group_subjects = this.school.academic_configuration.subjects;
+    this.group_subjects.sort((a, b) => {
+      return a.name > b.name ? 1 : -1;
+    })
     this.formatExpanded();
   }
 
@@ -196,7 +200,7 @@ export class ManageSubjectsComponent implements OnInit {
   validateAddClass() {
     let retval: boolean = true;
     this.new_subjects.forEach(subject => {
-      if (subject.subject_name == null || subject.subject_weightage == null) {
+      if (subject.subject_name == null || (this.new_subject_class != null && subject.subject_weightage == null)) {
         retval = false;
         return;
       }
@@ -217,23 +221,31 @@ export class ManageSubjectsComponent implements OnInit {
         this.school.academic_configuration.subjects.push({code: subject.subject_code, name: name});
         is_new_subject_added = true;
       }
-      this.new_subject_class.subjects.push(<any>{
-        name: name,
-        code: subject.subject_code,
-        weightage: subject.subject_weightage,
-        type: "MANDATORY",
-      });
+      if (this.new_subject_class != null) {
+        this.new_subject_class.subjects.push(<any>{
+          name: name,
+          code: subject.subject_code,
+          weightage: subject.subject_weightage,
+          type: "MANDATORY",
+        });
+      }
     })
     if (is_new_subject_added) {
       this.schoolService.updateSchool(this.school).then(res => {
         this.schoolDataService.setSchool(this.school);
-        this.saveClass(this.new_subject_class, 'New subjects have been added successfully!', 'Error has been occurred while adding new subjects!');
+        if (this.new_subject_class == null) {
+          this.showNotification('success', 'New subjects have been added successfully!');
+          this.closeModal();
+        }
+        if (this.new_subject_class != null) {
+          this.saveClass(this.new_subject_class, 'New subjects have been added successfully!', 'Error has been occurred while adding new subjects!');
+        }
       }).catch(res => {
         this.getClassAndFormat();
         this.showNotification('error', 'Error has been occurred while adding new subjects!')
       });
     }
-    else {
+    else if (this.new_subject_class != null){
       this.saveClass(this.new_subject_class, 'New subjects have been added successfully!', 'Error has been occurred while adding new subjects!');
     }
   }
@@ -264,14 +276,34 @@ export class ManageSubjectsComponent implements OnInit {
     if (!this.validateGroupClass()) return;
     this.is_details_loaded = false;
     let tmp_class = this.selected_class;
+    let index = tmp_class.subjects.length;
+    let total_weightage = 0;
     if (this.selected_group != 'Other') {
-      tmp_class.subjects.push(<any>{
-        name: this.selected_group,
-        constituent_subjects: [],
-        type: "MANDATORY", 
-        code: this.selected_group_code,
-        weightage: 0,
-      });
+      let sub = tmp_class.subjects.find(subject => (subject.code == this.selected_group_code));
+      if (typeof sub == 'undefined') {
+        tmp_class.subjects.push(<any>{
+          name: this.selected_group,
+          constituent_subjects: [],
+          type: "MANDATORY", 
+          code: this.selected_group_code,
+          weightage: 0,
+        });
+      }
+      else {
+        index = tmp_class.subjects.indexOf(sub);
+        total_weightage = typeof sub.weightage == 'undefined' ? 0 : sub.weightage;
+        if (!this.hasConstituentSubject(sub.code)) {
+          let subject = tmp_class.subjects[index];
+          total_weightage = 0;
+          tmp_class.subjects[index] = <any>{
+            name: subject.name,
+            constituent_subjects: [],
+            type: subject.type,
+            code: subject.code,
+            weightage: 0,
+          };
+        }
+      }
     }
     else {
       let code = this.new_group_name.slice(0, 3).toLowerCase();
@@ -288,16 +320,15 @@ export class ManageSubjectsComponent implements OnInit {
       });
       this.school.academic_configuration.subjects.push({name: this.new_group_name, code: code});
     }
-    let total_weightage = 0;
+    
     this.groupable_subjects.forEach(subject => {
       if (subject.grouped) {
         let weightage = typeof subject.subject.weightage == 'undefined' ? 100 : subject.subject.weightage;
         total_weightage += weightage;
-        tmp_class.subjects[tmp_class.subjects.length - 1].constituent_subjects.push({code: subject.subject.code, weightage: weightage});
-        let index = tmp_class.subjects.indexOf(subject.subject);
+        tmp_class.subjects[index].constituent_subjects.push({code: subject.subject.code, weightage: weightage});
       }
     });
-    tmp_class.subjects[tmp_class.subjects.length - 1].weightage = total_weightage;
+    tmp_class.subjects[index].weightage = total_weightage;
     if (this.selected_group != 'Other') {
       this.saveClass(tmp_class, 'Subject has been grouped successfully!', 'Error has been occurred while grouping subject!');
     }
@@ -539,7 +570,8 @@ export class ManageSubjectsComponent implements OnInit {
         break;
     }
     (<any>$('#' + modal_name)).appendTo('body').modal();
-    setTimeout(() => { this.setDropDown()}, 800);
+    if (modal_name != 'add-subject-modal')
+      setTimeout(() => { this.setDropDown();}, 1000);
   }
 
   closeModal() {

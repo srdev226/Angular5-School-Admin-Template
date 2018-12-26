@@ -14,40 +14,40 @@ import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Exam } from '../exam';
 
-@Pipe({
-    name: 'searchExam',
-    pure: true
-})
-
-export class SearchExam implements PipeTransform {
-
-    constructor()
-    {}
-
-    transform(exams: Exam[], name:string, series_code: string, class_key: string): any {
-      console.log('name: '+name+' series_code: '+series_code+' class_key: '+class_key+ '..'+exams.length);
-      let exam_list = exams;
-      if(series_code === 'All' && class_key === 'All' && name === ''){
-        return [];
-      }
-      if (name) {
-        exam_list = exam_list.filter(x => {
-          return (x.name.toLowerCase().includes(name.toLowerCase()));
-        })
-      }
-      if (series_code !== 'undefined' && series_code !=="All") {
-        exam_list = exam_list.filter(x => {
-          return (x.series_code === series_code);
-        })
-      }
-      if (class_key !== 'undefined' && class_key !=="All") {
-        exam_list = exam_list.filter(x => {
-          return (x.class_key === class_key);
-        })
-      }
-      return exam_list;
-    }
-}
+// @Pipe({
+//     name: 'searchExam',
+//     pure: true
+// })
+//
+// export class SearchExam implements PipeTransform {
+//
+//     constructor()
+//     {}
+//
+//     transform(exams: Exam[], name:string, series_code: string, class_key: string): any {
+//       console.log('name: '+name+' series_code: '+series_code+' class_key: '+class_key+ '..'+exams.length);
+//       let exam_list = exams;
+//       if(series_code === 'All' && class_key === 'All' && name === ''){
+//         return [];
+//       }
+//       if (name) {
+//         exam_list = exam_list.filter(x => {
+//           return (x.name.toLowerCase().includes(name.toLowerCase()));
+//         })
+//       }
+//       if (series_code !== 'undefined' && series_code !=="All") {
+//         exam_list = exam_list.filter(x => {
+//           return (x.series_code === series_code);
+//         })
+//       }
+//       if (class_key !== 'undefined' && class_key !=="All") {
+//         exam_list = exam_list.filter(x => {
+//           return (x.class_key === class_key);
+//         })
+//       }
+//       return exam_list;
+//     }
+// }
 
 export class ExamFilter{
   series_code : string;
@@ -197,6 +197,9 @@ export class ExamListComponent implements OnInit, AfterViewInit {
     switch (modal_name) {
       case "add-exam-modal":
         this.exam_code = this.exam_name = null;
+        this.selAll = false;
+        this.checkbox.forEach(checkbox => {checkbox.checked = false});
+        this.selectedClasses = [];
         this.setDropDown();
         break;
 
@@ -311,20 +314,20 @@ export class ExamListComponent implements OnInit, AfterViewInit {
              );
           });
         }
-        else {
-          subject.constituent_subjects.forEach(sub => {
-            exam.subject_code = sub.code;
-            let result = this.examService.addExam(exam).then(resp => {}).catch(resp => {
-              this.showNotification('error', "Exams for subject : " +
-                this.getSubName(sub.code) +
-                "in Class " +
-                this.available_exams[i].class_key +
-                " " + this.available_exams[i].division +
-                " could not be added"
-               );
-            }); 
-          });
-        }
+        // else {
+        //   subject.constituent_subjects.forEach(sub => {
+        //     exam.subject_code = sub.code;
+        //     let result = this.examService.addExam(exam).then(resp => {}).catch(resp => {
+        //       this.showNotification('error', "Exams for subject : " +
+        //         this.getSubName(sub.code) +
+        //         "in Class " +
+        //         this.available_exams[i].class_key +
+        //         " " + this.available_exams[i].division +
+        //         " could not be added"
+        //        );
+        //     }); 
+        //   });
+        // }
       });
     }
     this.closeModal();
